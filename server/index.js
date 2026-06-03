@@ -49,10 +49,13 @@ Return ONLY valid JSON, no markdown:
     })
 
     const data = await response.json()
+console.log('Anthropic response status:', response.status)
+console.log('Anthropic response:', JSON.stringify(data).slice(0, 500))
 
-    if (!response.ok) {
-      return res.status(500).json({ error: 'AI failed', details: data })
-    }
+if (!response.ok) {
+  console.error('AI failed:', data)
+  return res.status(500).json({ error: 'AI failed', details: data })
+}
 
     const text = data.content[0].text
     const clean = text.replace(/```json|```/g, '').trim()
@@ -61,6 +64,7 @@ Return ONLY valid JSON, no markdown:
     return res.status(200).json(mealPlan)
 
   } catch (error) {
+    console.error('Error details:', error.message, error.stack)
     return res.status(500).json({ error: error.message })
   }
 })
