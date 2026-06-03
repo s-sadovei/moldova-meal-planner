@@ -2,20 +2,11 @@ import { useState } from 'react'
 import { useApp } from '../context/AppContext'
 
 export default function Preferences() {
-  const { user, profile, saveProfile, logout } = useApp()
+  const { user, profile, mealPlan, saveProfile, logout } = useApp()
   const [form, setForm] = useState({ ...profile })
   const [saved, setSaved] = useState(false)
 
   const set = (key, val) => setForm(prev => ({ ...prev, [key]: val }))
-
-  const toggleProtein = (p) => {
-    setForm(prev => ({
-      ...prev,
-      proteins: prev.proteins.includes(p)
-        ? prev.proteins.filter(x => x !== p)
-        : [...prev.proteins, p]
-    }))
-  }
 
   const handleSave = () => {
     saveProfile({
@@ -30,11 +21,9 @@ export default function Preferences() {
   }
 
   const initials = profile?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || '?'
-
   const goalLabels = { lose: 'Lose fat', maintain: 'Maintain', build: 'Build muscle' }
   const activityLabels = { sedentary: 'Sedentary', light: 'Light', moderate: 'Moderate', active: 'Active' }
   const activityDesc = { sedentary: 'Little or no exercise', light: '1–3 days/week', moderate: '3–5 days/week', active: '6–7 days/week' }
-  const cookingTimeLabels = { '<15': 'Under 15 min', '15-30': '15–30 minutes', '30-60': '30–60 minutes' }
 
   const [editing, setEditing] = useState(null)
 
@@ -93,7 +82,7 @@ export default function Preferences() {
         <div className="flex gap-2">
           {[
             { val: `${profile?.weight} kg`, label: 'weight' },
-            { val: `${profile?.age || '—'}`, label: 'age' },
+            { val: `${mealPlan?.calorieTarget || '—'}`, label: 'daily kcal' },
             { val: `${profile?.budget} MDL`, label: 'budget' },
           ].map(({ val, label }) => (
             <div key={label} className="flex-1 bg-white/10 rounded-[14px] px-3 py-2">
@@ -166,51 +155,24 @@ export default function Preferences() {
         {/* Food preferences */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Food preferences</p>
         <div className="bg-white rounded-[20px] border border-[#E8E6E0] overflow-hidden -mt-2">
-          <SettingRow icon="🍗" label="Preferred proteins"
-            value={form.proteins.length ? form.proteins.slice(0, 3).join(', ') : 'None set'} editKey="proteins">
-            <div className="flex flex-wrap gap-2">
-              {[['Chicken', '🍗'], ['Eggs', '🥚'], ['Tuna', '🐟'], ['Cottage cheese', '🧀'], ['Beans', '🫘'], ['Beef', '🥩'], ['Pork', '🐷'], ['Fish', '🐠'], ['Greek yogurt', '🥛']].map(([p, emoji]) => (
-                <button key={p} onClick={() => toggleProtein(p)}
-                  className={`px-3 py-1.5 rounded-full text-[13px] font-medium border-[1.5px] transition ${form.proteins.includes(p) ? 'bg-[#EAF3DE] text-[#2D5A27] border-[#C0DD97]' : 'bg-white text-[#5F5E5A] border-[#E8E6E0]'}`}>
-                  {emoji} {p}
-                </button>
-              ))}
+          <SettingRow icon="👍" label="Liked foods" value={form.likedFoods || 'None set'} editKey="likes">
+            <div>
+              <label className={labelClass}>Foods you like</label>
+              <input className={inputClass} placeholder="e.g. rice, chicken, eggs" value={form.likedFoods || ''} onChange={e => set('likedFoods', e.target.value)} />
             </div>
           </SettingRow>
           <div className="h-px bg-[#F0EEE8]" />
           <SettingRow icon="🚫" label="Disliked foods" value={form.dislikedFoods || 'None set'} editKey="dislikes">
             <div>
               <label className={labelClass}>Foods you dislike</label>
-              <input className={inputClass} placeholder="e.g. cabbage, fish" value={form.dislikedFoods} onChange={e => set('dislikedFoods', e.target.value)} />
+              <input className={inputClass} placeholder="e.g. cabbage, fish" value={form.dislikedFoods || ''} onChange={e => set('dislikedFoods', e.target.value)} />
             </div>
           </SettingRow>
           <div className="h-px bg-[#F0EEE8]" />
           <SettingRow icon="⚠️" label="Allergies" value={form.allergies || 'None set'} editKey="allergies">
             <div>
               <label className={labelClass}>Allergies or restrictions</label>
-              <input className={inputClass} placeholder="e.g. lactose intolerant" value={form.allergies} onChange={e => set('allergies', e.target.value)} />
-            </div>
-          </SettingRow>
-        </div>
-
-        {/* Cooking */}
-        <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Cooking</p>
-        <div className="bg-white rounded-[20px] border border-[#E8E6E0] overflow-hidden -mt-2">
-          <SettingRow icon="👨‍🍳" label="Cooking skill" value={form.cookingSkill.charAt(0).toUpperCase() + form.cookingSkill.slice(1)} editKey="skill">
-            <ToggleGroup
-              options={[['beginner', 'Beginner'], ['intermediate', 'Medium'], ['advanced', 'Advanced']]}
-              value={form.cookingSkill} onChange={v => set('cookingSkill', v)} />
-          </SettingRow>
-          <div className="h-px bg-[#F0EEE8]" />
-          <SettingRow icon="⏱️" label="Cooking time" value={cookingTimeLabels[form.cookingTime]} editKey="time">
-            <div className="flex flex-col gap-2">
-              {[['<15', 'Under 15 min'], ['15-30', '15–30 minutes'], ['30-60', '30–60 minutes']].map(([val, label]) => (
-                <button key={val} onClick={() => set('cookingTime', val)}
-                  className={`w-full flex justify-between items-center px-4 py-3 rounded-[12px] border-[1.5px] transition ${form.cookingTime === val ? 'bg-[#EAF3DE] border-[#C0DD97]' : 'bg-white border-[#E8E6E0]'}`}>
-                  <span className={`text-[13px] font-semibold ${form.cookingTime === val ? 'text-[#2D5A27]' : 'text-[#5F5E5A]'}`}>{label}</span>
-                  {form.cookingTime === val && <span className="text-[#2D5A27]">✓</span>}
-                </button>
-              ))}
+              <input className={inputClass} placeholder="e.g. lactose intolerant" value={form.allergies || ''} onChange={e => set('allergies', e.target.value)} />
             </div>
           </SettingRow>
         </div>

@@ -10,21 +10,10 @@ export default function Setup() {
   const [form, setForm] = useState({
     name: '', age: '', gender: 'male', height: '', weight: '',
     activityLevel: 'moderate', goal: 'lose', mealsPerDay: 3,
-    budget: '', cookingSkill: 'beginner', cookingTime: '15-30',
-    likedFoods: '', dislikedFoods: '', allergies: '',
-    proteins: [],
+    budget: '', likedFoods: '', dislikedFoods: '', allergies: '',
   })
 
   const set = (key, val) => setForm(prev => ({ ...prev, [key]: val }))
-
-  const toggleProtein = (p) => {
-    setForm(prev => ({
-      ...prev,
-      proteins: prev.proteins.includes(p)
-        ? prev.proteins.filter(x => x !== p)
-        : [...prev.proteins, p]
-    }))
-  }
 
   const handleFinish = () => {
     if (!form.name || !form.age || !form.height || !form.weight) {
@@ -44,11 +33,11 @@ export default function Setup() {
   const inputClass = "w-full bg-white border-[1.5px] border-[#E8E6E0] rounded-[14px] px-4 py-3.5 text-[14px] font-medium text-[#2C2C2A] outline-none focus:border-[#2D5A27]"
   const labelClass = "text-[12px] font-semibold text-[#5F5E5A] uppercase tracking-[0.8px]"
 
-  const titles = ['Your\nprofile.', 'Food\npreferences.', 'Budget &\ncooking.']
+  const titles = ['Your\nprofile.', 'Food\npreferences.', 'Budget.']
   const subs = [
     'Help us build the perfect meal plan for you.',
     "Tell us what you like and we'll do the rest.",
-    "We'll keep your meals affordable and simple.",
+    "We'll keep your meals affordable.",
   ]
 
   const ProgressBar = () => (
@@ -94,7 +83,6 @@ export default function Setup() {
     <div className="min-h-screen bg-[#F7F5F0] flex flex-col">
       <Header />
       <div className="flex-1 px-6 py-5 flex flex-col gap-5 overflow-y-auto">
-
         <div className="flex flex-col gap-3">
           <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Basic info</p>
           <div className="flex flex-col gap-2">
@@ -165,22 +153,6 @@ export default function Setup() {
       <Header />
       <div className="flex-1 px-6 py-5 flex flex-col gap-5 overflow-y-auto">
 
-        <div className="flex flex-col gap-3">
-          <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Preferred proteins</p>
-          <div className="flex flex-wrap gap-2">
-            {[
-              ['Chicken', '🍗'], ['Eggs', '🥚'], ['Tuna', '🐟'],
-              ['Cottage cheese', '🧀'], ['Beans', '🫘'], ['Beef', '🥩'],
-              ['Pork', '🐷'], ['Fish', '🐠'], ['Greek yogurt', '🥛'],
-            ].map(([p, emoji]) => (
-              <button key={p} onClick={() => toggleProtein(p)}
-                className={`px-4 py-2 rounded-full text-[13px] font-medium border-[1.5px] transition ${form.proteins.includes(p) ? 'bg-[#EAF3DE] text-[#2D5A27] border-[#C0DD97]' : 'bg-white text-[#5F5E5A] border-[#E8E6E0]'}`}>
-                {emoji} {p}
-              </button>
-            ))}
-          </div>
-        </div>
-
         <div className="flex flex-col gap-2">
           <label className={labelClass}>Foods you like</label>
           <input className={inputClass} placeholder="e.g. rice, potatoes, oats"
@@ -224,30 +196,6 @@ export default function Setup() {
           <ToggleGroup
             options={[['2', '2'], ['3', '3'], ['4', '4'], ['5', '5']]}
             value={String(form.mealsPerDay)} onChange={v => set('mealsPerDay', Number(v))} />
-        </div>
-
-        <div className="flex flex-col gap-3">
-          <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Cooking skill</p>
-          <ToggleGroup
-            options={[['beginner', 'Beginner'], ['intermediate', 'Medium'], ['advanced', 'Advanced']]}
-            value={form.cookingSkill} onChange={v => set('cookingSkill', v)} />
-        </div>
-
-        <div className="flex flex-col gap-3">
-          <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Cooking time</p>
-          <div className="flex flex-col gap-2">
-            {[
-              ['<15', 'Under 15 min'],
-              ['15-30', '15 – 30 min'],
-              ['30-60', '30 – 60 min'],
-            ].map(([val, label]) => (
-              <button key={val} onClick={() => set('cookingTime', val)}
-                className={`w-full flex justify-between items-center px-4 py-3.5 rounded-[14px] border-[1.5px] transition ${form.cookingTime === val ? 'bg-[#EAF3DE] border-[#C0DD97]' : 'bg-white border-[#E8E6E0]'}`}>
-                <span className={`text-[14px] font-semibold ${form.cookingTime === val ? 'text-[#2D5A27]' : 'text-[#5F5E5A]'}`}>{label}</span>
-                {form.cookingTime === val && <span className="text-[#2D5A27] text-[16px]">✓</span>}
-              </button>
-            ))}
-          </div>
         </div>
 
         <button onClick={handleFinish}

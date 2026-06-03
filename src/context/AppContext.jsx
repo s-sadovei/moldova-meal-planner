@@ -50,22 +50,19 @@ const [generating, setGenerating] = useState(false)
 
       if (profileData) {
   setProfile({
-    name: profileData.name,
-    age: profileData.age,
-    gender: profileData.gender,
-    height: profileData.height,
-    weight: profileData.weight,
-    activityLevel: profileData.activity_level,
-    goal: profileData.goal,
-    mealsPerDay: profileData.meals_per_day,
-    budget: profileData.budget,
-    cookingSkill: profileData.cooking_skill,
-    cookingTime: profileData.cooking_time,
-    likedFoods: profileData.liked_foods,
-    dislikedFoods: profileData.disliked_foods,
-    allergies: profileData.allergies,
-    proteins: profileData.proteins || [],
-  })
+  name: profileData.name,
+  age: profileData.age,
+  gender: profileData.gender,
+  height: profileData.height,
+  weight: profileData.weight,
+  activityLevel: profileData.activity_level,
+  goal: profileData.goal,
+  mealsPerDay: profileData.meals_per_day,
+  budget: profileData.budget,
+  likedFoods: profileData.liked_foods,
+  dislikedFoods: profileData.disliked_foods,
+  allergies: profileData.allergies,
+})
 
         // Load meal plan
         const { data: planData } = await supabase
@@ -151,12 +148,9 @@ const [generating, setGenerating] = useState(false)
   goal: profileData.goal,
   meals_per_day: profileData.mealsPerDay,
   budget: profileData.budget,
-  cooking_skill: profileData.cookingSkill,
-  cooking_time: profileData.cookingTime,
   liked_foods: profileData.likedFoods,
   disliked_foods: profileData.dislikedFoods,
   allergies: profileData.allergies,
-  proteins: profileData.proteins || [],
 })
 
         // Save meal plan
