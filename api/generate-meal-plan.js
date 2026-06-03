@@ -109,8 +109,8 @@ Respond ONLY with a valid JSON object, no other text, no markdown:
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5',
-        max_tokens: 8000,
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 4000,
         messages: [{ role: 'user', content: prompt }],
       }),
     })
