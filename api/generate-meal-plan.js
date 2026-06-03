@@ -3,7 +3,10 @@ export const config = {
 }
 
 export default async function handler(req) {
-  if (req.method !== 'POST') {
+  if (req.method !== 'POST') const apiKey = process.env.ANTHROPIC_API_KEY
+if (!apiKey) {
+  return new Response(JSON.stringify({ error: 'Missing API key', env: Object.keys(process.env) }), { status: 500 })
+}{
     return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 })
   }
 
