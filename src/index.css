@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #F7F5F0;
+  font-family: 'DM Sans', sans-serif;
+  max-width: 430px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 100dvh;
+}
+
+input, button, select, textarea {
+  font-family: 'DM Sans', sans-serif;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
