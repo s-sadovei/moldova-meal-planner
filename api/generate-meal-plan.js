@@ -10,11 +10,24 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Missing API key' })
   }
 
-  const prompt = `Create a 7-day meal plan for: ${profile.gender}, ${profile.age}y, ${profile.weight}kg, ${profile.height}cm, ${profile.activityLevel} activity, goal: ${profile.goal}, budget: ${profile.budget} MDL/week, ${profile.mealsPerDay} meals/day. Dislikes: ${profile.dislikedFoods || 'none'}. Allergies: ${profile.allergies || 'none'}.
+  const prompt = `Create a 7-day meal plan for: ${profile.gender}, ${profile.age}y, ${profile.weight}kg, ${profile.height}cm, ${profile.activityLevel} activity, goal: ${profile.goal}, budget: ${profile.budget} MDL/week.
 
-Use only affordable Moldovan foods: chicken, eggs, cottage cheese, tuna, rice, buckwheat, oats, potatoes, cabbage, carrots, tomatoes, bananas, milk, kefir, bread, beans.
+CRITICAL: Each day MUST have EXACTLY ${profile.mealsPerDay} meals. No more, no less.
+Meal types to use: ${profile.mealsPerDay === 2 ? 'lunch, dinner' : profile.mealsPerDay === 3 ? 'breakfast, lunch, dinner' : profile.mealsPerDay === 4 ? 'breakfast, lunch, dinner, snack' : 'breakfast, morning snack, lunch, afternoon snack, dinner'}.
 
-Calculate calories using Mifflin-St Jeor + activity multiplier. Goal adjustments: lose=-400, maintain=0, build=+300.
+Foods the user likes: ${profile.likedFoods || 'no preference'}.
+Foods to NEVER use: ${profile.dislikedFoods || 'none'}.
+Allergies/restrictions: ${profile.allergies || 'none'}.
+
+Use only affordable Moldovan foods: chicken, eggs, cottage cheese, tuna, rice, buckwheat, oats, potatoes, cabbage, carrots, tomatoes, bananas, milk, kefir, bread, beans. Prioritize liked foods.
+
+Important rules for ingredients:
+- Eggs must be in whole numbers minimum 1, use "pcs" unit (e.g. 2 eggs = amount: 2)
+- Minimum realistic amounts: chicken 100g, rice 60g, buckwheat 60g, oats 60g, milk 150ml, kefir 150ml
+- Never use amounts less than 1 for any ingredient
+- Proteins should make up at least 20% of each meal's calories
+
+Calculate calories using Mifflin-St Jeor + activity multiplier. Goal: lose=-400kcal, maintain=0, build=+300kcal.
 
 Return ONLY valid JSON, no markdown:
 {"calorieTarget":number,"proteinTarget":number,"weekCost":number,"goal":"${profile.goal}","weekPlan":[{"day":"Monday","cal":number,"p":number,"c":number,"f":number,"cost":number,"meals":[{"type":"breakfast","name":"string","cal":number,"p":number,"c":number,"f":number,"cost":number,"ingredients":[{"food":"string","amount":number}],"steps":["step1","step2"]}]}],"shoppingList":[{"id":number,"name":"string","category":"Meat and fish|Dairy and eggs|Grains and bread|Vegetables|Fruits|Canned foods|Other","amount":number,"unit":"g|ml|pcs","estimatedPrice":number,"bought":false}]}`
