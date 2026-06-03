@@ -46,12 +46,9 @@ export default function MealDetail() {
     .filter((v, i, a) => a.indexOf(v) === i)
     .slice(0, 3) || []
 
-  const steps = [
-    `Prepare all ingredients. Weigh out portions as listed.`,
-    `Cook the main protein (${meal.ingredients?.[0]?.food || 'protein'}) using your preferred method — pan, oven or boil — until fully cooked through.`,
-    `Prepare the carbohydrate source (${meal.ingredients?.[1]?.food || 'carbs'}) separately according to package instructions.`,
-    `Combine all ingredients, season with salt and pepper to taste, and serve fresh.`,
-  ]
+  const steps = meal.steps?.length > 0
+  ? meal.steps
+  : ['Prepare all ingredients and combine. Season to taste and serve fresh.']
 
   return (
     <div className="min-h-screen bg-[#F7F5F0] flex flex-col">
