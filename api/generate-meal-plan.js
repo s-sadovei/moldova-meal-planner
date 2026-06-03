@@ -1,16 +1,14 @@
-export const config = {
-  maxDuration: 60,
-}
-
-export default async function handler(req) {
-  if (req.method !== 'POST') const apiKey = process.env.ANTHROPIC_API_KEY
-if (!apiKey) {
-  return new Response(JSON.stringify({ error: 'Missing API key', env: Object.keys(process.env) }), { status: 500 })
-}{
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 })
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' })
   }
 
   const { profile } = await req.json()
+
+  const apiKey = process.env.ANTHROPIC_API_KEY
+  if (!apiKey) {
+    return res.status(500).json({ error: 'Missing API key' })
+  }
 
   const prompt = `Create a 7-day meal plan for: ${profile.gender}, ${profile.age}y, ${profile.weight}kg, ${profile.height}cm, ${profile.activityLevel} activity, goal: ${profile.goal}, budget: ${profile.budget} MDL/week, ${profile.mealsPerDay} meals/day. Dislikes: ${profile.dislikedFoods || 'none'}. Allergies: ${profile.allergies || 'none'}.
 
@@ -26,7 +24,7 @@ Return ONLY valid JSON, no markdown:
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
@@ -39,19 +37,16 @@ Return ONLY valid JSON, no markdown:
     const data = await response.json()
 
     if (!response.ok) {
-      return new Response(JSON.stringify({ error: 'AI failed', details: data }), { status: 500 })
+      return res.status(500).json({ error: 'AI failed', details: data })
     }
 
     const text = data.content[0].text
     const clean = text.replace(/```json|```/g, '').trim()
     const mealPlan = JSON.parse(clean)
 
-    return new Response(JSON.stringify(mealPlan), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    })
+    return res.status(200).json(mealPlan)
 
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 })
+    return res.status(500).json({ error: error.message })
   }
 }
