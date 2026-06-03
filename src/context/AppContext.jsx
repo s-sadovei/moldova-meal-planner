@@ -118,7 +118,7 @@ const [generating, setGenerating] = useState(false)
 
   let plan
   try {
-    const response = await fetch('/api/generate-meal-plan', {
+    const response = await fetch('https://moldova-meal-planner-production.up.railway.app/generate-meal-plan', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ profile: profileData }),
@@ -169,7 +169,7 @@ const [generating, setGenerating] = useState(false)
     setGenerating(true)
     let plan
     try {
-      const response = await fetch('/api/generate-meal-plan', {
+      const response = await fetch('https://moldova-meal-planner-production.up.railway.app/generate-meal-plan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ profile }),
