@@ -92,7 +92,7 @@ export default function MealDetail() {
         <div className="flex flex-col gap-2 -mt-2">
           {meal.ingredients?.map(({ food, amount }, i) => {
             const fd = foodData[food]
-            const kcal = fd ? Math.round((fd.cal * amount) / 100) : 0
+            const kcal = fd ? (food === 'eggs' ? Math.round(fd.cal * amount * 0.78) : Math.round((fd.cal * amount) / 100)) : 0
             const pref = getBrandPreference(food)
             return (
               <div key={i}
@@ -104,7 +104,9 @@ export default function MealDetail() {
                   {pref ? (
                     <p className="text-[11px] text-[#2D5A27] font-semibold">{pref.brand} · {pref.size}</p>
                   ) : (
-                    <p className="text-[12px] text-[#B4B2A9] font-medium">{amount}g</p>
+                    <p className="text-[12px] text-[#B4B2A9] font-medium">
+  {food === 'eggs' ? `${amount} pcs` : `${amount}g`}
+</p>
                   )}
                 </div>
                 <div className="text-right">
