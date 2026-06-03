@@ -6,19 +6,35 @@ export default function Auth() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const mode = searchParams.get('mode') || 'login'
-  const { login } = useApp()
+  const { login, signup } = useApp()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!email || !password) { setError('Please fill in all fields.'); return }
     if (password.length < 6) { setError('Password must be at least 6 characters.'); return }
     if (mode === 'signup' && password !== confirm) { setError('Passwords do not match.'); return }
-    login(email)
-    navigate('/setup')
+
+    setLoading(true)
+    setError('')
+
+    try {
+      if (mode === 'signup') {
+        await signup(email, password)
+        navigate('/setup')
+      } else {
+        await login(email, password)
+        navigate('/dashboard')
+      }
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const inputClass = "w-full bg-white border-[1.5px] border-[#E8E6E0] rounded-[14px] px-4 py-4 text-[14px] font-medium text-[#2C2C2A] outline-none focus:border-[#2D5A27]"
@@ -27,14 +43,13 @@ export default function Auth() {
   return (
     <div className="min-h-screen bg-[#F7F5F0] flex flex-col">
 
-      {/* Header */}
       <div className="bg-[#2D5A27] px-7 pt-14 pb-8 flex flex-col gap-3">
         <button onClick={() => navigate('/')}
           className="self-start text-[#9FE1CB] text-[13px] font-medium flex items-center gap-1 mb-2">
           ← Back
         </button>
         <h1 style={{ fontFamily: "'Playfair Display', serif" }}
-          className="text-white text-[38px] font-extrabold leading-[1.1]">
+          className="text-white text-[38px] font-extrabold leading-[1.1] whitespace-pre-line">
           {mode === 'signup' ? 'Create\naccount.' : 'Welcome\nback.'}
         </h1>
         <p className="text-[#9FE1CB] text-[14px] font-medium leading-relaxed">
@@ -42,10 +57,8 @@ export default function Auth() {
         </p>
       </div>
 
-      {/* Wave */}
       <div className="bg-[#2D5A27] h-7" style={{ clipPath: 'ellipse(110% 100% at 50% 0%)' }} />
 
-      {/* Form */}
       <div className="flex-1 px-6 py-6 flex flex-col gap-4">
 
         <div className="flex flex-col gap-2">
@@ -72,13 +85,11 @@ export default function Auth() {
           <p className="text-right text-[12px] text-[#2D5A27] font-semibold">Forgot password?</p>
         )}
 
-        {error && (
-          <p className="text-red-500 text-[13px] font-medium">{error}</p>
-        )}
+        {error && <p className="text-red-500 text-[13px] font-medium">{error}</p>}
 
-        <button onClick={handleSubmit}
-          className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl mt-2">
-          {mode === 'signup' ? 'Create Account' : 'Log In'}
+        <button onClick={handleSubmit} disabled={loading}
+          className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl mt-2 disabled:opacity-60">
+          {loading ? 'Please wait...' : mode === 'signup' ? 'Create Account' : 'Log In'}
         </button>
 
         <div className="flex items-center gap-3 my-1">
@@ -97,13 +108,13 @@ export default function Auth() {
           Continue with Google
         </button>
 
-        {mode === 'signup' ? (
+        {mode === 'signup' && (
           <p className="text-[11px] text-[#B4B2A9] text-center leading-relaxed">
             By signing up you agree to our{' '}
             <span className="text-[#2D5A27] font-semibold">Terms</span> and{' '}
             <span className="text-[#2D5A27] font-semibold">Privacy Policy</span>
           </p>
-        ) : null}
+        )}
 
         <p className="text-[13px] text-[#888780] text-center font-medium mt-1">
           {mode === 'signup' ? 'Already have an account? ' : "Don't have an account? "}

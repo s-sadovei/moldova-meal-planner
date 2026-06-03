@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
+import { supabase } from '../supabase'
 import { generateMealPlan } from '../utils/mealPlanGenerator'
 
 const AppContext = createContext()
@@ -8,28 +9,197 @@ export function AppProvider({ children }) {
   const [profile, setProfile] = useState(null)
   const [mealPlan, setMealPlan] = useState(null)
   const [brandPreferences, setBrandPreferences] = useState({})
+  const [loading, setLoading] = useState(true)
+const [generating, setGenerating] = useState(false)
 
-  const login = (email) => {
-    setUser({ email })
+  // Listen for auth changes
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser(session.user)
+        loadUserData(session.user.id)
+      } else {
+        setLoading(false)
+      }
+    })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser(session.user)
+        loadUserData(session.user.id)
+      } else {
+        setUser(null)
+        setProfile(null)
+        setMealPlan(null)
+        setBrandPreferences({})
+        setLoading(false)
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const loadUserData = async (userId) => {
+    try {
+      // Load profile
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
+
+      if (profileData) {
+  setProfile({
+    name: profileData.name,
+    age: profileData.age,
+    gender: profileData.gender,
+    height: profileData.height,
+    weight: profileData.weight,
+    activityLevel: profileData.activity_level,
+    goal: profileData.goal,
+    mealsPerDay: profileData.meals_per_day,
+    budget: profileData.budget,
+    cookingSkill: profileData.cooking_skill,
+    cookingTime: profileData.cooking_time,
+    likedFoods: profileData.liked_foods,
+    dislikedFoods: profileData.disliked_foods,
+    allergies: profileData.allergies,
+    proteins: profileData.proteins || [],
+  })
+
+        // Load meal plan
+        const { data: planData } = await supabase
+          .from('meal_plans')
+          .select('*')
+          .eq('user_id', userId)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single()
+
+        if (planData) {
+          setMealPlan(planData.plan_data)
+        }
+
+        // Load brand preferences
+        const { data: prefsData } = await supabase
+          .from('brand_preferences')
+          .select('*')
+          .eq('user_id', userId)
+
+        if (prefsData) {
+          const prefs = {}
+          prefsData.forEach(p => { prefs[p.ingredient_key] = p.product_data })
+          setBrandPreferences(prefs)
+        }
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const logout = () => {
-    setUser(null)
-    setProfile(null)
-    setMealPlan(null)
-    setBrandPreferences({})
+  const login = async (email, password) => {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    if (error) throw error
+    return data
   }
 
-  const saveProfile = (profileData) => {
-    setProfile(profileData)
-    const plan = generateMealPlan(profileData)
+  const signup = async (email, password) => {
+    const { data, error } = await supabase.auth.signUp({ email, password })
+    if (error) throw error
+    return data
+  }
+
+  const logout = async () => {
+    await supabase.auth.signOut()
+  }
+
+  const saveProfile = async (profileData) => {
+  setProfile(profileData)
+  setGenerating(true)
+
+  let plan
+  try {
+    const response = await fetch('/api/generate-meal-plan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ profile: profileData }),
+    })
+    if (!response.ok) throw new Error('AI generation failed')
+    plan = await response.json()
+  } catch (error) {
+    console.error('AI failed, using local generator:', error)
+    plan = generateMealPlan(profileData)
+  } finally {
+    setGenerating(false)
+  }
+
+  setMealPlan(plan)
+
+    if (user) {
+      try {
+        // Save profile
+        await supabase.from('profiles').upsert({
+  id: user.id,
+  name: profileData.name,
+  age: profileData.age,
+  gender: profileData.gender,
+  height: profileData.height,
+  weight: profileData.weight,
+  activity_level: profileData.activityLevel,
+  goal: profileData.goal,
+  meals_per_day: profileData.mealsPerDay,
+  budget: profileData.budget,
+  cooking_skill: profileData.cookingSkill,
+  cooking_time: profileData.cookingTime,
+  liked_foods: profileData.likedFoods,
+  disliked_foods: profileData.dislikedFoods,
+  allergies: profileData.allergies,
+  proteins: profileData.proteins || [],
+})
+
+        // Save meal plan
+        await supabase.from('meal_plans').upsert({
+          user_id: user.id,
+          plan_data: plan,
+        })
+      } catch (error) {
+        console.error('Error saving profile:', error)
+      }
+    }
+  }
+
+  const regeneratePlan = async () => {
+  if (profile) {
+    setGenerating(true)
+    let plan
+    try {
+      const response = await fetch('/api/generate-meal-plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profile }),
+      })
+      if (!response.ok) throw new Error('AI generation failed')
+      plan = await response.json()
+    } catch (error) {
+      console.error('AI failed, using local generator:', error)
+      plan = generateMealPlan(profile)
+    } finally {
+      setGenerating(false)
+    }
     setMealPlan(plan)
-  }
 
-  const regeneratePlan = () => {
-    if (profile) {
-      const plan = generateMealPlan(profile)
-      setMealPlan(plan)
+      if (user) {
+        try {
+          await supabase.from('meal_plans').upsert({
+            user_id: user.id,
+            plan_data: plan,
+          })
+        } catch (error) {
+          console.error('Error saving regenerated plan:', error)
+        }
+      }
     }
   }
 
@@ -42,11 +212,30 @@ export function AppProvider({ children }) {
     }))
   }
 
-  const saveBrandPreference = (ingredientKey, product) => {
+  const saveBrandPreference = async (ingredientKey, product) => {
     setBrandPreferences(prev => ({
       ...prev,
       [ingredientKey]: product
     }))
+
+    if (user) {
+      try {
+        if (product === null) {
+          await supabase.from('brand_preferences')
+            .delete()
+            .eq('user_id', user.id)
+            .eq('ingredient_key', ingredientKey)
+        } else {
+          await supabase.from('brand_preferences').upsert({
+            user_id: user.id,
+            ingredient_key: ingredientKey,
+            product_data: product,
+          })
+        }
+      } catch (error) {
+        console.error('Error saving brand preference:', error)
+      }
+    }
   }
 
   const getBrandPreference = (ingredientKey) => {
@@ -55,10 +244,11 @@ export function AppProvider({ children }) {
 
   return (
     <AppContext.Provider value={{
-      user, profile, mealPlan,
+      user, profile, mealPlan, loading, generating,
       brandPreferences,
-      login, logout, saveProfile,
-      regeneratePlan, toggleShoppingItem,
+      login, signup, logout,
+      saveProfile, regeneratePlan,
+      toggleShoppingItem,
       saveBrandPreference, getBrandPreference,
     }}>
       {children}
