@@ -1,7 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { useApp } from '../context/AppContext'
-import { useNavigate } from 'react-router-dom'
 
 const mealEmojis = { breakfast: '🌅', lunch: '🍗', dinner: '🐟', snack: '🥛' }
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -12,6 +11,8 @@ export default function WeeklyPlan() {
   const location = useLocation()
 const [selectedDay, setSelectedDay] = useState(() => location.state?.restoreDay ?? 0)
   const [expandedMeal, setExpandedMeal] = useState(null)
+  console.log('location.state:', location.state)
+console.log('restoreDay:', location.state?.restoreDay)
 
   if (!mealPlan) return null
 
