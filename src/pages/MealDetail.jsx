@@ -168,7 +168,7 @@ const kcal = pref
         <div className="fixed inset-0 bg-black/40 flex items-end z-50"
           onClick={() => { setSelectedIngredient(null); setChangingBrand(false) }}>
           <div
-            className="bg-[#F7F5F0] rounded-[28px_28px_0_0] w-full p-6 flex flex-col gap-4 max-h-[80vh] overflow-y-auto"
+            className="bg-[#F7F5F0] rounded-[28px_28px_0_0] w-full p-6 pb-24 flex flex-col gap-4 max-h-[80vh] overflow-y-auto"
             style={{ maxWidth: '430px', margin: '0 auto' }}
             onClick={e => e.stopPropagation()}>
 

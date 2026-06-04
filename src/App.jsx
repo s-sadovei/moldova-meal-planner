@@ -61,7 +61,7 @@ if (generating) return (
   )
 
   return (
-    <div className="pb-24">
+    <div className="pb-16">
       <Routes>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/plan" element={<WeeklyPlan />} />
