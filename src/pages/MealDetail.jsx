@@ -26,6 +26,16 @@ const foodEmojis = {
   'sea bream': '🐟',
 }
 
+const produceItems = [
+  'banana', 'bananas', 'apple', 'apples', 'orange', 'oranges', 'pear', 'pears',
+  'carrot', 'carrots', 'potato', 'potatoes', 'tomato', 'tomatoes', 'onion', 'onions',
+  'cucumber', 'cucumbers', 'cabbage', 'broccoli', 'mushroom', 'mushrooms',
+  'garlic', 'avocado', 'bell pepper', 'bell peppers', 'sweet potato',
+  'frozen spinach', 'frozen broccoli', 'frozen peas', 'frozen vegetables mix',
+]
+
+const isProduce = (food) => produceItems.includes(food?.toLowerCase())
+
 export default function MealDetail() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -112,7 +122,7 @@ const kcal = pref
                   ) : (
                     <p className="text-[12px] text-[#B4B2A9] font-medium">
                       {food === 'eggs' ? `${amount} pcs` : `${amount}g`}
-                      {products.length > 0 && <span className="text-[#639922]"> · tap to choose brand</span>}
+                      {products.length > 0 && <span className="text-[#639922]"> · {isProduce(food) ? 'tap to see store' : 'tap to choose brand'}</span>}
                     </p>
                   )}
                 </div>
@@ -190,7 +200,7 @@ const kcal = pref
                         {pref && !changingBrand ? pref.productName : selectedIngredient.food}
                       </p>
                       <p className="text-[#888780] text-[12px]">
-                       {pref && !changingBrand ? `${pref.brand} · Kaufland` : products.length === 1 ? 'Where to buy' : 'Choose your brand'}
+                       {pref && !changingBrand ? `${pref.brand} · Kaufland` : isProduce(selectedIngredient.food) ? 'Where to buy' : 'Choose your brand'}
                       </p>
                     </div>
                   </div>
@@ -230,10 +240,10 @@ const kcal = pref
 </p>
                       </div>
                       <button
-                        onClick={() => setChangingBrand(true)}
-                        className="bg-[#EAF3DE] text-[#2D5A27] text-[13px] font-semibold px-4 py-2 rounded-[10px]">
-                        Change brand
-                      </button>
+  onClick={() => setChangingBrand(true)}
+  className="bg-[#EAF3DE] text-[#2D5A27] text-[13px] font-semibold px-4 py-2 rounded-[10px]">
+  {isProduce(selectedIngredient.food) ? 'Change store' : 'Change brand'}
+</button>
                     </div>
                   )}
 
