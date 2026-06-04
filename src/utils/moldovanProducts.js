@@ -234,12 +234,17 @@ export const getProductsForIngredient = (ingredientKey) => {
   if (key.endsWith('s') && moldovanProducts[key.slice(0, -1)]) return moldovanProducts[key.slice(0, -1)]
   
   const variations = {
-    'banana': 'bananas', 'apple': 'apples', 'orange': 'oranges', 'pear': 'pears',
-    'carrot': 'carrots', 'potato': 'potatoes', 'tomato': 'tomatoes', 'onion': 'onions',
-    'mushroom': 'mushrooms', 'egg': 'eggs', 'oat': 'oats', 'lentil': 'lentils',
-    'chickpea': 'chickpeas', 'cucumber': 'cucumbers', 'bell pepper': 'bell peppers',
-    'chicken thigh': 'chicken thighs',
-  }
+  'banana': 'bananas', 'apple': 'apples', 'orange': 'oranges', 'pear': 'pears',
+  'carrot': 'carrots', 'potato': 'potatoes', 'tomato': 'tomatoes', 'onion': 'onions',
+  'mushroom': 'mushrooms', 'egg': 'eggs', 'oat': 'oats', 'lentil': 'lentils',
+  'chickpea': 'chickpeas', 'cucumber': 'cucumbers', 'bell pepper': 'bell peppers',
+  'chicken thigh': 'chicken thighs', 'tuna canned': 'tuna', 'canned tuna': 'tuna',
+  'chicken': 'chicken breast', 'minced beef': 'minced meat', 'minced pork': 'minced meat',
+  'ground beef': 'minced meat', 'ground pork': 'minced meat',
+  'greek yoghurt': 'greek yogurt', 'yogurt': 'greek yogurt',
+  'cottage': 'cottage cheese', 'sour cream': 'sour cream',
+  'oil': 'sunflower oil', 'vegetable oil': 'sunflower oil',
+}
   
   if (variations[key]) return moldovanProducts[variations[key]] || []
   
