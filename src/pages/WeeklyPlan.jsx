@@ -1,3 +1,4 @@
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { useApp } from '../context/AppContext'
 import { useNavigate } from 'react-router-dom'
@@ -8,7 +9,8 @@ const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 export default function WeeklyPlan() {
   const { mealPlan } = useApp() 
   const navigate = useNavigate()
-  const [selectedDay, setSelectedDay] = useState(0)
+  const location = useLocation()
+const [selectedDay, setSelectedDay] = useState(location.state?.restoreDay ?? 0)
   const [expandedMeal, setExpandedMeal] = useState(null)
 
   if (!mealPlan) return null
@@ -72,7 +74,7 @@ export default function WeeklyPlan() {
 
             {/* Card header */}
             <div className="flex items-center gap-3 px-4 py-3.5 cursor-pointer"
-  onClick={() => navigate('/meal', { state: { meal } })}>
+  onClick={() => navigate('/meal', { state: { meal, fromDay: selectedDay } })}>
               <span className="text-[26px] w-9 text-center">{mealEmojis[meal.type] || '🍽️'}</span>
               <div className="flex-1">
                 <p className="text-[11px] font-semibold text-[#639922] uppercase tracking-wide capitalize">{meal.type}</p>

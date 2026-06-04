@@ -44,7 +44,8 @@ export default function MealDetail() {
   const [changingBrand, setChangingBrand] = useState(false)
 
   const meal = location.state?.meal
-  if (!meal) { navigate(-1); return null }
+const fromDay = location.state?.fromDay
+if (!meal) { navigate(-1); return null }
 
   const usedInMeals = mealPlan?.weekPlan.flatMap(d => d.meals)
     .filter(m => m.name !== meal.name && m.ingredients?.some(i => i.food === selectedIngredient?.food))
@@ -92,10 +93,10 @@ const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / 
 
       {/* Header */}
       <div className="bg-[#2D5A27] px-6 pt-12 pb-6 flex flex-col gap-3">
-        <button onClick={() => navigate(-1)}
-          className="self-start text-[#9FE1CB] text-[13px] font-medium mb-2">
-          ← Back
-        </button>
+        <button onClick={() => navigate('/plan', { state: { restoreDay: fromDay } })}
+  className="self-start text-[#9FE1CB] text-[13px] font-medium mb-2">
+  ← Back
+</button>
         <p className="text-[#C0DD97] text-[11px] font-semibold uppercase tracking-widest">
           {mealEmojis[meal.type]} {meal.type}
         </p>
