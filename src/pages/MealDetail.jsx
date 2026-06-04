@@ -214,7 +214,10 @@ const kcal = pref
   const eaten = isMealEaten(meal.name)
   return (
     <button
-      onClick={() => markMealEaten(meal)}
+  onClick={() => markMealEaten({
+    ...meal,
+    cal: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal
+  })}
       className={`w-full py-4 rounded-2xl font-semibold text-[15px] transition flex items-center justify-center gap-2 ${eaten ? 'bg-[#EAF3DE] text-[#2D5A27] border-[1.5px] border-[#C0DD97]' : 'bg-[#2D5A27] text-white'}`}>
       {eaten ? '✓ Marked as eaten' : '🍽️ Mark as eaten'}
     </button>
