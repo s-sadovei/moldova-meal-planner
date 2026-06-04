@@ -100,7 +100,7 @@ export default function MealDetail() {
         {/* Ingredients */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Ingredients</p>
         <div className="flex flex-col gap-2 -mt-2">
-          {meal.ingredients?.map(({ food, amount }, i) => {
+          {meal.ingredients?.filter(({ food }) => food?.toLowerCase() !== 'water').map(({ food, amount }, i) => {
             const pref = getBrandPreference(food)
             const products = getProductsForIngredient(food)
             const isEgg = food === 'eggs'
