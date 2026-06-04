@@ -225,6 +225,34 @@ export const moldovanProducts = {
   ],
 }
 
+export const getAverageMacrosForIngredient = (ingredientKey) => {
+  const products = moldovanProducts[ingredientKey] || []
+  if (products.length === 0) return null
+  
+  const avg = products.reduce((acc, p) => ({
+    cal: acc.cal + (p.cal || 0),
+    p: acc.p + (p.p || 0),
+    c: acc.c + (p.c || 0),
+    f: acc.f + (p.f || 0),
+  }), { cal: 0, p: 0, c: 0, f: 0 })
+
+  return {
+    cal: Math.round(avg.cal / products.length),
+    p: Math.round((avg.p / products.length) * 10) / 10,
+    c: Math.round((avg.c / products.length) * 10) / 10,
+    f: Math.round((avg.f / products.length) * 10) / 10,
+  }
+}
+
+export const getAllIngredientMacros = () => {
+  const result = {}
+  Object.keys(moldovanProducts).forEach(key => {
+    const avg = getAverageMacrosForIngredient(key)
+    if (avg) result[key] = avg
+  })
+  return result
+}
+
 export const getProductsForIngredient = (ingredientKey) => {
   if (!ingredientKey) return []
   const key = ingredientKey.toLowerCase().trim()

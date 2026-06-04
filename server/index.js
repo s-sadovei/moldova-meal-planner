@@ -6,7 +6,7 @@ app.use(cors())
 app.use(express.json())
 
 app.post('/generate-meal-plan', async (req, res) => {
-  const { profile } = req.body
+  const { profile, ingredientMacros } = req.body
 
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
@@ -24,9 +24,13 @@ CRITICAL RULES:
 6. Allergies to NEVER include: ${profile.allergies || 'none'}.
 7. Prioritize these foods: ${profile.likedFoods || 'any'}.
 
-Use only affordable Moldovan foods: chicken breast, eggs, cottage cheese, tuna, rice, buckwheat, oats, potatoes, cabbage, carrots, tomatoes, bananas, milk, kefir, bread, beans.
+Use ONLY these ingredients with their EXACT macros per 100g (use these numbers, do not estimate):
+${ingredientMacros ? Object.entries(ingredientMacros).map(([name, m]) => 
+  `- ${name}: ${m.cal} kcal, ${m.p}g protein, ${m.c}g carbs, ${m.f}g fat`
+).join('\n') : 'chicken breast, eggs, cottage cheese, tuna, rice, buckwheat, oats, potatoes, cabbage, carrots, tomatoes, bananas, milk, kefir, bread, beans'}
 
-Calculate calories using Mifflin-St Jeor + activity multiplier. Goal: lose=-400kcal, maintain=0, build=+300kcal.
+Calculate daily calorie target using Mifflin-St Jeor + activity multiplier. Goal: lose=-400kcal, maintain=0, build=+300kcal.
+For each meal, calculate calories by multiplying the exact macro values above by the ingredient amounts. Do NOT estimate - use only the provided macro values.
 
 For cooking steps: write detailed specific instructions with exact amounts, temperatures and times. Minimum 4 steps per meal.
 

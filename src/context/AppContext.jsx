@@ -1,3 +1,4 @@
+import { getAllIngredientMacros } from '../utils/moldovanProducts'
 import { createContext, useContext, useState, useEffect } from 'react'
 import { supabase } from '../supabase'
 import { generateMealPlan } from '../utils/mealPlanGenerator'
@@ -144,7 +145,7 @@ export function AppProvider({ children }) {
       const response = await fetch('https://moldova-meal-planner-production.up.railway.app/generate-meal-plan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: profileData }),
+        body: JSON.stringify({ profile: profileData, ingredientMacros: getAllIngredientMacros() }),
       })
       if (!response.ok) throw new Error('AI generation failed')
       plan = await response.json()
@@ -193,7 +194,7 @@ export function AppProvider({ children }) {
         const response = await fetch('https://moldova-meal-planner-production.up.railway.app/generate-meal-plan', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ profile }),
+          body: JSON.stringify({ profile, ingredientMacros: getAllIngredientMacros() }),
         })
         if (!response.ok) throw new Error('AI generation failed')
         plan = await response.json()
