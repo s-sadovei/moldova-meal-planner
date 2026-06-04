@@ -218,8 +218,10 @@ export default function MealDetail() {
                       </div>
                       <div className="text-right ml-3">
                         <p style={{ fontFamily: "'Playfair Display', serif" }}
-                          className="text-[#2D5A27] text-[20px] font-extrabold">{pref.price} MDL</p>
-                        <p className="text-[#B4B2A9] text-[11px]">{pref.size}</p>
+  className="text-[#2D5A27] text-[20px] font-extrabold">
+  {(pref.price * selectedIngredient.amount / 100).toFixed(2)} MDL
+</p>
+<p className="text-[#B4B2A9] text-[11px]">for {selectedIngredient.amount}g used</p>
                       </div>
                     </div>
                     <button
@@ -252,8 +254,10 @@ export default function MealDetail() {
                         </div>
                         <div className="text-right ml-3 flex-shrink-0">
                           <p style={{ fontFamily: "'Playfair Display', serif" }}
-                            className="text-[#2D5A27] text-[20px] font-extrabold">{product.price} MDL</p>
-                          <p className="text-[#B4B2A9] text-[11px]">{product.size}</p>
+  className="text-[#2D5A27] text-[20px] font-extrabold">
+  {(product.price * selectedIngredient.amount / 100).toFixed(2)} MDL
+</p>
+<p className="text-[#B4B2A9] text-[11px]">for {selectedIngredient.amount}g used</p>
                         </div>
                       </div>
                     </div>
