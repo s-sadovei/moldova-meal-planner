@@ -226,5 +226,22 @@ export const moldovanProducts = {
 }
 
 export const getProductsForIngredient = (ingredientKey) => {
-  return moldovanProducts[ingredientKey] || []
+  if (!ingredientKey) return []
+  const key = ingredientKey.toLowerCase().trim()
+  
+  if (moldovanProducts[key]) return moldovanProducts[key]
+  if (moldovanProducts[key + 's']) return moldovanProducts[key + 's']
+  if (key.endsWith('s') && moldovanProducts[key.slice(0, -1)]) return moldovanProducts[key.slice(0, -1)]
+  
+  const variations = {
+    'banana': 'bananas', 'apple': 'apples', 'orange': 'oranges', 'pear': 'pears',
+    'carrot': 'carrots', 'potato': 'potatoes', 'tomato': 'tomatoes', 'onion': 'onions',
+    'mushroom': 'mushrooms', 'egg': 'eggs', 'oat': 'oats', 'lentil': 'lentils',
+    'chickpea': 'chickpeas', 'cucumber': 'cucumbers', 'bell pepper': 'bell peppers',
+    'chicken thigh': 'chicken thighs',
+  }
+  
+  if (variations[key]) return moldovanProducts[variations[key]] || []
+  
+  return []
 }

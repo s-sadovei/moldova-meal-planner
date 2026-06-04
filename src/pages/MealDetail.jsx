@@ -190,7 +190,7 @@ const kcal = pref
                         {pref && !changingBrand ? pref.productName : selectedIngredient.food}
                       </p>
                       <p className="text-[#888780] text-[12px]">
-                        {pref && !changingBrand ? `${pref.brand} · Kaufland` : 'Choose your brand'}
+                       {pref && !changingBrand ? `${pref.brand} · Kaufland` : products.length === 1 ? 'Where to buy' : 'Choose your brand'}
                       </p>
                     </div>
                   </div>
@@ -242,7 +242,7 @@ const kcal = pref
                     <div className="flex flex-col gap-3">
                       {products.length === 0 ? (
                         <div className="bg-white rounded-[14px] border border-[#E8E6E0] px-4 py-3">
-                          <p className="text-[#888780] text-[13px]">No brand data available yet for this ingredient.</p>
+                          <p className="text-[#888780] text-[13px]">No price data available yet for this ingredient.</p>
                         </div>
                       ) : (
                         products.map(product => (
