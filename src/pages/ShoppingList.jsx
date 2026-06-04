@@ -43,7 +43,7 @@ export default function ShoppingList() {
 }
 
   const ItemCard = ({ item }) => {
-    const products = getProductsForIngredient(item.name.toLowerCase().replace(/ /g, '_'))
+    const products = getProductsForIngredient(item.name.toLowerCase())
     const pref = getBrandPreference(item.name)
     const hasProducts = products.length > 0
 
@@ -187,7 +187,7 @@ export default function ShoppingList() {
             </div>
 
             <div className="flex flex-col gap-3">
-              {getProductsForIngredient(selectedItem.name.toLowerCase().replace(/ /g, '_')).map(product => (
+              {getProductsForIngredient(selectedItem.name.toLowerCase()).map(product => (
                 <div key={product.id}
                   onClick={() => handleSelectBrand(selectedItem, product)}
                   className={`bg-white rounded-[16px] border-[1.5px] p-4 cursor-pointer transition ${getBrandPreference(selectedItem.name)?.id === product.id ? 'border-[#C0DD97] bg-[#EAF3DE]' : 'border-[#E8E6E0]'}`}>
