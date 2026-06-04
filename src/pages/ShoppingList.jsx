@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useApp } from '../context/AppContext'
-import { getProductsForIngredient } from '../utils/moldovanProducts'
+import { getProductsForIngredient, getAveragePriceForIngredient } from '../utils/moldovanProducts'
 
 const categoryEmojis = {
   'Meat and fish': '🥩',
@@ -24,9 +24,17 @@ export default function ShoppingList() {
   const total = all.length
 
   const getEffectivePrice = (item) => {
-    const pref = getBrandPreference(item.name)
-    return pref ? pref.price : item.estimatedPrice
+  const pref = getBrandPreference(item.name)
+  const amount = item.amount || 100
+  if (pref) {
+    return Math.round(pref.price * amount / 100 * 10) / 10
   }
+  const avgPrice = getAveragePriceForIngredient(item.name.toLowerCase())
+  if (avgPrice) {
+    return Math.round(avgPrice * amount / 100 * 10) / 10
+  }
+  return item.estimatedPrice
+}
 
   const spentSoFar = checked.reduce((sum, i) => sum + getEffectivePrice(i), 0)
   const totalCost = all.reduce((sum, i) => sum + getEffectivePrice(i), 0)
@@ -70,8 +78,8 @@ export default function ShoppingList() {
           )}
         </div>
         <span className="text-[#639922] text-[13px] font-semibold">
-          {pref ? pref.price : item.estimatedPrice} MDL
-        </span>
+  {getEffectivePrice(item)} MDL
+</span>
       </div>
     )
   }
@@ -205,8 +213,10 @@ export default function ShoppingList() {
                     </div>
                     <div className="text-right flex-shrink-0 ml-3">
                       <p style={{ fontFamily: "'Playfair Display', serif" }}
-                        className="text-[#2D5A27] text-[20px] font-extrabold">{product.price} MDL</p>
-                      <p className="text-[#B4B2A9] text-[11px]">{product.size}</p>
+  className="text-[#2D5A27] text-[20px] font-extrabold">
+  {Math.round(product.price * (selectedItem?.amount || 100) / 100 * 10) / 10} MDL
+</p>
+<p className="text-[#B4B2A9] text-[11px]">for {selectedItem?.amount}{selectedItem?.unit} · {product.price} MDL/100g</p>
                       {product.pricePerKg && (
                         <p className="text-[#B4B2A9] text-[11px]">{product.pricePerKg} MDL/kg</p>
                       )}

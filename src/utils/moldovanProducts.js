@@ -253,6 +253,13 @@ export const getAllIngredientMacros = () => {
   return result
 }
 
+export const getAveragePriceForIngredient = (ingredientKey) => {
+  const products = moldovanProducts[ingredientKey] || []
+  if (products.length === 0) return null
+  const avg = products.reduce((sum, p) => sum + (p.price || 0), 0) / products.length
+  return Math.round(avg * 10) / 10
+}
+
 export const getProductsForIngredient = (ingredientKey) => {
   if (!ingredientKey) return []
   const key = ingredientKey.toLowerCase().trim()
