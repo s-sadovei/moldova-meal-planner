@@ -24,6 +24,10 @@ console.log('eatenMeals:', eatenMeals)
 console.log('todayEaten:', todayEaten)
 console.log('protein values:', todayEaten.map(e => e.protein))
 
+console.log('todayEaten:', todayEaten)
+console.log('protein sum:', todayEatenProtein)
+console.log('eatenMeals raw:', eatenMeals)
+
   return (
     <div className="min-h-screen bg-[#F7F5F0] flex flex-col">
 
