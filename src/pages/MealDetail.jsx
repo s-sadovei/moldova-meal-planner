@@ -93,9 +93,12 @@ export default function MealDetail() {
           {meal.ingredients?.map(({ food, amount }, i) => {
             const pref = getBrandPreference(food)
             const products = getProductsForIngredient(food)
-            const kcal = pref
-              ? Math.round((pref.cal * amount) / 100)
-              : 0
+            const isEgg = food === 'eggs'
+const kcal = pref
+  ? isEgg
+    ? Math.round(pref.cal * amount * 0.6)
+    : Math.round((pref.cal * amount) / 100)
+  : 0
 
             return (
               <div key={i}
@@ -118,8 +121,8 @@ export default function MealDetail() {
                     <>
                       <p className="text-[12px] font-semibold text-[#639922]">{kcal} kcal</p>
                       <p className="text-[11px] text-[#2D5A27] font-semibold">
-                        {(pref.price * amount / 100).toFixed(2)} MDL
-                      </p>
+  {isEgg ? (pref.price * amount).toFixed(2) : (pref.price * amount / 100).toFixed(2)} MDL
+</p>
                     </>
                   ) : (
                     <p className="text-[12px] text-[#B4B2A9]">
@@ -215,10 +218,16 @@ export default function MealDetail() {
                     <div className="flex justify-between items-center bg-white rounded-[14px] border border-[#E8E6E0] px-4 py-3">
                       <div>
                         <p style={{ fontFamily: "'Playfair Display', serif" }}
-                          className="text-[#2D5A27] text-[20px] font-extrabold">
-                          {(pref.price * selectedIngredient.amount / 100).toFixed(2)} MDL
-                        </p>
-                        <p className="text-[#888780] text-[11px]">for {selectedIngredient.amount}g used in this meal</p>
+  className="text-[#2D5A27] text-[20px] font-extrabold">
+  {selectedIngredient.food === 'eggs'
+    ? (pref.price * selectedIngredient.amount).toFixed(2)
+    : (pref.price * selectedIngredient.amount / 100).toFixed(2)} MDL
+</p>
+<p className="text-[#888780] text-[11px]">
+  {selectedIngredient.food === 'eggs'
+    ? `for ${selectedIngredient.amount} eggs used`
+    : `for ${selectedIngredient.amount}g used in this meal`}
+</p>
                       </div>
                       <button
                         onClick={() => setChangingBrand(true)}
@@ -254,10 +263,16 @@ export default function MealDetail() {
                               </div>
                               <div className="text-right ml-3 flex-shrink-0">
                                 <p style={{ fontFamily: "'Playfair Display', serif" }}
-                                  className="text-[#2D5A27] text-[18px] font-extrabold">
-                                  {(product.price * selectedIngredient.amount / 100).toFixed(2)} MDL
-                                </p>
-                                <p className="text-[#B4B2A9] text-[11px]">for {selectedIngredient.amount}g</p>
+  className="text-[#2D5A27] text-[18px] font-extrabold">
+  {selectedIngredient.food === 'eggs'
+    ? (product.price * selectedIngredient.amount).toFixed(2)
+    : (product.price * selectedIngredient.amount / 100).toFixed(2)} MDL
+</p>
+<p className="text-[#B4B2A9] text-[11px]">
+  {selectedIngredient.food === 'eggs'
+    ? `for ${selectedIngredient.amount} eggs`
+    : `for ${selectedIngredient.amount}g`}
+</p>
                               </div>
                             </div>
 
