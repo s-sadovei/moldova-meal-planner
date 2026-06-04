@@ -105,10 +105,10 @@ const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / 
         </h1>
         <div className="flex gap-2 mt-1">
   {[
-    { val: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal, label: 'kcal' },
-    { val: `${realMacros?.allBrandsSelected ? realMacros.p : meal.p}g`, label: 'protein' },
-    { val: `${realMacros?.allBrandsSelected ? realMacros.c : meal.c}g`, label: 'carbs' },
-    { val: `${realMacros?.allBrandsSelected ? realMacros.f : meal.f}g`, label: 'fat' },
+    { val: realMacros?.cal > 0 ? realMacros.cal : meal.cal, label: 'kcal' },
+{ val: `${realMacros?.cal > 0 ? realMacros.p : meal.p}g`, label: 'protein' },
+{ val: `${realMacros?.cal > 0 ? realMacros.c : meal.c}g`, label: 'carbs' },
+{ val: `${realMacros?.cal > 0 ? realMacros.f : meal.f}g`, label: 'fat' },
   ].map(({ val, label }) => (
     <div key={label} className="flex-1 bg-white/10 rounded-full py-2 flex flex-col items-center gap-0.5">
       <span className="text-white text-[14px] font-bold">{val}</span>
@@ -117,7 +117,7 @@ const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / 
   ))}
 </div>
 
-{realMacros?.allBrandsSelected && Math.abs(calorieDeviation) >= 10 && (
+{realMacros?.cal > 0 && Math.abs(calorieDeviation) >= 10 && (
   <div className={`flex items-center gap-2 px-3 py-2 rounded-xl text-[12px] font-semibold ${calorieDeviation > 0 ? 'bg-orange-500/20 text-orange-200' : 'bg-green-500/20 text-green-200'}`}>
     <span>{calorieDeviation > 0 ? '⚠️' : '✅'}</span>
     <span>
