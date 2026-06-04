@@ -12,17 +12,11 @@ export default function Dashboard() {
   const today = mealPlan.weekPlan[todayDayIndex] || mealPlan.weekPlan[0]
   const budgetPct = profile?.budget ? Math.min(100, (mealPlan.weekCost / profile.budget) * 100) : 80
   const progressPct = Math.min(100, (todayEatenCalories / mealPlan.calorieTarget) * 100)
-  const todayEatenProtein = eatenMeals
-  .filter(e => e.eaten_date === new Date().toISOString().split('T')[0])
-  .reduce((sum, e) => sum + (e.protein || 0), 0)
-
-const todayEatenCarbs = eatenMeals
-  .filter(e => e.eaten_date === new Date().toISOString().split('T')[0])
-  .reduce((sum, e) => sum + (e.carbs || 0), 0)
-
-const todayEatenFat = eatenMeals
-  .filter(e => e.eaten_date === new Date().toISOString().split('T')[0])
-  .reduce((sum, e) => sum + (e.fat || 0), 0)
+  const todayDate = new Date().toISOString().split('T')[0]
+const todayEaten = eatenMeals.filter(e => e.eaten_date === todayDate)
+const todayEatenProtein = todayEaten.reduce((sum, e) => sum + (Number(e.protein) || 0), 0)
+const todayEatenCarbs = todayEaten.reduce((sum, e) => sum + (Number(e.carbs) || 0), 0)
+const todayEatenFat = todayEaten.reduce((sum, e) => sum + (Number(e.fat) || 0), 0)
 
   return (
     <div className="min-h-screen bg-[#F7F5F0] flex flex-col">
