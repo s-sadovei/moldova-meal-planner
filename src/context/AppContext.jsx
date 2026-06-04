@@ -1,3 +1,4 @@
+import { generateShoppingList } from '../utils/shoppingListGenerator'
 import { getAllIngredientMacros } from '../utils/moldovanProducts'
 import { createContext, useContext, useState, useEffect } from 'react'
 import { supabase } from '../supabase'
@@ -156,7 +157,9 @@ export function AppProvider({ children }) {
       setGenerating(false)
     }
 
-    setMealPlan(plan)
+    const recalculatedShoppingList = generateShoppingList(plan.weekPlan)
+const updatedPlan = { ...plan, shoppingList: recalculatedShoppingList }
+setMealPlan(updatedPlan)
 
     if (user) {
       try {
@@ -177,9 +180,9 @@ export function AppProvider({ children }) {
         })
 
         await supabase.from('meal_plans').upsert({
-          user_id: user.id,
-          plan_data: plan,
-        })
+  user_id: user.id,
+  plan_data: updatedPlan,
+})
       } catch (error) {
         console.error('Error saving profile:', error)
       }
@@ -204,14 +207,16 @@ export function AppProvider({ children }) {
       } finally {
         setGenerating(false)
       }
-      setMealPlan(plan)
+      const recalculatedShoppingList = generateShoppingList(plan.weekPlan)
+const updatedPlan = { ...plan, shoppingList: recalculatedShoppingList }
+setMealPlan(updatedPlan)
 
       if (user) {
         try {
           await supabase.from('meal_plans').upsert({
-            user_id: user.id,
-            plan_data: plan,
-          })
+  user_id: user.id,
+  plan_data: updatedPlan,
+})
         } catch (error) {
           console.error('Error saving regenerated plan:', error)
         }
