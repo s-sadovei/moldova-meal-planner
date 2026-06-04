@@ -10,7 +10,7 @@ export default function WeeklyPlan() {
   const { mealPlan } = useApp() 
   const navigate = useNavigate()
   const location = useLocation()
-const [selectedDay, setSelectedDay] = useState(location.state?.restoreDay ?? 0)
+const [selectedDay, setSelectedDay] = useState(() => location.state?.restoreDay ?? 0)
   const [expandedMeal, setExpandedMeal] = useState(null)
 
   if (!mealPlan) return null
