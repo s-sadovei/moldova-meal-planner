@@ -5,7 +5,7 @@ const mealEmojis = { breakfast: '🌅', lunch: '🍗', dinner: '🐟', snack: '�
 
 export default function Dashboard() {
   const navigate = useNavigate()
-  const { profile, mealPlan, regeneratePlan, todayEatenCalories, todayDayIndex, isMealEaten, showNewWeekPrompt, setShowNewWeekPrompt } = useApp()
+  const { profile, mealPlan, regeneratePlan, todayEatenCalories, todayDayIndex, isMealEaten, eatenMeals, showNewWeekPrompt, setShowNewWeekPrompt } = useApp()
 
   if (!mealPlan) return null
 
@@ -118,7 +118,9 @@ export default function Dashboard() {
                   <p className={`text-[#2C2C2A] text-[14px] font-semibold ${eaten ? 'line-through' : ''}`}>{meal.name}</p>
                   <p className="text-[#B4B2A9] text-[12px] font-medium capitalize">{meal.type}</p>
                 </div>
-                <span className="text-[#639922] text-[13px] font-semibold">{meal.cal} kcal</span>
+                <span className="text-[#639922] text-[13px] font-semibold">
+  {eaten ? (eatenMeals.find(e => e.meal_name === meal.name)?.calories || meal.cal) : meal.cal} kcal
+</span>
                 {eaten && <span className="text-[#2D5A27] text-[16px]">✓</span>}
                 <span className="text-[#D3D1C7] text-[16px]">›</span>
               </div>
