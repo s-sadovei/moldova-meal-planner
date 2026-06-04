@@ -18,16 +18,6 @@ const todayEatenProtein = todayEaten.reduce((sum, e) => sum + (Number(e.protein)
 const todayEatenCarbs = todayEaten.reduce((sum, e) => sum + (Number(e.carbs) || 0), 0)
 const todayEatenFat = todayEaten.reduce((sum, e) => sum + (Number(e.fat) || 0), 0)
 
-const todayDate = new Date().toISOString().split('T')[0]
-const todayEaten = eatenMeals.filter(e => e.eaten_date === todayDate)
-console.log('eatenMeals:', eatenMeals)
-console.log('todayEaten:', todayEaten)
-console.log('protein values:', todayEaten.map(e => e.protein))
-
-console.log('todayEaten:', todayEaten)
-console.log('protein sum:', todayEatenProtein)
-console.log('eatenMeals raw:', eatenMeals)
-
   return (
     <div className="min-h-screen bg-[#F7F5F0] flex flex-col">
 
