@@ -5,19 +5,42 @@ const mealEmojis = { breakfast: '🌅', lunch: '🍗', dinner: '🐟', snack: '�
 
 export default function Dashboard() {
   const navigate = useNavigate()
-  const { profile, mealPlan, regeneratePlan } = useApp()
+  const { profile, mealPlan, regeneratePlan, todayEatenCalories, todayDayIndex, isMealEaten, showNewWeekPrompt, setShowNewWeekPrompt } = useApp()
 
   if (!mealPlan) return null
 
-  const today = mealPlan.weekPlan[0]
+  const today = mealPlan.weekPlan[todayDayIndex] || mealPlan.weekPlan[0]
   const weekCals = mealPlan.weekPlan.reduce((s, d) => s + d.cal, 0)
   const weekProtein = mealPlan.weekPlan.reduce((s, d) => s + d.p, 0)
   const weekCarbs = mealPlan.weekPlan.reduce((s, d) => s + d.c, 0)
   const weekFat = mealPlan.weekPlan.reduce((s, d) => s + d.f, 0)
   const budgetPct = profile?.budget ? Math.min(100, (mealPlan.weekCost / profile.budget) * 100) : 80
+  const progressPct = Math.min(100, (todayEatenCalories / mealPlan.calorieTarget) * 100)
 
   return (
     <div className="min-h-screen bg-[#F7F5F0] flex flex-col">
+
+      {/* New week prompt */}
+      {showNewWeekPrompt && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-6">
+          <div className="bg-white rounded-[24px] p-6 flex flex-col gap-4 w-full max-w-sm">
+            <div className="text-center">
+              <p className="text-[32px]">🎉</p>
+              <p style={{ fontFamily: "'Playfair Display', serif" }}
+                className="text-[#2D5A27] text-[22px] font-extrabold mt-2">New week!</p>
+              <p className="text-[#888780] text-[14px] mt-1">Would you like to generate a fresh meal plan for this week?</p>
+            </div>
+            <button onClick={() => { regeneratePlan(); setShowNewWeekPrompt(false) }}
+              className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
+              Yes, generate new plan
+            </button>
+            <button onClick={() => setShowNewWeekPrompt(false)}
+              className="w-full bg-[#F7F5F0] text-[#5F5E5A] font-semibold text-[15px] py-4 rounded-2xl">
+              Keep current plan
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Header */}
       <div className="bg-[#2D5A27] px-6 pt-12 pb-6 flex flex-col gap-4">
@@ -48,11 +71,11 @@ export default function Dashboard() {
         <div className="flex flex-col gap-2">
           <div className="flex justify-between text-[12px]">
             <span className="text-[#9FE1CB]">Daily progress</span>
-            <span className="text-[#9FE1CB]">{today.cal} / {mealPlan.calorieTarget} kcal</span>
+            <span className="text-[#9FE1CB]">{todayEatenCalories} / {mealPlan.calorieTarget} kcal</span>
           </div>
           <div className="w-full h-[6px] bg-white/15 rounded-full overflow-hidden">
-            <div className="bg-[#C0DD97] h-full rounded-full transition-all"
-              style={{ width: `${Math.min(100, (today.cal / mealPlan.calorieTarget) * 100)}%` }} />
+            <div className="bg-[#C0DD97] h-full rounded-full transition-all duration-500"
+              style={{ width: `${progressPct}%` }} />
           </div>
         </div>
       </div>
@@ -84,19 +107,23 @@ export default function Dashboard() {
         {/* Today's meals */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Today's meals</p>
         <div className="bg-white rounded-[20px] border border-[#E8E6E0] px-4 py-2 -mt-2">
-          {today.meals.map((meal, i) => (
-            <div key={i}
-              onClick={() => navigate('/meal', { state: { meal } })}
-              className={`flex items-center gap-3 py-3 cursor-pointer ${i < today.meals.length - 1 ? 'border-b border-[#F0EEE8]' : ''}`}>
-              <span className="text-[24px] w-9 text-center">{mealEmojis[meal.type] || '🍽️'}</span>
-              <div className="flex-1">
-                <p className="text-[#2C2C2A] text-[14px] font-semibold">{meal.name}</p>
-                <p className="text-[#B4B2A9] text-[12px] font-medium capitalize">{meal.type}</p>
+          {today.meals.map((meal, i) => {
+            const eaten = isMealEaten(meal.name)
+            return (
+              <div key={i}
+                onClick={() => navigate('/meal', { state: { meal } })}
+                className={`flex items-center gap-3 py-3 cursor-pointer transition-opacity ${i < today.meals.length - 1 ? 'border-b border-[#F0EEE8]' : ''} ${eaten ? 'opacity-50' : ''}`}>
+                <span className="text-[24px] w-9 text-center">{mealEmojis[meal.type] || '🍽️'}</span>
+                <div className="flex-1">
+                  <p className={`text-[#2C2C2A] text-[14px] font-semibold ${eaten ? 'line-through' : ''}`}>{meal.name}</p>
+                  <p className="text-[#B4B2A9] text-[12px] font-medium capitalize">{meal.type}</p>
+                </div>
+                <span className="text-[#639922] text-[13px] font-semibold">{meal.cal} kcal</span>
+                {eaten && <span className="text-[#2D5A27] text-[16px]">✓</span>}
+                <span className="text-[#D3D1C7] text-[16px]">›</span>
               </div>
-              <span className="text-[#639922] text-[13px] font-semibold">{meal.cal} kcal</span>
-              <span className="text-[#D3D1C7] text-[16px]">›</span>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Budget */}

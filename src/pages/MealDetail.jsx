@@ -39,7 +39,7 @@ const isProduce = (food) => produceItems.includes(food?.toLowerCase())
 export default function MealDetail() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { mealPlan, getBrandPreference, saveBrandPreference } = useApp()
+  const { mealPlan, getBrandPreference, saveBrandPreference, markMealEaten, isMealEaten } = useApp()
   const [selectedIngredient, setSelectedIngredient] = useState(null)
   const [changingBrand, setChangingBrand] = useState(false)
 
@@ -198,16 +198,28 @@ const kcal = pref
         </div>
 
         {/* Cost + Replace */}
-        <div className="flex justify-between items-center bg-white rounded-[16px] border border-[#E8E6E0] px-4 py-4">
-          <div>
-            <p style={{ fontFamily: "'Playfair Display', serif" }}
-              className="text-[#2D5A27] text-[22px] font-extrabold">{meal.cost} MDL</p>
-            <p className="text-[#888780] text-[12px]">estimated cost</p>
-          </div>
-          <button className="bg-[#F7F5F0] border-[1.5px] border-[#E8E6E0] text-[#5F5E5A] text-[13px] font-semibold px-4 py-2.5 rounded-[12px]">
-            🔄 Replace meal
-          </button>
-        </div>
+<div className="flex justify-between items-center bg-white rounded-[16px] border border-[#E8E6E0] px-4 py-4">
+  <div>
+    <p style={{ fontFamily: "'Playfair Display', serif" }}
+      className="text-[#2D5A27] text-[22px] font-extrabold">{meal.cost} MDL</p>
+    <p className="text-[#888780] text-[12px]">estimated cost</p>
+  </div>
+  <button className="bg-[#F7F5F0] border-[1.5px] border-[#E8E6E0] text-[#5F5E5A] text-[13px] font-semibold px-4 py-2.5 rounded-[12px]">
+    🔄 Replace meal
+  </button>
+</div>
+
+{/* Mark as eaten */}
+{(() => {
+  const eaten = isMealEaten(meal.name)
+  return (
+    <button
+      onClick={() => markMealEaten(meal)}
+      className={`w-full py-4 rounded-2xl font-semibold text-[15px] transition flex items-center justify-center gap-2 ${eaten ? 'bg-[#EAF3DE] text-[#2D5A27] border-[1.5px] border-[#C0DD97]' : 'bg-[#2D5A27] text-white'}`}>
+      {eaten ? '✓ Marked as eaten' : '🍽️ Mark as eaten'}
+    </button>
+  )
+})()}
 
       </div>
 
