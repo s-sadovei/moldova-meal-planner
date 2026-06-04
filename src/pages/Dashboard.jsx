@@ -126,14 +126,14 @@ return (
         {isOver && <p className="text-[#E24B4A] text-[11px] font-semibold">+{eaten - target}g over</p>}
       </div>
     </div>
-    <div className="w-full h-[6px] bg-[#F0EEE8] rounded-full overflow-hidden flex">
-      <div className="h-full rounded-l-full transition-all duration-500"
-        style={{ width: `${barPct}%`, backgroundColor: isOver ? '#E24B4A' : color }} />
-      {isOver && (
-        <div className="h-full rounded-r-full transition-all duration-500 bg-red-200"
-          style={{ width: `${overPct}%` }} />
-      )}
-    </div>
+    <div className="w-full h-[6px] bg-[#F0EEE8] rounded-full flex" style={{ overflow: 'visible' }}>
+  <div className="h-full rounded-full transition-all duration-500 relative"
+    style={{ 
+      width: `${Math.min(100, pct)}%`, 
+      backgroundColor: isOver ? '#E24B4A' : color,
+      boxShadow: isOver ? `${overPct}px 0 0 0 #fca5a5` : 'none'
+    }} />
+</div>
     <p className="text-[11px]" style={{ color: isOver ? '#E24B4A' : '#B4B2A9' }}>
       {isOver ? `${pct}% of daily target` : `${target - eaten}g remaining`}
     </p>
