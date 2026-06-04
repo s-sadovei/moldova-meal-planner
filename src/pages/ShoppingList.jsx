@@ -131,7 +131,7 @@ export default function ShoppingList() {
               <p className="text-[#888780] text-[11px] font-medium mt-0.5">spent so far</p>
             </div>
             <div className="text-right">
-              <p className="text-[#5F5E5A] text-[16px] font-bold">{totalCost} MDL</p>
+              <p className="text-[#5F5E5A] text-[16px] font-bold">{totalCost.toFixed(2)} MDL</p>
               <p className="text-[#B4B2A9] text-[11px]">total estimate</p>
             </div>
           </div>
@@ -140,8 +140,8 @@ export default function ShoppingList() {
               style={{ width: `${budgetBarPct}%` }} />
           </div>
           <p className="text-[#639922] text-[12px] font-semibold">
-            ✓ {remaining} MDL remaining in your cart
-          </p>
+  ✓ {remaining.toFixed(2)} MDL remaining in your cart
+</p>
         </div>
 
         {/* Unchecked items */}
