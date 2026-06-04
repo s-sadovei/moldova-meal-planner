@@ -101,29 +101,40 @@ const todayEatenFat = eatenMeals
     { icon: '🌾', label: 'Carbs', eaten: todayEatenCarbs, target: today.c, color: '#639922' },
     { icon: '🥑', label: 'Fat', eaten: todayEatenFat, target: today.f, color: '#888780' },
   ].map(({ icon, label, eaten, target, color }) => {
-    const pct = Math.min(100, Math.round((eaten / target) * 100))
-    return (
-      <div key={label} className="bg-white rounded-[16px] border border-[#E8E6E0] p-4 flex flex-col gap-2">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <span className="text-[18px]">{icon}</span>
-            <span className="text-[14px] font-semibold text-[#2C2C2A]">{label}</span>
-          </div>
-          <div className="text-right">
-            <span style={{ fontFamily: "'Playfair Display', serif" }}
-              className="text-[16px] font-bold" style={{ color }}>
-              {eaten}g
-            </span>
-            <span className="text-[#B4B2A9] text-[13px]"> / {target}g</span>
-          </div>
-        </div>
-        <div className="w-full h-[6px] bg-[#F0EEE8] rounded-full overflow-hidden">
-          <div className="h-full rounded-full transition-all duration-500"
-            style={{ width: `${pct}%`, backgroundColor: color }} />
-        </div>
-        <p className="text-[#B4B2A9] text-[11px]">{target - eaten}g remaining</p>
+    const pct = Math.round((eaten / target) * 100)
+const isOver = eaten > target
+const barPct = Math.min(100, pct)
+const overPct = isOver ? Math.min(100, Math.round(((eaten - target) / target) * 100)) : 0
+
+return (
+  <div key={label} className="bg-white rounded-[16px] border border-[#E8E6E0] p-4 flex flex-col gap-2">
+    <div className="flex justify-between items-center">
+      <div className="flex items-center gap-2">
+        <span className="text-[18px]">{icon}</span>
+        <span className="text-[14px] font-semibold text-[#2C2C2A]">{label}</span>
       </div>
-    )
+      <div className="text-right">
+        <span style={{ fontFamily: "'Playfair Display', serif", color: isOver ? '#E24B4A' : color }}
+          className="text-[16px] font-bold">
+          {eaten}g
+        </span>
+        <span className="text-[#B4B2A9] text-[13px]"> / {target}g</span>
+        {isOver && <p className="text-[#E24B4A] text-[11px] font-semibold">+{eaten - target}g over</p>}
+      </div>
+    </div>
+    <div className="w-full h-[6px] bg-[#F0EEE8] rounded-full overflow-hidden flex">
+      <div className="h-full rounded-l-full transition-all duration-500"
+        style={{ width: `${barPct}%`, backgroundColor: isOver ? '#E24B4A' : color }} />
+      {isOver && (
+        <div className="h-full rounded-r-full transition-all duration-500 bg-red-200"
+          style={{ width: `${overPct}%` }} />
+      )}
+    </div>
+    <p className="text-[11px]" style={{ color: isOver ? '#E24B4A' : '#B4B2A9' }}>
+      {isOver ? `${pct}% of daily target` : `${target - eaten}g remaining`}
+    </p>
+  </div>
+)
   })}
 </div>
 
