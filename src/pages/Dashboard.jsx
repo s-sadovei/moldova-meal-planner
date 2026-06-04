@@ -10,12 +10,19 @@ export default function Dashboard() {
   if (!mealPlan) return null
 
   const today = mealPlan.weekPlan[todayDayIndex] || mealPlan.weekPlan[0]
-  const weekCals = mealPlan.weekPlan.reduce((s, d) => s + d.cal, 0)
-  const weekProtein = mealPlan.weekPlan.reduce((s, d) => s + d.p, 0)
-  const weekCarbs = mealPlan.weekPlan.reduce((s, d) => s + d.c, 0)
-  const weekFat = mealPlan.weekPlan.reduce((s, d) => s + d.f, 0)
   const budgetPct = profile?.budget ? Math.min(100, (mealPlan.weekCost / profile.budget) * 100) : 80
   const progressPct = Math.min(100, (todayEatenCalories / mealPlan.calorieTarget) * 100)
+  const todayEatenProtein = eatenMeals
+  .filter(e => e.eaten_date === new Date().toISOString().split('T')[0])
+  .reduce((sum, e) => sum + (e.protein || 0), 0)
+
+const todayEatenCarbs = eatenMeals
+  .filter(e => e.eaten_date === new Date().toISOString().split('T')[0])
+  .reduce((sum, e) => sum + (e.carbs || 0), 0)
+
+const todayEatenFat = eatenMeals
+  .filter(e => e.eaten_date === new Date().toISOString().split('T')[0])
+  .reduce((sum, e) => sum + (e.fat || 0), 0)
 
   return (
     <div className="min-h-screen bg-[#F7F5F0] flex flex-col">
@@ -86,23 +93,39 @@ export default function Dashboard() {
       {/* Body */}
       <div className="flex-1 px-5 pb-28 flex flex-col gap-5 overflow-y-auto">
 
-        {/* Weekly macros */}
-        <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Weekly macros</p>
-        <div className="grid grid-cols-2 gap-3 -mt-2">
-          {[
-            { icon: '🔥', val: weekCals.toLocaleString(), label: 'kcal this week' },
-            { icon: '💪', val: `${weekProtein}g`, label: 'total protein' },
-            { icon: '🌾', val: `${weekCarbs}g`, label: 'total carbs' },
-            { icon: '🥑', val: `${weekFat}g`, label: 'total fat' },
-          ].map(({ icon, val, label }) => (
-            <div key={label} className="bg-white rounded-[16px] border border-[#E8E6E0] p-3 flex flex-col gap-1.5">
-              <span className="text-[20px]">{icon}</span>
-              <span style={{ fontFamily: "'Playfair Display', serif" }}
-                className="text-[#2C2C2A] text-[20px] font-bold leading-tight">{val}</span>
-              <span className="text-[#888780] text-[11px] font-medium">{label}</span>
-            </div>
-          ))}
+        {/* Daily macros */}
+<p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Today's macros</p>
+<div className="flex flex-col gap-3 -mt-2">
+  {[
+    { icon: '💪', label: 'Protein', eaten: todayEatenProtein, target: today.p, color: '#2D5A27' },
+    { icon: '🌾', label: 'Carbs', eaten: todayEatenCarbs, target: today.c, color: '#639922' },
+    { icon: '🥑', label: 'Fat', eaten: todayEatenFat, target: today.f, color: '#888780' },
+  ].map(({ icon, label, eaten, target, color }) => {
+    const pct = Math.min(100, Math.round((eaten / target) * 100))
+    return (
+      <div key={label} className="bg-white rounded-[16px] border border-[#E8E6E0] p-4 flex flex-col gap-2">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <span className="text-[18px]">{icon}</span>
+            <span className="text-[14px] font-semibold text-[#2C2C2A]">{label}</span>
+          </div>
+          <div className="text-right">
+            <span style={{ fontFamily: "'Playfair Display', serif" }}
+              className="text-[16px] font-bold" style={{ color }}>
+              {eaten}g
+            </span>
+            <span className="text-[#B4B2A9] text-[13px]"> / {target}g</span>
+          </div>
         </div>
+        <div className="w-full h-[6px] bg-[#F0EEE8] rounded-full overflow-hidden">
+          <div className="h-full rounded-full transition-all duration-500"
+            style={{ width: `${pct}%`, backgroundColor: color }} />
+        </div>
+        <p className="text-[#B4B2A9] text-[11px]">{target - eaten}g remaining</p>
+      </div>
+    )
+  })}
+</div>
 
         {/* Today's meals */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Today's meals</p>

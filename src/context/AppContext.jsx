@@ -284,11 +284,14 @@ setMealPlan(updatedPlan)
       }
     } else {
       const newEntry = {
-        meal_name: meal.name,
-        meal_type: meal.type,
-        calories: meal.cal,
-        eaten_date: today,
-      }
+  meal_name: meal.name,
+  meal_type: meal.type,
+  calories: meal.cal,
+  protein: meal.p || 0,
+  carbs: meal.c || 0,
+  fat: meal.f || 0,
+  eaten_date: today,
+}
       setEatenMeals(prev => [...prev, newEntry])
       if (user) {
         await supabase.from('eaten_meals').insert({
