@@ -56,6 +56,33 @@ export default function MealDetail() {
     ? meal.steps
     : ['Prepare all ingredients and combine. Season to taste and serve fresh.']
 
+  const calculateRealMacros = () => {
+  if (!meal.ingredients) return null
+  let cal = 0, p = 0, c = 0, f = 0
+  let allBrandsSelected = true
+
+  meal.ingredients
+    .filter(({ food }) => food?.toLowerCase() !== 'water')
+    .forEach(({ food, amount }) => {
+      const pref = getBrandPreference(food)
+      if (pref) {
+        const isEgg = food === 'eggs'
+        const ratio = isEgg ? amount : amount / 100
+        cal += (pref.cal || 0) * ratio
+        p += (pref.p || 0) * ratio
+        c += (pref.c || 0) * ratio
+        f += (pref.f || 0) * ratio
+      } else {
+        allBrandsSelected = false
+      }
+    })
+
+  return { cal: Math.round(cal), p: Math.round(p), c: Math.round(c), f: Math.round(f), allBrandsSelected }
+}
+
+const realMacros = calculateRealMacros()
+const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / meal.cal) * 100) : 0  
+
   const getEmoji = (food) => {
     return foodEmojis[food] || foodEmojis[food?.toLowerCase()] || '🥗'
   }
@@ -77,18 +104,29 @@ export default function MealDetail() {
           {meal.name}
         </h1>
         <div className="flex gap-2 mt-1">
-          {[
-            { val: meal.cal, label: 'kcal' },
-            { val: `${meal.p}g`, label: 'protein' },
-            { val: `${meal.c}g`, label: 'carbs' },
-            { val: `${meal.f}g`, label: 'fat' },
-          ].map(({ val, label }) => (
-            <div key={label} className="flex-1 bg-white/10 rounded-full py-2 flex flex-col items-center gap-0.5">
-              <span className="text-white text-[14px] font-bold">{val}</span>
-              <span className="text-[#9FE1CB] text-[10px]">{label}</span>
-            </div>
-          ))}
-        </div>
+  {[
+    { val: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal, label: 'kcal' },
+    { val: `${realMacros?.allBrandsSelected ? realMacros.p : meal.p}g`, label: 'protein' },
+    { val: `${realMacros?.allBrandsSelected ? realMacros.c : meal.c}g`, label: 'carbs' },
+    { val: `${realMacros?.allBrandsSelected ? realMacros.f : meal.f}g`, label: 'fat' },
+  ].map(({ val, label }) => (
+    <div key={label} className="flex-1 bg-white/10 rounded-full py-2 flex flex-col items-center gap-0.5">
+      <span className="text-white text-[14px] font-bold">{val}</span>
+      <span className="text-[#9FE1CB] text-[10px]">{label}</span>
+    </div>
+  ))}
+</div>
+
+{realMacros?.allBrandsSelected && Math.abs(calorieDeviation) >= 10 && (
+  <div className={`flex items-center gap-2 px-3 py-2 rounded-xl text-[12px] font-semibold ${calorieDeviation > 0 ? 'bg-orange-500/20 text-orange-200' : 'bg-green-500/20 text-green-200'}`}>
+    <span>{calorieDeviation > 0 ? '⚠️' : '✅'}</span>
+    <span>
+      {calorieDeviation > 0
+        ? `This meal is ${calorieDeviation}% higher in calories than planned`
+        : `This meal is ${Math.abs(calorieDeviation)}% lower in calories than planned`}
+    </span>
+  </div>
+)}
       </div>
 
       {/* Wave */}
