@@ -161,7 +161,7 @@ const kcal = pref
                 className="flex items-center gap-3 bg-white rounded-[14px] border border-[#E8E6E0] px-4 py-3 cursor-pointer">
                 <span className="text-[22px] w-8 text-center">{getEmoji(food)}</span>
                 <div className="flex-1">
-                  <p className="text-[14px] font-semibold text-[#2C2C2A] capitalize">{ingredient.displayName || food}</p>
+                  <p className="text-[14px] font-semibold text-[#2C2C2A] capitalize">{displayName || food}</p>
                   {pref ? (
                     <p className="text-[11px] text-[#2D5A27] font-semibold">{pref.brand} · {pref.size}</p>
                   ) : (
