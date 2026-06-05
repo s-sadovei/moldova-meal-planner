@@ -176,11 +176,12 @@ export const generatePlanFromRecipes = (profile) => {
         f: scaled.f,
         cost: scaled.cost,
         ingredients: scaled.ingredients.map(ing => ({
-          food: ing.name,
-          amount: ing.amount,
-          unit: ing.unit,
-          key: ing.key,
-        })),
+  food: ing.key,
+  amount: ing.amount,
+  unit: ing.unit,
+  key: ing.key,
+  displayName: ing.name,
+})),
         steps: scaled.steps,
       }
     }).filter(Boolean)
