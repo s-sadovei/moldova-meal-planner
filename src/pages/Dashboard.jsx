@@ -34,10 +34,10 @@ const todayEatenFat = todayEaten.reduce((sum, e) => sum + (Number(e.fat) || 0), 
               className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
               Yes, generate new plan
             </button>
-            <button onClick={() => setShowNewWeekPrompt(false)}
-              className="w-full bg-[#F7F5F0] text-[#5F5E5A] font-semibold text-[15px] py-4 rounded-2xl">
-              Keep current plan
-            </button>
+            <button onClick={() => { resetShoppingList(); setShowNewWeekPrompt(false) }}
+  className="w-full bg-[#F7F5F0] text-[#5F5E5A] font-semibold text-[15px] py-4 rounded-2xl">
+  Keep current plan
+</button>
           </div>
         </div>
       )}

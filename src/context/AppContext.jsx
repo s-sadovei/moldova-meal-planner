@@ -206,14 +206,44 @@ setMealPlan(updatedPlan)
     }
   }
 
-  const toggleShoppingItem = (itemId) => {
-    setMealPlan(prev => ({
-      ...prev,
-      shoppingList: prev.shoppingList.map(item =>
-        item.id === itemId ? { ...item, bought: !item.bought } : item
-      )
-    }))
+  const toggleShoppingItem = async (itemId) => {
+  const updatedPlan = {
+    ...mealPlan,
+    shoppingList: mealPlan.shoppingList.map(item =>
+      item.id === itemId ? { ...item, bought: !item.bought } : item
+    )
   }
+  setMealPlan(updatedPlan)
+
+  if (user) {
+    try {
+      await supabase.from('meal_plans').upsert({
+        user_id: user.id,
+        plan_data: updatedPlan,
+      })
+    } catch (error) {
+      console.error('Error saving shopping list state:', error)
+    }
+  }
+}
+const resetShoppingList = async () => {
+  const updatedPlan = {
+    ...mealPlan,
+    shoppingList: mealPlan.shoppingList.map(item => ({ ...item, bought: false }))
+  }
+  setMealPlan(updatedPlan)
+
+  if (user) {
+    try {
+      await supabase.from('meal_plans').upsert({
+        user_id: user.id,
+        plan_data: updatedPlan,
+      })
+    } catch (error) {
+      console.error('Error resetting shopping list:', error)
+    }
+  }
+}
 
   const saveBrandPreference = async (ingredientKey, product) => {
     setBrandPreferences(prev => ({ ...prev, [ingredientKey]: product }))
@@ -292,7 +322,7 @@ setMealPlan(updatedPlan)
       todayDayIndex, showNewWeekPrompt, setShowNewWeekPrompt,
       login, signup, logout,
       saveProfile, regeneratePlan,
-      toggleShoppingItem,
+      toggleShoppingItem, resetShoppingList,
       saveBrandPreference, getBrandPreference,
       markMealEaten, isMealEaten,
     }}>
