@@ -90,9 +90,9 @@ const todayEatenFat = todayEaten.reduce((sum, e) => sum + (Number(e.fat) || 0), 
 <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Today's macros</p>
 <div className="flex flex-col gap-3 -mt-2">
   {[
-    { icon: '💪', label: 'Protein', eaten: todayEatenProtein, target: today.p, color: '#2D5A27' },
-    { icon: '🌾', label: 'Carbs', eaten: todayEatenCarbs, target: today.c, color: '#639922' },
-    { icon: '🥑', label: 'Fat', eaten: todayEatenFat, target: today.f, color: '#888780' },
+{ icon: '💪', label: 'Protein', eaten: todayEatenProtein, target: today.p, color: '#639922' },
+{ icon: '🌾', label: 'Carbs', eaten: todayEatenCarbs, target: today.c, color: '#639922' },
+{ icon: '🥑', label: 'Fat', eaten: todayEatenFat, target: today.f, color: '#639922' },
   ].map(({ icon, label, eaten, target, color }) => {
     const pct = Math.round((eaten / target) * 100)
 const isOver = eaten > target
