@@ -108,12 +108,12 @@ return (
         <span className="text-[14px] font-semibold text-[#2C2C2A]">{label}</span>
       </div>
       <div className="text-right">
-        <span style={{ fontFamily: "'Playfair Display', serif", color: isOver ? '#F59E0B' : color }}
+        <span style={{ fontFamily: "'Playfair Display', serif", color: isOver ? '#D97706' : color }}
   className="text-[16px] font-bold">
           {eaten}g
         </span>
         <span className="text-[#B4B2A9] text-[13px]"> / {target}g</span>
-        {isOver && <p className="text-[11px] font-semibold" style={{ color: '#F59E0B' }}>+{eaten - target}g over</p>}
+        {isOver && <p className="text-[11px] font-semibold" style={{ color: '#D97706' }}>+{eaten - target}g over</p>}
       </div>
     </div>
     <div className="w-full h-[6px] bg-[#F0EEE8] rounded-full overflow-hidden flex">
@@ -121,10 +121,10 @@ return (
   style={{ width: `${greenPct}%`, backgroundColor: color, borderRadius: isOver ? '9999px 0 0 9999px' : '9999px' }} />
 {isOver && (
   <div className="h-full transition-all duration-500"
-    style={{ width: `${redPct}%`, backgroundColor: '#F59E0B', borderRadius: '0 9999px 9999px 0' }} />
+    style={{ width: `${redPct}%`, backgroundColor: '#D97706', borderRadius: '0 9999px 9999px 0' }} />
 )}
 </div>
-    <p className="text-[11px]" style={{ color: isOver ? '#F59E0B' : '#B4B2A9' }}>
+    <p className="text-[11px]" style={{ color: isOver ? '#D97706' : '#B4B2A9' }}>
       {isOver ? `${pct}% of daily target` : `${target - eaten}g remaining`}
     </p>
   </div>
