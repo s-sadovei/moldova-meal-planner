@@ -178,7 +178,6 @@ setMealPlan(updatedPlan)
   const regeneratePlan = async () => {
     if (profile) {
       setGenerating(true)
-      let plan
 const plan = generatePlanFromRecipes(profile)
 setGenerating(false)
       const recalculatedShoppingList = generateShoppingList(plan.weekPlan)
