@@ -244,6 +244,26 @@ const resetShoppingList = async () => {
     }
   }
 }
+const markAtHome = async (itemId) => {
+  const updatedPlan = {
+    ...mealPlan,
+    shoppingList: mealPlan.shoppingList.map(item =>
+      item.id === itemId ? { ...item, atHome: !item.atHome, bought: false } : item
+    )
+  }
+  setMealPlan(updatedPlan)
+
+  if (user) {
+    try {
+      await supabase.from('meal_plans').upsert({
+        user_id: user.id,
+        plan_data: updatedPlan,
+      })
+    } catch (error) {
+      console.error('Error saving at home state:', error)
+    }
+  }
+}
 
   const saveBrandPreference = async (ingredientKey, product) => {
     setBrandPreferences(prev => ({ ...prev, [ingredientKey]: product }))
