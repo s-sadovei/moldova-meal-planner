@@ -125,7 +125,7 @@ return (
 )}
 </div>
     <p className="text-[11px]" style={{ color: isOver ? '#D97706' : '#B4B2A9' }}>
-      {isOver ? `${pct}% of daily target` : `${target - eaten}g remaining`}
+      {isOver ? `${pct}% of daily target` : `${(target - eaten).toFixed(1)}g remaining`}
     </p>
   </div>
 )
