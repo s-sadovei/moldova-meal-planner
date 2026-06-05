@@ -3,6 +3,7 @@ import { getAllIngredientMacros } from '../utils/moldovanProducts'
 import { createContext, useContext, useState, useEffect } from 'react'
 import { supabase } from '../supabase'
 import { generateMealPlan } from '../utils/mealPlanGenerator'
+import { generatePlanFromRecipes } from '../utils/recipePlanner'
 
 const AppContext = createContext()
 
@@ -141,21 +142,8 @@ export function AppProvider({ children }) {
     setProfile(profileData)
     setGenerating(true)
 
-    let plan
-    try {
-      const response = await fetch('https://moldova-meal-planner-production.up.railway.app/generate-meal-plan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: profileData, ingredientMacros: getAllIngredientMacros() }),
-      })
-      if (!response.ok) throw new Error('AI generation failed')
-      plan = await response.json()
-    } catch (error) {
-      console.error('AI failed, using local generator:', error)
-      plan = generateMealPlan(profileData)
-    } finally {
-      setGenerating(false)
-    }
+    plan = generatePlanFromRecipes(profileData)
+setGenerating(false)
 
     const recalculatedShoppingList = generateShoppingList(plan.weekPlan)
 const updatedPlan = { ...plan, shoppingList: recalculatedShoppingList }
@@ -193,20 +181,8 @@ setMealPlan(updatedPlan)
     if (profile) {
       setGenerating(true)
       let plan
-      try {
-        const response = await fetch('https://moldova-meal-planner-production.up.railway.app/generate-meal-plan', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ profile, ingredientMacros: getAllIngredientMacros() }),
-        })
-        if (!response.ok) throw new Error('AI generation failed')
-        plan = await response.json()
-      } catch (error) {
-        console.error('AI failed, using local generator:', error)
-        plan = generateMealPlan(profile)
-      } finally {
-        setGenerating(false)
-      }
+plan = generatePlanFromRecipes(profile)
+setGenerating(false)
       const recalculatedShoppingList = generateShoppingList(plan.weekPlan)
 const updatedPlan = { ...plan, shoppingList: recalculatedShoppingList }
 setMealPlan(updatedPlan)
