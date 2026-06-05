@@ -1,8 +1,6 @@
 import { generateShoppingList } from '../utils/shoppingListGenerator'
-import { getAllIngredientMacros } from '../utils/moldovanProducts'
 import { createContext, useContext, useState, useEffect } from 'react'
 import { supabase } from '../supabase'
-import { generateMealPlan } from '../utils/mealPlanGenerator'
 import { generatePlanFromRecipes } from '../utils/recipePlanner'
 
 const AppContext = createContext()
