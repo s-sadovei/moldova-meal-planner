@@ -10,7 +10,6 @@ export default function Dashboard() {
   if (!mealPlan) return null
 
   const today = mealPlan.weekPlan[todayDayIndex] || mealPlan.weekPlan[0]
-  const budgetPct = profile?.budget ? Math.min(100, (mealPlan.weekCost / profile.budget) * 100) : 80
   const progressPct = Math.min(100, (todayEatenCalories / mealPlan.calorieTarget) * 100)
   const todayDate = new Date().toISOString().split('T')[0]
 const todayEaten = eatenMeals.filter(e => e.eaten_date === todayDate)
@@ -159,24 +158,55 @@ return (
         {/* Budget */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Budget this week</p>
         <div className="bg-white rounded-[20px] border border-[#E8E6E0] p-4 -mt-2">
-          <div className="flex justify-between items-start mb-1">
-            <div>
-              <p style={{ fontFamily: "'Playfair Display', serif" }}
-                className="text-[#2D5A27] text-[22px] font-bold">{mealPlan.weekCost} MDL</p>
-              <p className="text-[#888780] text-[12px]">estimated cost</p>
-            </div>
-            <div className="text-right">
-              <p className="text-[#5F5E5A] text-[13px] font-semibold">{profile?.budget || '—'} MDL</p>
-              <p className="text-[#B4B2A9] text-[11px]">your budget</p>
-            </div>
-          </div>
-          <div className="w-full h-[6px] bg-[#F0EEE8] rounded-full my-3">
-            <div className="h-full bg-[#2D5A27] rounded-full" style={{ width: `${budgetPct}%` }} />
-          </div>
-          {profile?.budget && mealPlan.weekCost <= profile.budget && (
-            <p className="text-[#639922] text-[12px] font-semibold">✓ You are within budget this week.</p>
-          )}
+          {(() => {
+            const weeklyBudget = profile?.budget || 0
+            const shoppingList = mealPlan?.shoppingList || []
+            const spentSoFar = shoppingList
+              .filter(i => i.bought)
+              .reduce((sum, i) => sum + (i.estimatedPrice || 0), 0)
+            const totalCost = shoppingList
+              .reduce((sum, i) => sum + (i.estimatedPrice || 0), 0)
+            const budgetSpentPct = weeklyBudget ? Math.min(100, (spentSoFar / weeklyBudget) * 100) : 0
+            const budgetEstimatePct = weeklyBudget ? Math.min(100, (totalCost / weeklyBudget) * 100) : 0
+            const isOverBudget = spentSoFar > weeklyBudget
+            const isEstimateOver = totalCost > weeklyBudget
+            const budgetRemaining = weeklyBudget - spentSoFar
+
+            return (
+              <>
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <p style={{ fontFamily: "'Playfair Display', serif", color: isOverBudget ? '#E24B4A' : '#2D5A27' }}
+                      className="text-[22px] font-bold">
+                      {spentSoFar.toFixed(2)} MDL
+                    </p>
+                    <p className="text-[#888780] text-[12px]">spent so far</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[#5F5E5A] text-[13px] font-semibold">{weeklyBudget} MDL</p>
+                    <p className="text-[#B4B2A9] text-[11px]">weekly budget</p>
+                  </div>
+                </div>
+                <div className="w-full h-[6px] bg-[#F0EEE8] rounded-full overflow-hidden relative mb-1">
+                  <div className="absolute h-full rounded-full transition-all duration-300"
+                    style={{ width: `${budgetEstimatePct}%`, backgroundColor: isEstimateOver ? '#fca5a5' : '#E8F5D0' }} />
+                  <div className="absolute h-full rounded-full transition-all duration-300"
+                    style={{ width: `${budgetSpentPct}%`, backgroundColor: isOverBudget ? '#E24B4A' : '#2D5A27' }} />
+                </div>
+                <p className="text-[11px] text-[#B4B2A9] mb-2">Estimate: {totalCost.toFixed(2)} MDL</p>
+                {isOverBudget ? (
+                  <p className="text-[#E24B4A] text-[12px] font-semibold">⚠️ {Math.abs(budgetRemaining).toFixed(2)} MDL over budget!</p>
+                ) : isEstimateOver ? (
+                  <p className="text-[#E24B4A] text-[12px] font-semibold">⚠️ Estimate exceeds budget by {(totalCost - weeklyBudget).toFixed(2)} MDL</p>
+                ) : (
+                  <p className="text-[#639922] text-[12px] font-semibold">✓ {budgetRemaining.toFixed(2)} MDL remaining</p>
+                )}
+              </>
+            )
+          })()}
         </div>
+
+        {/* Quick actions */}
 
         {/* Quick actions */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Quick actions</p>
