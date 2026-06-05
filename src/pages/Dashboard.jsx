@@ -96,8 +96,9 @@ const todayEatenFat = todayEaten.reduce((sum, e) => sum + (Number(e.fat) || 0), 
   ].map(({ icon, label, eaten, target, color }) => {
     const pct = Math.round((eaten / target) * 100)
 const isOver = eaten > target
-const barPct = Math.min(100, pct)
-const overPct = isOver ? Math.min(100, Math.round(((eaten - target) / target) * 100)) : 0
+const total = isOver ? eaten : target
+const greenPct = Math.round((Math.min(eaten, target) / total) * 100)
+const redPct = isOver ? Math.round(((eaten - target) / total) * 100) : 0
 
 return (
   <div key={label} className="bg-white rounded-[16px] border border-[#E8E6E0] p-4 flex flex-col gap-2">
@@ -115,13 +116,13 @@ return (
         {isOver && <p className="text-[#E24B4A] text-[11px] font-semibold">+{eaten - target}g over</p>}
       </div>
     </div>
-    <div className="w-full h-[6px] bg-[#F0EEE8] rounded-full flex" style={{ overflow: 'visible' }}>
-  <div className="h-full rounded-full transition-all duration-500 relative"
-    style={{ 
-      width: `${Math.min(100, pct)}%`, 
-      backgroundColor: isOver ? '#E24B4A' : color,
-      boxShadow: isOver ? `${overPct}px 0 0 0 #fca5a5` : 'none'
-    }} />
+    <div className="w-full h-[6px] bg-[#F0EEE8] rounded-full overflow-hidden flex">
+  <div className="h-full transition-all duration-500"
+    style={{ width: `${greenPct}%`, backgroundColor: isOver ? '#E24B4A' : color, borderRadius: isOver ? '9999px 0 0 9999px' : '9999px' }} />
+  {isOver && (
+    <div className="h-full transition-all duration-500"
+      style={{ width: `${redPct}%`, backgroundColor: '#fca5a5', borderRadius: '0 9999px 9999px 0' }} />
+  )}
 </div>
     <p className="text-[11px]" style={{ color: isOver ? '#E24B4A' : '#B4B2A9' }}>
       {isOver ? `${pct}% of daily target` : `${target - eaten}g remaining`}
