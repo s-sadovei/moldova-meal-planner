@@ -227,10 +227,10 @@ setMealPlan(updatedPlan)
             .eq('ingredient_key', ingredientKey)
         } else {
           await supabase.from('brand_preferences').upsert({
-            user_id: user.id,
-            ingredient_key: ingredientKey,
-            product_data: product,
-          })
+  user_id: user.id,
+  ingredient_key: ingredientKey,
+  product_data: product,
+}, { onConflict: 'user_id,ingredient_key' })
         }
       } catch (error) {
         console.error('Error saving brand preference:', error)
