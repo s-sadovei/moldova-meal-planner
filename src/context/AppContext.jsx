@@ -342,9 +342,9 @@ const markAtHome = async (itemId) => {
       todayDayIndex, showNewWeekPrompt, setShowNewWeekPrompt,
       login, signup, logout,
       saveProfile, regeneratePlan,
-      toggleShoppingItem, resetShoppingList,
+      toggleShoppingItem, resetShoppingList, markAtHome,
       saveBrandPreference, getBrandPreference,
-      markMealEaten, isMealEaten,
+      markMealEaten, isMealEaten, 
     }}>
       {children}
     </AppContext.Provider>
