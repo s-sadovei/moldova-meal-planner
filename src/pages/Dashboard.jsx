@@ -113,7 +113,7 @@ return (
           {eaten}g
         </span>
         <span className="text-[#B4B2A9] text-[13px]"> / {target}g</span>
-        {isOver && <p className="text-[11px] font-semibold" style={{ color: '#D97706' }}>+{eaten - target}g over</p>}
+        {isOver && <p className="text-[11px] font-semibold" style={{ color: '#D97706' }}>+{(eaten - target).toFixed(1)}g over</p>}
       </div>
     </div>
     <div className="w-full h-[6px] bg-[#F0EEE8] rounded-full overflow-hidden flex">
