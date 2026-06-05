@@ -140,7 +140,7 @@ export function AppProvider({ children }) {
     setProfile(profileData)
     setGenerating(true)
 
-    plan = generatePlanFromRecipes(profileData)
+    const plan = generatePlanFromRecipes(profileData)
 setGenerating(false)
 
     const recalculatedShoppingList = generateShoppingList(plan.weekPlan)
@@ -179,7 +179,7 @@ setMealPlan(updatedPlan)
     if (profile) {
       setGenerating(true)
       let plan
-plan = generatePlanFromRecipes(profile)
+const plan = generatePlanFromRecipes(profile)
 setGenerating(false)
       const recalculatedShoppingList = generateShoppingList(plan.weekPlan)
 const updatedPlan = { ...plan, shoppingList: recalculatedShoppingList }
