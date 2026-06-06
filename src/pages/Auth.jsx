@@ -15,9 +15,9 @@ export default function Auth() {
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async () => {
-    if (!email || !password) { setError('Please fill in all fields.'); return }
-    if (password.length < 6) { setError('Password must be at least 6 characters.'); return }
-    if (mode === 'signup' && password !== confirm) { setError('Passwords do not match.'); return }
+    if (!email || !password) { setError('Te rugăm să completezi toate câmpurile.'); return }
+    if (password.length < 6) { setError('Parola trebuie să aibă cel puțin 6 caractere.'); return }
+    if (mode === 'signup' && password !== confirm) { setError('Parolele nu coincid.'); return }
 
     setLoading(true)
     setError('')
@@ -31,7 +31,7 @@ export default function Auth() {
         navigate('/dashboard')
       }
     } catch (err) {
-      setError(err.message || 'Something went wrong. Please try again.')
+      setError(err.message || 'Ceva nu a mers bine. Te rugăm să încerci din nou.')
     } finally {
       setLoading(false)
     }
@@ -46,14 +46,14 @@ export default function Auth() {
       <div className="bg-[#2D5A27] px-7 pt-14 pb-8 flex flex-col gap-3">
         <button onClick={() => navigate('/')}
           className="self-start text-[#9FE1CB] text-[13px] font-medium flex items-center gap-1 mb-2">
-          ← Back
+          ← Înapoi
         </button>
         <h1 style={{ fontFamily: "'Playfair Display', serif" }}
           className="text-white text-[38px] font-extrabold leading-[1.1] whitespace-pre-line">
-          {mode === 'signup' ? 'Create\naccount.' : 'Welcome\nback.'}
+          {mode === 'signup' ? 'Creează\ncont.' : 'Bine ai\nrevenit.'}
         </h1>
         <p className="text-[#9FE1CB] text-[14px] font-medium leading-relaxed">
-          {mode === 'signup' ? 'Start your meal planning journey today.' : 'Log in to see your meal plan.'}
+          {mode === 'signup' ? 'Începe-ți călătoria spre o alimentație mai bună.' : 'Autentifică-te pentru a vedea planul tău.'}
         </p>
       </div>
 
@@ -63,38 +63,38 @@ export default function Auth() {
 
         <div className="flex flex-col gap-2">
           <label className={labelClass}>Email</label>
-          <input className={inputClass} type="email" placeholder="you@example.com"
+          <input className={inputClass} type="email" placeholder="tu@exemplu.com"
             value={email} onChange={e => setEmail(e.target.value)} />
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className={labelClass}>Password</label>
-          <input className={inputClass} type="password" placeholder="Min. 6 characters"
+          <label className={labelClass}>Parolă</label>
+          <input className={inputClass} type="password" placeholder="Min. 6 caractere"
             value={password} onChange={e => setPassword(e.target.value)} />
         </div>
 
         {mode === 'signup' && (
           <div className="flex flex-col gap-2">
-            <label className={labelClass}>Confirm password</label>
-            <input className={inputClass} type="password" placeholder="Repeat your password"
+            <label className={labelClass}>Confirmă parola</label>
+            <input className={inputClass} type="password" placeholder="Repetă parola"
               value={confirm} onChange={e => setConfirm(e.target.value)} />
           </div>
         )}
 
         {mode === 'login' && (
-          <p className="text-right text-[12px] text-[#2D5A27] font-semibold">Forgot password?</p>
+          <p className="text-right text-[12px] text-[#2D5A27] font-semibold">Ai uitat parola?</p>
         )}
 
         {error && <p className="text-red-500 text-[13px] font-medium">{error}</p>}
 
         <button onClick={handleSubmit} disabled={loading}
           className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl mt-2 disabled:opacity-60">
-          {loading ? 'Please wait...' : mode === 'signup' ? 'Create Account' : 'Log In'}
+          {loading ? 'Te rugăm să aștepți...' : mode === 'signup' ? 'Creează cont' : 'Autentifică-te'}
         </button>
 
         <div className="flex items-center gap-3 my-1">
           <div className="flex-1 h-px bg-[#E8E6E0]" />
-          <span className="text-[#B4B2A9] text-[12px]">or continue with</span>
+          <span className="text-[#B4B2A9] text-[12px]">sau continuă cu</span>
           <div className="flex-1 h-px bg-[#E8E6E0]" />
         </div>
 
@@ -105,23 +105,23 @@ export default function Auth() {
             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
           </svg>
-          Continue with Google
+          Continuă cu Google
         </button>
 
         {mode === 'signup' && (
           <p className="text-[11px] text-[#B4B2A9] text-center leading-relaxed">
-            By signing up you agree to our{' '}
-            <span className="text-[#2D5A27] font-semibold">Terms</span> and{' '}
-            <span className="text-[#2D5A27] font-semibold">Privacy Policy</span>
+            Prin înregistrare ești de acord cu{' '}
+            <span className="text-[#2D5A27] font-semibold">Termenii</span> și{' '}
+            <span className="text-[#2D5A27] font-semibold">Politica de confidențialitate</span>
           </p>
         )}
 
         <p className="text-[13px] text-[#888780] text-center font-medium mt-1">
-          {mode === 'signup' ? 'Already have an account? ' : "Don't have an account? "}
+          {mode === 'signup' ? 'Ai deja un cont? ' : 'Nu ai cont? '}
           <button
             onClick={() => navigate(mode === 'signup' ? '/auth?mode=login' : '/auth?mode=signup')}
             className="text-[#2D5A27] font-semibold">
-            {mode === 'signup' ? 'Log in' : 'Sign up'}
+            {mode === 'signup' ? 'Autentifică-te' : 'Înregistrează-te'}
           </button>
         </p>
 
