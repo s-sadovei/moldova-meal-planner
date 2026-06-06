@@ -335,7 +335,7 @@ const kcal = pref
 <p className="text-[#888780] text-[11px]">
   {selectedIngredient.food === 'eggs'
     ? `pentru ${selectedIngredient.amount} ouă folosite`
-    : `pentru ${selectedIngredient.amount}g folosite în această masă`}
+    : `pentru ${selectedIngredient.amount}g folosite`}
 </p>
                       </div>
                       <button
@@ -388,10 +388,10 @@ const kcal = pref
                             {/* Macros per brand */}
                             <div className="grid grid-cols-4 gap-1.5">
                               {[
-                                { label: '🔥 kcal', val: product.cal },
-                                { label: '💪 proteină', val: `${product.p}g` },
-                                { label: '🌾 carbohidrați', val: `${product.c}g` },
-                                { label: '🥑 grăsimi', val: `${product.f}g` },
+                                { label: '🔥kcal', val: product.cal },
+                                { label: '💪proteină', val: `${product.p}g` },
+                                { label: '🌾carbohidrați', val: `${product.c}g` },
+                                { label: '🥑grăsimi', val: `${product.f}g` },
                               ].map(({ label, val }) => (
                                 <div key={label} className="bg-[#F7F5F0] rounded-[10px] p-2 flex flex-col items-center gap-0.5">
                                   <span className="text-[12px] font-bold text-[#2C2C2A]">{val}</span>
