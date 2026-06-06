@@ -99,7 +99,7 @@ const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / 
       <div className="bg-[#2D5A27] px-6 pt-12 pb-6 flex flex-col gap-3">
         <button onClick={() => navigate('/plan', { state: { restoreDay: fromDay } })}
   className="self-start text-[#9FE1CB] text-[13px] font-medium mb-2">
-  ← Back
+  ← Înapoi
 </button>
         <p className="text-[#C0DD97] text-[11px] font-semibold uppercase tracking-widest">
           {mealEmojis[meal.type]} {meal.type}
@@ -111,9 +111,9 @@ const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / 
         <div className="flex gap-2 mt-1">
   {[
     { val: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal, label: 'kcal' },
-{ val: `${realMacros?.allBrandsSelected ? realMacros.p : meal.p}g`, label: 'protein' },
-{ val: `${realMacros?.allBrandsSelected ? realMacros.c : meal.c}g`, label: 'carbs' },
-{ val: `${realMacros?.allBrandsSelected ? realMacros.f : meal.f}g`, label: 'fat' },
+{ val: `${realMacros?.allBrandsSelected ? realMacros.p : meal.p}g`, label: 'proteină' },
+{ val: `${realMacros?.allBrandsSelected ? realMacros.c : meal.c}g`, label: 'carbohidrați' },
+{ val: `${realMacros?.allBrandsSelected ? realMacros.f : meal.f}g`, label: 'grăsimi' },
   ].map(({ val, label }) => (
     <div key={label} className="flex-1 bg-white/10 rounded-full py-2 flex flex-col items-center gap-0.5">
       <span className="text-white text-[14px] font-bold">{val}</span>
@@ -127,15 +127,15 @@ const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / 
     <span>{calorieDeviation > 0 ? '⚠️' : '✅'}</span>
     <span>
       {calorieDeviation > 0
-        ? `This meal is ${calorieDeviation}% higher in calories than planned`
-        : `This meal is ${Math.abs(calorieDeviation)}% lower in calories than planned`}
+        ? `Această masă are cu ${calorieDeviation}% mai multe calorii decât planificat`
+        : `Această masă are cu ${Math.abs(calorieDeviation)}% mai puține calorii decât planificat`}
     </span>
   </div>
 )}
 {realMacros?.cal > 0 && !realMacros?.allBrandsSelected && (
   <div className="flex items-center gap-2 px-3 py-2 rounded-xl text-[12px] font-semibold bg-white/10 text-white/70">
     <span>ℹ️</span>
-    <span>Select all brands to see accurate calories</span>
+    <span>Selectează toate brandurile pentru calorii exacte</span>
   </div>
 )}
       </div>
@@ -147,7 +147,7 @@ const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / 
       <div className="flex-1 px-5 pb-10 flex flex-col gap-5 overflow-y-auto">
 
         {/* Ingredients */}
-        <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Ingredients</p>
+        <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Ingrediente</p>
         <div className="flex flex-col gap-2 -mt-2">
           {meal.ingredients?.filter(({ food }) => food?.toLowerCase() !== 'water').map(({ food, amount, displayName }, i) => {
             const pref = getBrandPreference(food)
@@ -170,8 +170,8 @@ const kcal = pref
                     <p className="text-[11px] text-[#2D5A27] font-semibold">{pref.brand} · {pref.size}</p>
                   ) : (
                     <p className="text-[12px] text-[#B4B2A9] font-medium">
-                      {food === 'eggs' ? `${amount} pcs` : `${amount}g`}
-                      {products.length > 0 && <span className="text-[#639922]"> · {isProduce(food) ? 'tap to see store' : 'tap to choose brand'}</span>}
+                      {food === 'eggs' ? `${amount} buc` : `${amount}g`}
+                      {products.length > 0 && <span className="text-[#639922]"> · {isProduce(food) ? 'apasă pentru a vedea magazinul' : 'apasă pentru a alege brandul'}</span>}
                     </p>
                   )}
                 </div>
@@ -185,7 +185,7 @@ const kcal = pref
                     </>
                   ) : (
                     <p className="text-[12px] text-[#B4B2A9]">
-                      {food === 'eggs' ? `${amount} pcs` : `${amount}g`}
+                      {food === 'eggs' ? `${amount} buc` : `${amount}g`}
                     </p>
                   )}
                 </div>
@@ -196,7 +196,7 @@ const kcal = pref
         </div>
 
         {/* Steps */}
-        <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">How to cook</p>
+        <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Cum se pregătește</p>
         <div className="flex flex-col gap-3 -mt-2">
           {steps.map((step, i) => (
             <div key={i} className="flex gap-3 items-start">
@@ -213,10 +213,10 @@ const kcal = pref
   <div>
     <p style={{ fontFamily: "'Playfair Display', serif" }}
       className="text-[#2D5A27] text-[22px] font-extrabold">{meal.cost} MDL</p>
-    <p className="text-[#888780] text-[12px]">estimated cost</p>
+    <p className="text-[#888780] text-[12px]">cost estimat</p>
   </div>
   <button className="bg-[#F7F5F0] border-[1.5px] border-[#E8E6E0] text-[#5F5E5A] text-[13px] font-semibold px-4 py-2.5 rounded-[12px]">
-    🔄 Replace meal
+    🔄 Înlocuiește masa
   </button>
 </div>
 
@@ -299,7 +299,7 @@ const kcal = pref
                         {pref && !changingBrand ? pref.productName : selectedIngredient.food}
                       </p>
                       <p className="text-[#888780] text-[12px]">
-                       {pref && !changingBrand ? `${pref.brand} · Kaufland` : isProduce(selectedIngredient.food) ? 'Where to buy' : 'Choose your brand'}
+                       {pref && !changingBrand ? `${pref.brand} · Kaufland` : isProduce(selectedIngredient.food) ? 'Unde cumperi' : 'Alege brandul tău'}
                       </p>
                     </div>
                   </div>
@@ -309,9 +309,9 @@ const kcal = pref
                     <div className="grid grid-cols-2 gap-2">
                       {[
                         { icon: '🔥', val: pref.cal, label: 'kcal per 100g' },
-                        { icon: '💪', val: `${pref.p}g`, label: 'protein' },
-                        { icon: '🌾', val: `${pref.c}g`, label: 'carbs' },
-                        { icon: '🥑', val: `${pref.f}g`, label: 'fat' },
+                        { icon: '💪', val: `${pref.p}g`, label: 'proteină' },
+                        { icon: '🌾', val: `${pref.c}g`, label: 'carbohidrați' },
+                        { icon: '🥑', val: `${pref.f}g`, label: 'grăsimi' },
                       ].map(({ icon, val, label }) => (
                         <div key={label} className="bg-white rounded-[14px] border border-[#E8E6E0] p-3 flex flex-col gap-1">
                           <span className="text-[18px]">{icon}</span>
@@ -334,14 +334,14 @@ const kcal = pref
 </p>
 <p className="text-[#888780] text-[11px]">
   {selectedIngredient.food === 'eggs'
-    ? `for ${selectedIngredient.amount} eggs used`
-    : `for ${selectedIngredient.amount}g used in this meal`}
+    ? `pentru ${selectedIngredient.amount} ouă folosite`
+    : `pentru ${selectedIngredient.amount}g folosite în această masă`}
 </p>
                       </div>
                       <button
   onClick={() => setChangingBrand(true)}
   className="bg-[#EAF3DE] text-[#2D5A27] text-[13px] font-semibold px-4 py-2 rounded-[10px]">
-  {isProduce(selectedIngredient.food) ? 'Change store' : 'Change brand'}
+  {isProduce(selectedIngredient.food) ? 'Schimbă magazinul' : 'Schimbă brandul'}
 </button>
                     </div>
                   )}
@@ -351,7 +351,7 @@ const kcal = pref
                     <div className="flex flex-col gap-3">
                       {products.length === 0 ? (
                         <div className="bg-white rounded-[14px] border border-[#E8E6E0] px-4 py-3">
-                          <p className="text-[#888780] text-[13px]">No price data available yet for this ingredient.</p>
+                          <p className="text-[#888780] text-[13px]">Nu există date de preț pentru acest ingredient.</p>
                         </div>
                       ) : (
                         products.map(product => (
@@ -379,8 +379,8 @@ const kcal = pref
 </p>
 <p className="text-[#B4B2A9] text-[11px]">
   {selectedIngredient.food === 'eggs'
-    ? `for ${selectedIngredient.amount} eggs`
-    : `for ${selectedIngredient.amount}g`}
+    ? `pentru ${selectedIngredient.amount} ouă`
+    : `pentru ${selectedIngredient.amount}g`}
 </p>
                               </div>
                             </div>
@@ -389,9 +389,9 @@ const kcal = pref
                             <div className="grid grid-cols-4 gap-1.5">
                               {[
                                 { label: '🔥 kcal', val: product.cal },
-                                { label: '💪 protein', val: `${product.p}g` },
-                                { label: '🌾 carbs', val: `${product.c}g` },
-                                { label: '🥑 fat', val: `${product.f}g` },
+                                { label: '💪 proteină', val: `${product.p}g` },
+                                { label: '🌾 carbohidrați', val: `${product.c}g` },
+                                { label: '🥑 grăsimi', val: `${product.f}g` },
                               ].map(({ label, val }) => (
                                 <div key={label} className="bg-[#F7F5F0] rounded-[10px] p-2 flex flex-col items-center gap-0.5">
                                   <span className="text-[12px] font-bold text-[#2C2C2A]">{val}</span>
@@ -408,7 +408,7 @@ const kcal = pref
                   {/* Used in other meals */}
                   {usedInMeals.length > 0 && !showBrandList && (
                     <div className="flex flex-col gap-2">
-                      <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Also used in</p>
+                      <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Folosit și în</p>
                       <div className="flex flex-wrap gap-2">
                         {usedInMeals.map(name => (
                           <span key={name} className="bg-[#EAF3DE] text-[#2D5A27] text-[12px] font-semibold px-3 py-1.5 rounded-full">
@@ -438,7 +438,7 @@ const kcal = pref
           {currentIngredientCheck.displayName || currentIngredientCheck.food}
         </p>
         <p className="text-[#888780] text-[13px] mt-1">
-          Ai nevoie de <span className="font-bold text-[#2C2C2A]">{currentIngredientCheck.amount}{currentIngredientCheck.unit === 'pcs' ? ' bucăți' : 'g'}</span> pentru această masă
+          Ai nevoie de <span className="font-bold text-[#2C2C2A]">{currentIngredientCheck.amount}{currentIngredientCheck.unit === 'buc' ? ' bucăți' : 'g'}</span> pentru această masă
         </p>
         <p className="text-[#888780] text-[12px] mt-1">
           {ingredientCheckQueue.indexOf(currentIngredientCheck) + 1} din {ingredientCheckQueue.length} ingrediente neconfirmate
