@@ -39,9 +39,13 @@ const isProduce = (food) => produceItems.includes(food?.toLowerCase())
 export default function MealDetail() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { mealPlan, getBrandPreference, saveBrandPreference, markMealEaten, isMealEaten } = useApp()
+  const { mealPlan, getBrandPreference, saveBrandPreference, markMealEaten, isMealEaten, toggleShoppingItem, splitShoppingItem } = useApp()
   const [selectedIngredient, setSelectedIngredient] = useState(null)
   const [changingBrand, setChangingBrand] = useState(false)
+  const [ingredientCheckQueue, setIngredientCheckQueue] = useState([])
+  const [currentIngredientCheck, setCurrentIngredientCheck] = useState(null)
+  const [atHomeAmount, setAtHomeAmount] = useState('')
+  const [showAtHomeInput, setShowAtHomeInput] = useState(false)
 
   const meal = location.state?.meal
 const fromDay = location.state?.fromDay
@@ -221,15 +225,47 @@ const kcal = pref
   const eaten = isMealEaten(meal.name)
   return (
     <button
-  onClick={() => markMealEaten({
-    ...meal,
-    cal: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal,
-    p: realMacros?.allBrandsSelected ? realMacros.p : meal.p,
-    c: realMacros?.allBrandsSelected ? realMacros.c : meal.c,
-    f: realMacros?.allBrandsSelected ? realMacros.f : meal.f,
-  })}
+      onClick={() => {
+        if (eaten) {
+          markMealEaten({
+            ...meal,
+            cal: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal,
+            p: realMacros?.allBrandsSelected ? realMacros.p : meal.p,
+            c: realMacros?.allBrandsSelected ? realMacros.c : meal.c,
+            f: realMacros?.allBrandsSelected ? realMacros.f : meal.f,
+          })
+          return
+        }
+
+        // Check which ingredients are not accounted for
+        const shoppingList = mealPlan?.shoppingList || []
+        const unaccounted = meal.ingredients
+          ?.filter(({ food }) => food?.toLowerCase() !== 'water')
+          .filter(({ food, amount }) => {
+            const shoppingItem = shoppingList.find(i =>
+              i.name.toLowerCase() === food.toLowerCase() ||
+              i.name.toLowerCase().includes(food.toLowerCase()) ||
+              food.toLowerCase().includes(i.name.toLowerCase())
+            )
+            if (!shoppingItem) return false
+            return !shoppingItem.bought && !shoppingItem.atHome
+          }) || []
+
+        if (unaccounted.length === 0) {
+          markMealEaten({
+            ...meal,
+            cal: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal,
+            p: realMacros?.allBrandsSelected ? realMacros.p : meal.p,
+            c: realMacros?.allBrandsSelected ? realMacros.c : meal.c,
+            f: realMacros?.allBrandsSelected ? realMacros.f : meal.f,
+          })
+        } else {
+          setIngredientCheckQueue(unaccounted)
+          setCurrentIngredientCheck(unaccounted[0])
+        }
+      }}
       className={`w-full py-4 rounded-2xl font-semibold text-[15px] transition flex items-center justify-center gap-2 ${eaten ? 'bg-[#EAF3DE] text-[#2D5A27] border-[1.5px] border-[#C0DD97]' : 'bg-[#2D5A27] text-white'}`}>
-      {eaten ? '✓ Marked as eaten' : '🍽️ Mark as eaten'}
+      {eaten ? '✓ Marcat ca mâncat' : '🍽️ Marchează ca mâncat'}
     </button>
   )
 })()}
@@ -389,6 +425,124 @@ const kcal = pref
           </div>
         </div>
       )}
+
+      {/* Ingredient accountability popup */}
+{currentIngredientCheck && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-6">
+    <div className="bg-white rounded-[24px] p-6 flex flex-col gap-4 w-full max-w-sm">
+      
+      <div className="text-center">
+        <p className="text-[32px]">{getEmoji(currentIngredientCheck.food)}</p>
+        <p style={{ fontFamily: "'Playfair Display', serif" }}
+          className="text-[#2C2C2A] text-[20px] font-extrabold mt-2 capitalize">
+          {currentIngredientCheck.displayName || currentIngredientCheck.food}
+        </p>
+        <p className="text-[#888780] text-[13px] mt-1">
+          Ai nevoie de <span className="font-bold text-[#2C2C2A]">{currentIngredientCheck.amount}{currentIngredientCheck.unit === 'pcs' ? ' bucăți' : 'g'}</span> pentru această masă
+        </p>
+        <p className="text-[#888780] text-[12px] mt-1">
+          {ingredientCheckQueue.indexOf(currentIngredientCheck) + 1} din {ingredientCheckQueue.length} ingrediente neconfirmate
+        </p>
+      </div>
+
+      <p className="text-[14px] font-semibold text-[#2C2C2A] text-center">
+        De unde ai acest ingredient?
+      </p>
+
+      <button
+        onClick={() => {
+          // Mark as bought in shopping list
+          const shoppingList = mealPlan?.shoppingList || []
+          const shoppingItem = shoppingList.find(i =>
+            i.name.toLowerCase() === currentIngredientCheck.food.toLowerCase() ||
+            i.name.toLowerCase().includes(currentIngredientCheck.food.toLowerCase()) ||
+            currentIngredientCheck.food.toLowerCase().includes(i.name.toLowerCase())
+          )
+          if (shoppingItem) toggleShoppingItem(shoppingItem.id)
+
+          // Move to next ingredient
+          const remaining = ingredientCheckQueue.slice(ingredientCheckQueue.indexOf(currentIngredientCheck) + 1)
+          if (remaining.length > 0) {
+            setCurrentIngredientCheck(remaining[0])
+          } else {
+            setCurrentIngredientCheck(null)
+            setIngredientCheckQueue([])
+            markMealEaten({
+              ...meal,
+              cal: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal,
+              p: realMacros?.allBrandsSelected ? realMacros.p : meal.p,
+              c: realMacros?.allBrandsSelected ? realMacros.c : meal.c,
+              f: realMacros?.allBrandsSelected ? realMacros.f : meal.f,
+            })
+          }
+        }}
+        className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
+        🛒 L-am cumpărat
+      </button>
+
+      <button
+        onClick={() => setShowAtHomeInput(true)}
+        className="w-full bg-[#EAF3DE] text-[#2D5A27] font-semibold text-[15px] py-4 rounded-2xl">
+        🏠 L-am avut acasă
+      </button>
+
+      {showAtHomeInput && (
+        <div className="flex flex-col gap-3 mt-2">
+          <p className="text-[13px] text-[#888780] text-center">
+            Câte grame ai avut acasă din {currentIngredientCheck.displayName || currentIngredientCheck.food}?
+          </p>
+          <input
+            type="number"
+            value={atHomeAmount}
+            onChange={e => setAtHomeAmount(e.target.value)}
+            placeholder={`ex: ${currentIngredientCheck.amount}`}
+            className="w-full bg-[#F7F5F0] border-[1.5px] border-[#E8E6E0] rounded-[14px] px-4 py-3 text-[14px] font-medium text-[#2C2C2A] outline-none focus:border-[#2D5A27] text-center"
+          />
+          <button
+            onClick={() => {
+              const amount = Number(atHomeAmount)
+              if (!amount || amount <= 0) return
+
+              // Find shopping list item
+              const shoppingList = mealPlan?.shoppingList || []
+              const shoppingItem = shoppingList.find(i =>
+                i.name.toLowerCase() === currentIngredientCheck.food.toLowerCase() ||
+                i.name.toLowerCase().includes(currentIngredientCheck.food.toLowerCase()) ||
+                currentIngredientCheck.food.toLowerCase().includes(i.name.toLowerCase())
+              )
+
+              if (shoppingItem) {
+                splitShoppingItem(shoppingItem.id, amount)
+              }
+
+              setAtHomeAmount('')
+              setShowAtHomeInput(false)
+
+              // Move to next
+              const remaining = ingredientCheckQueue.slice(ingredientCheckQueue.indexOf(currentIngredientCheck) + 1)
+              if (remaining.length > 0) {
+                setCurrentIngredientCheck(remaining[0])
+              } else {
+                setCurrentIngredientCheck(null)
+                setIngredientCheckQueue([])
+                markMealEaten({
+                  ...meal,
+                  cal: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal,
+                  p: realMacros?.allBrandsSelected ? realMacros.p : meal.p,
+                  c: realMacros?.allBrandsSelected ? realMacros.c : meal.c,
+                  f: realMacros?.allBrandsSelected ? realMacros.f : meal.f,
+                })
+              }
+            }}
+            className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
+            Confirmă
+          </button>
+        </div>
+      )}
+
+    </div>
+  </div>
+)}
 
     </div>
   )

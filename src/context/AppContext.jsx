@@ -265,6 +265,51 @@ const markAtHome = async (itemId) => {
   }
 }
 
+const splitShoppingItem = async (itemId, atHomeAmount) => {
+  const item = mealPlan.shoppingList.find(i => i.id === itemId)
+  if (!item) return
+
+  const remainingAmount = Math.max(0, item.amount - atHomeAmount)
+  const atHomeAmountFinal = Math.min(atHomeAmount, item.amount)
+
+  const updatedShoppingList = mealPlan.shoppingList.map(i => {
+    if (i.id !== itemId) return i
+    return {
+      ...i,
+      amount: remainingAmount,
+      atHomeAmount: atHomeAmountFinal,
+      atHome: remainingAmount === 0,
+    }
+  })
+
+  // Add separate at home entry if there's remaining to buy
+  const atHomeEntry = remainingAmount > 0 ? {
+    ...item,
+    id: `${itemId}_home`,
+    amount: atHomeAmountFinal,
+    atHome: true,
+    bought: false,
+  } : null
+
+  const finalList = atHomeEntry
+    ? updatedShoppingList.map(i => i.id === itemId ? { ...i, amount: remainingAmount } : i).concat(atHomeEntry)
+    : updatedShoppingList
+
+  const updatedPlan = { ...mealPlan, shoppingList: finalList }
+  setMealPlan(updatedPlan)
+
+  if (user) {
+    try {
+      await supabase.from('meal_plans').upsert({
+        user_id: user.id,
+        plan_data: updatedPlan,
+      })
+    } catch (error) {
+      console.error('Error splitting shopping item:', error)
+    }
+  }
+}
+
   const saveBrandPreference = async (ingredientKey, product) => {
     setBrandPreferences(prev => ({ ...prev, [ingredientKey]: product }))
 
@@ -342,7 +387,7 @@ const markAtHome = async (itemId) => {
       todayDayIndex, showNewWeekPrompt, setShowNewWeekPrompt,
       login, signup, logout,
       saveProfile, regeneratePlan,
-      toggleShoppingItem, resetShoppingList, markAtHome,
+      toggleShoppingItem, resetShoppingList, markAtHome, splitShoppingItem,
       saveBrandPreference, getBrandPreference,
       markMealEaten, isMealEaten, 
     }}>
