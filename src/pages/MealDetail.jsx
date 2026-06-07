@@ -39,7 +39,7 @@ const isProduce = (food) => produceItems.includes(food?.toLowerCase())
 export default function MealDetail() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { mealPlan, getBrandPreference, saveBrandPreference, markMealEaten, isMealEaten, toggleShoppingItem, splitShoppingItem } = useApp()
+  const { mealPlan, getBrandPreference, saveBrandPreference, markMealEaten, isMealEaten, toggleShoppingItem, splitShoppingItem, todayDayIndex } = useApp()
   const [selectedIngredient, setSelectedIngredient] = useState(null)
   const [changingBrand, setChangingBrand] = useState(false)
   const [ingredientCheckQueue, setIngredientCheckQueue] = useState([])
@@ -266,8 +266,9 @@ const kcal = pref
           setCurrentIngredientCheck(unaccounted[0])
         }
       }}
-      className={`w-full py-4 rounded-2xl font-semibold text-[15px] transition flex items-center justify-center gap-2 ${eaten ? 'bg-[#EAF3DE] text-[#2D5A27] border-[1.5px] border-[#C0DD97]' : 'bg-[#2D5A27] text-white'}`}>
-      {eaten ? '✓ Marcat ca mâncat' : '🍽️ Marchează ca mâncat'}
+      className={`w-full py-4 rounded-2xl font-semibold text-[15px] transition flex items-center justify-center gap-2 ${eaten ? 'bg-[#EAF3DE] text-[#2D5A27] border-[1.5px] border-[#C0DD97]' : fromDay !== todayDayIndex ? 'bg-[#F0EEE8] text-[#B4B2A9]' : 'bg-[#2D5A27] text-white'}`}
+disabled={!eaten && fromDay !== todayDayIndex}>
+{eaten ? '✓ Marcat ca mâncat' : fromDay !== todayDayIndex ? '🔒 Disponibil doar azi' : '🍽️ Marchează ca mâncat'}
     </button>
   )
 })()}
