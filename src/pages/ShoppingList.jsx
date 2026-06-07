@@ -34,12 +34,13 @@ export default function ShoppingList() {
   const total = all.length
 
   const getEffectivePrice = (item) => {
-    const pref = getBrandPreference(item.name)
-    const amount = item.amount || 100
-    if (pref) {
-      return Math.round(pref.price * amount / 100 * 10) / 10
-    }
-    const avgPrice = getAveragePriceForIngredient(item.name.toLowerCase())
+  const key = item.ingredientKey || item.name.toLowerCase()
+  const pref = getBrandPreference(key)
+  const amount = item.amount || 100
+  if (pref) {
+    return Math.round(pref.price * amount / 100 * 10) / 10
+  }
+  const avgPrice = getAveragePriceForIngredient(key)
     if (avgPrice) {
       return Math.round(avgPrice * amount / 100 * 10) / 10
     }
@@ -56,13 +57,13 @@ export default function ShoppingList() {
   const checkedCategories = [...new Set(checked.map(i => i.category))]
 
   const handleSelectBrand = (item, product) => {
-    saveBrandPreference(item.name, product)
-    setSelectedItem(null)
-  }
+  saveBrandPreference(item.ingredientKey || item.name, product)
+  setSelectedItem(null)
+}
 
   const ItemCard = ({ item }) => {
-    const products = getProductsForIngredient(item.name.toLowerCase())
-    const pref = getBrandPreference(item.name)
+    const products = getProductsForIngredient(item.ingredientKey || item.name.toLowerCase())
+const pref = getBrandPreference(item.ingredientKey || item.name)
     const hasProducts = products.length > 0
 
     return (
@@ -262,10 +263,10 @@ export default function ShoppingList() {
             </div>
 
             <div className="flex flex-col gap-3">
-              {getProductsForIngredient(selectedItem.name.toLowerCase()).map(product => (
+              {getProductsForIngredient(selectedItem.ingredientKey || selectedItem.name.toLowerCase()).map(product => (
                 <div key={product.id}
                   onClick={() => handleSelectBrand(selectedItem, product)}
-                  className={`bg-white rounded-[16px] border-[1.5px] p-4 cursor-pointer transition ${getBrandPreference(selectedItem.name)?.id === product.id ? 'border-[#C0DD97] bg-[#EAF3DE]' : 'border-[#E8E6E0]'}`}>
+                  className={`bg-white rounded-[16px] border-[1.5px] p-4 cursor-pointer transition ${getBrandPreference(selectedItem.ingredientKey || selectedItem.name)?.id === product.id ? 'border-[#C0DD97] bg-[#EAF3DE]' : 'border-[#E8E6E0]'}`}>
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="text-[15px] font-bold text-[#2C2C2A]">{product.brand}</p>
@@ -286,7 +287,7 @@ export default function ShoppingList() {
                       <p className="text-[#B4B2A9] text-[11px]">pentru {selectedItem?.amount}{selectedItem?.unit} · {product.price} MDL/100g</p>
                     </div>
                   </div>
-                  {getBrandPreference(selectedItem.name)?.id === product.id && (
+                  {getBrandPreference(selectedItem.ingredientKey || selectedItem.name)?.id === product.id && (
                     <p className="text-[#2D5A27] text-[12px] font-semibold mt-2">✓ Brandul tău preferat</p>
                   )}
                 </div>

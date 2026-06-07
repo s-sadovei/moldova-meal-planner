@@ -177,13 +177,14 @@ export const generateShoppingList = (weekPlan) => {
       : Math.round(item.amount * 0.1)
 
     return {
-      id: index,
-      name: item.name,
-      category: item.category,
-      amount: Math.round(item.amount),
-      unit: item.unit,
-      estimatedPrice,
-      bought: false,
-    }
+  id: index,
+  name: item.name,
+  ingredientKey: item.normalizedKey,
+  category: item.category,
+  amount: Math.round(item.amount),
+  unit: item.unit,
+  estimatedPrice,
+  bought: false,
+}
   }).sort((a, b) => a.category.localeCompare(b.category))
 }
