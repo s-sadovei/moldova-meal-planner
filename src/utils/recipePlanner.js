@@ -111,7 +111,7 @@ const getBudgetPerMeal = (profile) => {
 
 const DAYS = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă', 'Duminică']
 
-export const generatePlanFromRecipes = (profile) => {
+export const generatePlanFromRecipes = (profile, favoriteRecipeIds = []) => {
   const calorieTarget = calculateCalorieTarget(profile)
   const proteinTarget = Math.round(profile.weight * 1.8)
   const budgetPerMeal = getBudgetPerMeal(profile)
@@ -140,25 +140,40 @@ export const generatePlanFromRecipes = (profile) => {
   const usedRecipeIds = {}
   mealTypes.forEach(type => { usedRecipeIds[type] = [] })
 
-  const pickRecipe = (type, targetCals, budgetLimit) => {
-    let pool = filterRecipes(getRecipesByType(type), profile)
+  const favoriteUsageCount = {}
+favoriteRecipeIds.forEach(id => { favoriteUsageCount[id] = 0 })
 
-    pool = pool.filter(r => {
-      const scaleFactor = targetCals / r.baseCalories
-      const estimatedCost = r.baseCost * scaleFactor
-      return estimatedCost <= budgetLimit * 1.3
-    })
+const pickRecipe = (type, targetCals, budgetLimit) => {
+  let pool = filterRecipes(getRecipesByType(type), profile)
 
-    const unused = pool.filter(r => !usedRecipeIds[type].includes(r.id))
-    const candidates = unused.length > 0 ? unused : pool
+  pool = pool.filter(r => {
+    const scaleFactor = targetCals / r.baseCalories
+    const estimatedCost = r.baseCost * scaleFactor
+    return estimatedCost <= budgetLimit * 1.3
+  })
 
-    if (candidates.length === 0) return null
+  const unused = pool.filter(r => !usedRecipeIds[type].includes(r.id))
+  const candidates = unused.length > 0 ? unused : pool
 
-    const picked = candidates[Math.floor(Math.random() * candidates.length)]
-    usedRecipeIds[type].push(picked.id)
+  if (candidates.length === 0) return null
 
-    return picked
+  // Try to pick a favorite first if under 3x usage
+  const availableFavorites = candidates.filter(r =>
+    favoriteRecipeIds.includes(r.id) &&
+    (favoriteUsageCount[r.id] || 0) < 3
+  )
+
+  const picked = availableFavorites.length > 0
+    ? availableFavorites[Math.floor(Math.random() * availableFavorites.length)]
+    : candidates[Math.floor(Math.random() * candidates.length)]
+
+  usedRecipeIds[type].push(picked.id)
+  if (favoriteRecipeIds.includes(picked.id)) {
+    favoriteUsageCount[picked.id] = (favoriteUsageCount[picked.id] || 0) + 1
   }
+
+  return picked
+}
 
   const weekPlan = DAYS.map((day, dayIndex) => {
     const meals = mealTypes.map((type, mealIndex) => {

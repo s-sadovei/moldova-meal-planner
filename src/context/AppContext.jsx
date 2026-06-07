@@ -22,6 +22,7 @@ export function AppProvider({ children }) {
   const [generating, setGenerating] = useState(false)
   const [eatenMeals, setEatenMeals] = useState([])
   const [showNewWeekPrompt, setShowNewWeekPrompt] = useState(false)
+  const [favoriteRecipes, setFavoriteRecipes] = useState([])
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -103,6 +104,15 @@ export function AppProvider({ children }) {
           prefsData.forEach(p => { prefs[p.ingredient_key] = p.product_data })
           setBrandPreferences(prefs)
         }
+        
+        // Load favorite recipes
+const { data: favoritesData } = await supabase
+  .from('favorite_recipes')
+  .select('*')
+  .eq('user_id', userId)
+
+if (favoritesData) setFavoriteRecipes(favoritesData.map(f => f.recipe_id))
+
 
         // Load today's eaten meals
         const { data: eatenData } = await supabase
@@ -140,7 +150,7 @@ export function AppProvider({ children }) {
     setProfile(profileData)
     setGenerating(true)
 
-    const plan = generatePlanFromRecipes(profileData)
+    const plan = generatePlanFromRecipes(profileData, favoriteRecipes)
 setGenerating(false)
 
     const recalculatedShoppingList = generateShoppingList(plan.weekPlan)
@@ -178,7 +188,7 @@ setMealPlan(updatedPlan)
   const regeneratePlan = async () => {
     if (profile) {
       setGenerating(true)
-const plan = generatePlanFromRecipes(profile)
+const plan = generatePlanFromRecipes(profile, favoriteRecipes)
 setGenerating(false)
       const recalculatedShoppingList = generateShoppingList(plan.weekPlan)
 const updatedPlan = { ...plan, shoppingList: recalculatedShoppingList }
@@ -369,6 +379,30 @@ const splitShoppingItem = async (itemId, atHomeAmount) => {
       }
     }
   }
+  
+  const toggleFavoriteRecipe = async (recipeId) => {
+  const isFav = favoriteRecipes.includes(recipeId)
+
+  if (isFav) {
+    setFavoriteRecipes(prev => prev.filter(id => id !== recipeId))
+    if (user) {
+      await supabase.from('favorite_recipes')
+        .delete()
+        .eq('user_id', user.id)
+        .eq('recipe_id', recipeId)
+    }
+  } else {
+    setFavoriteRecipes(prev => [...prev, recipeId])
+    if (user) {
+      await supabase.from('favorite_recipes').insert({
+        user_id: user.id,
+        recipe_id: recipeId,
+      })
+    }
+  }
+}
+
+const isFavoriteRecipe = (recipeId) => favoriteRecipes.includes(recipeId)
 
   const isMealEaten = (mealName) => {
     return eatenMeals.some(e => e.meal_name === mealName && e.eaten_date === getTodayDate())
@@ -390,6 +424,7 @@ const splitShoppingItem = async (itemId, atHomeAmount) => {
       toggleShoppingItem, resetShoppingList, markAtHome, splitShoppingItem,
       saveBrandPreference, getBrandPreference,
       markMealEaten, isMealEaten, 
+      favoriteRecipes, toggleFavoriteRecipe, isFavoriteRecipe,
     }}>
       {children}
     </AppContext.Provider>

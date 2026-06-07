@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useApp } from '../context/AppContext'
+import { useNavigate } from 'react-router-dom'
+import { getRecipeById } from '../utils/recipeDatabase'
 
 export default function Preferences() {
   const { user, profile, mealPlan, saveProfile, logout } = useApp()
@@ -26,6 +28,9 @@ export default function Preferences() {
   const activityDesc = { sedentary: 'Puțin sau deloc sport', light: '1–3 zile/săptămână', moderate: '3–5 zile/săptămână', active: '6–7 zile/săptămână' }
 
   const [editing, setEditing] = useState(null)
+
+  const navigate = useNavigate()
+  const { user, profile, mealPlan, saveProfile, logout, favoriteRecipes, toggleFavoriteRecipe } = useApp()
 
   const inputClass = "w-full bg-[#F7F5F0] border-[1.5px] border-[#E8E6E0] rounded-[14px] px-4 py-3 text-[14px] font-medium text-[#2C2C2A] outline-none focus:border-[#2D5A27]"
   const labelClass = "text-[12px] font-semibold text-[#5F5E5A] uppercase tracking-[0.8px] mb-1 block"
@@ -197,6 +202,58 @@ export default function Preferences() {
           className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl transition">
           {saved ? '✓ Salvat și plan regenerat!' : 'Salvează și regenerează planul'}
         </button>
+
+        {/* Favorites */}
+{favoriteRecipes.length > 0 && (
+  <>
+    <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Rețete favorite</p>
+    <div className="bg-white rounded-[20px] border border-[#E8E6E0] overflow-hidden -mt-2">
+      {favoriteRecipes.map((recipeId, i) => {
+        const recipe = getRecipeById(recipeId)
+        if (!recipe) return null
+        return (
+          <div key={recipeId}>
+            <div className="flex items-center gap-3 px-4 py-3.5 cursor-pointer"
+              onClick={() => navigate('/meal', { state: { meal: {
+                id: recipe.id,
+                name: recipe.name,
+                type: recipe.type,
+                cal: recipe.baseCalories,
+                p: recipe.baseMacros.p,
+                c: recipe.baseMacros.c,
+                f: recipe.baseMacros.f,
+                cost: recipe.baseCost,
+                ingredients: recipe.ingredients.map(ing => ({
+                  food: ing.key,
+                  amount: ing.amount,
+                  unit: ing.unit,
+                  key: ing.key,
+                  displayName: ing.name,
+                })),
+                steps: recipe.steps,
+              }, fromFavorites: true } })}>
+              <div className="w-9 h-9 bg-[#F7F5F0] rounded-[10px] flex items-center justify-center text-[20px] flex-shrink-0">
+                {recipe.type === 'breakfast' ? '🌅' : recipe.type === 'lunch' ? '🍗' : recipe.type === 'dinner' ? '🐟' : '🥛'}
+              </div>
+              <div className="flex-1">
+                <p className="text-[14px] font-semibold text-[#2C2C2A]">{recipe.name}</p>
+                <p className="text-[12px] text-[#B4B2A9] font-medium mt-0.5">{recipe.baseCalories} kcal · {recipe.baseCost} MDL</p>
+              </div>
+              <button
+                onClick={e => { e.stopPropagation(); toggleFavoriteRecipe(recipeId) }}
+                className="text-[20px]">
+                ❤️
+              </button>
+            </div>
+            {i < favoriteRecipes.length - 1 && <div className="h-px bg-[#F0EEE8] mx-4" />}
+          </div>
+        )
+      })}
+    </div>
+  </>
+)}
+
+<button onClick={logout}
 
         <button onClick={logout}
           className="w-full bg-white text-[#E24B4A] font-semibold text-[15px] py-4 rounded-2xl border-[1.5px] border-[#F7C1C1]">

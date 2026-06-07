@@ -39,7 +39,7 @@ const isProduce = (food) => produceItems.includes(food?.toLowerCase())
 export default function MealDetail() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { mealPlan, getBrandPreference, saveBrandPreference, markMealEaten, isMealEaten, toggleShoppingItem, splitShoppingItem, todayDayIndex } = useApp()
+  const { mealPlan, getBrandPreference, saveBrandPreference, markMealEaten, isMealEaten, toggleShoppingItem, splitShoppingItem, todayDayIndex, toggleFavoriteRecipe, isFavoriteRecipe } = useApp()
   const [selectedIngredient, setSelectedIngredient] = useState(null)
   const [changingBrand, setChangingBrand] = useState(false)
   const [ingredientCheckQueue, setIngredientCheckQueue] = useState([])
@@ -97,10 +97,18 @@ const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / 
 
       {/* Header */}
       <div className="bg-[#2D5A27] px-6 pt-12 pb-6 flex flex-col gap-3">
-        <button onClick={() => navigate('/plan', { state: { restoreDay: fromDay } })}
-  className="self-start text-[#9FE1CB] text-[13px] font-medium mb-2">
-  ← Înapoi
-</button>
+        <div className="flex justify-between items-center mb-2">
+  <button onClick={() => navigate('/plan', { state: { restoreDay: fromDay } })}
+    className="text-[#9FE1CB] text-[13px] font-medium">
+    ← Înapoi
+  </button>
+  {meal.id && (
+    <button onClick={() => toggleFavoriteRecipe(meal.id)}
+      className="text-[24px] transition">
+      {isFavoriteRecipe(meal.id) ? '❤️' : '🤍'}
+    </button>
+  )}
+</div>
         <p className="text-[#C0DD97] text-[11px] font-semibold uppercase tracking-widest">
           {mealEmojis[meal.type]} {meal.type}
         </p>
@@ -221,7 +229,7 @@ const kcal = pref
 </div>
 
 {/* Mark as eaten */}
-{(() => {
+{!location.state?.fromFavorites && (() => {
   const eaten = isMealEaten(meal.name)
   return (
     <button
@@ -271,7 +279,7 @@ disabled={!eaten && fromDay !== todayDayIndex}>
 {eaten ? '✓ Marcat ca mâncat' : fromDay !== todayDayIndex ? '🔒 Indisponibil' : '🍽️ Marchează ca mâncat'}
     </button>
   )
-})()}
+})}
 
       </div>
 
