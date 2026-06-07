@@ -27,7 +27,7 @@ export default function BottomNav() {
         {tabs.map(({ path, icon, label }) => {
           const active = location.pathname === path
           return (
-            <button key={path} onClick={() => navigate(path)}
+            <button key={path} onClick={() => { navigate(path); window.scrollTo(0, 0) }}
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'none', border: 'none', cursor: 'pointer', padding: '0 16px' }}>
               <span style={{ fontSize: '22px' }}>{icon}</span>
               <span style={{ fontSize: '10px', fontWeight: 600, color: active ? '#2D5A27' : '#B4B2A9', fontFamily: "'DM Sans', sans-serif" }}>
