@@ -68,10 +68,10 @@ export default function ShoppingList() {
     return (
       <div className={`bg-white rounded-[16px] border border-[#E8E6E0] px-4 py-3 flex items-center gap-3 transition ${item.bought || item.atHome ? 'opacity-40' : ''}`}>
         <div
-          onClick={e => { e.stopPropagation(); toggleShoppingItem(item.id) }}
-          className={`w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center border-2 transition-all duration-200 cursor-pointer ${item.bought ? 'bg-[#C0DD97] border-[#C0DD97]' : 'border-[#E8E6E0]'}`}>
-          {item.bought && <span className="text-[#2D5A27] text-[13px] font-bold">✓</span>}
-        </div>
+  onClick={e => { e.stopPropagation(); if (!item.atHome) toggleShoppingItem(item.id) }}
+  className={`w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center border-2 transition-all duration-200 ${item.atHome ? 'border-[#E8E6E0] opacity-30 cursor-not-allowed' : 'cursor-pointer'} ${item.bought ? 'bg-[#C0DD97] border-[#C0DD97]' : 'border-[#E8E6E0]'}`}>
+  {item.bought && <span className="text-[#2D5A27] text-[13px] font-bold">✓</span>}
+</div>
         <div className="flex-1 cursor-pointer" onClick={() => hasProducts ? setSelectedItem(item) : null}>
           <p className={`text-[14px] font-semibold transition-all duration-200 ${item.bought || item.atHome ? 'line-through text-[#B4B2A9]' : 'text-[#2C2C2A]'}`}>
             {item.name}
