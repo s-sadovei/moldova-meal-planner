@@ -268,7 +268,7 @@ const kcal = pref
       }}
       className={`w-full py-4 rounded-2xl font-semibold text-[15px] transition flex items-center justify-center gap-2 ${eaten ? 'bg-[#EAF3DE] text-[#2D5A27] border-[1.5px] border-[#C0DD97]' : fromDay !== todayDayIndex ? 'bg-[#F0EEE8] text-[#B4B2A9]' : 'bg-[#2D5A27] text-white'}`}
 disabled={!eaten && fromDay !== todayDayIndex}>
-{eaten ? '✓ Marcat ca mâncat' : fromDay !== todayDayIndex ? '🔒 Disponibil doar azi' : '🍽️ Marchează ca mâncat'}
+{eaten ? '✓ Marcat ca mâncat' : fromDay !== todayDayIndex ? '🔒 Indisponibil' : '🍽️ Marchează ca mâncat'}
     </button>
   )
 })()}
