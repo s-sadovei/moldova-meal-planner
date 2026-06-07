@@ -228,7 +228,7 @@ export const moldovanProducts = {
 export const getAverageMacrosForIngredient = (ingredientKey) => {
   const products = moldovanProducts[ingredientKey] || []
   if (products.length === 0) return null
-  
+
   const avg = products.reduce((acc, p) => ({
     cal: acc.cal + (p.cal || 0),
     p: acc.p + (p.p || 0),
@@ -241,6 +241,22 @@ export const getAverageMacrosForIngredient = (ingredientKey) => {
     p: Math.round((avg.p / products.length) * 10) / 10,
     c: Math.round((avg.c / products.length) * 10) / 10,
     f: Math.round((avg.f / products.length) * 10) / 10,
+  }
+}
+
+export const getMaxMacrosForIngredient = (ingredientKey) => {
+  const products = moldovanProducts[ingredientKey] || []
+  if (products.length === 0) return null
+
+  const maxProduct = products.reduce((max, p) =>
+    (p.cal || 0) > (max.cal || 0) ? p : max
+  , products[0])
+
+  return {
+    cal: maxProduct.cal || 0,
+    p: maxProduct.p || 0,
+    c: maxProduct.c || 0,
+    f: maxProduct.f || 0,
   }
 }
 
@@ -263,25 +279,25 @@ export const getAveragePriceForIngredient = (ingredientKey) => {
 export const getProductsForIngredient = (ingredientKey) => {
   if (!ingredientKey) return []
   const key = ingredientKey.toLowerCase().trim()
-  
+
   if (moldovanProducts[key]) return moldovanProducts[key]
   if (moldovanProducts[key + 's']) return moldovanProducts[key + 's']
   if (key.endsWith('s') && moldovanProducts[key.slice(0, -1)]) return moldovanProducts[key.slice(0, -1)]
-  
+
   const variations = {
-  'banana': 'bananas', 'apple': 'apples', 'orange': 'oranges', 'pear': 'pears',
-  'carrot': 'carrots', 'potato': 'potatoes', 'tomato': 'tomatoes', 'onion': 'onions',
-  'mushroom': 'mushrooms', 'egg': 'eggs', 'oat': 'oats', 'lentil': 'lentils',
-  'chickpea': 'chickpeas', 'cucumber': 'cucumbers', 'bell pepper': 'bell peppers',
-  'chicken thigh': 'chicken thighs', 'tuna canned': 'tuna', 'canned tuna': 'tuna',
-  'chicken': 'chicken breast', 'minced beef': 'minced meat', 'minced pork': 'minced meat',
-  'ground beef': 'minced meat', 'ground pork': 'minced meat',
-  'greek yoghurt': 'greek yogurt', 'yogurt': 'greek yogurt',
-  'cottage': 'cottage cheese', 'sour cream': 'sour cream',
-  'oil': 'sunflower oil', 'vegetable oil': 'sunflower oil',
-}
-  
+    'banana': 'bananas', 'apple': 'apples', 'orange': 'oranges', 'pear': 'pears',
+    'carrot': 'carrots', 'potato': 'potatoes', 'tomato': 'tomatoes', 'onion': 'onions',
+    'mushroom': 'mushrooms', 'egg': 'eggs', 'oat': 'oats', 'lentil': 'lentils',
+    'chickpea': 'chickpeas', 'cucumber': 'cucumbers', 'bell pepper': 'bell peppers',
+    'chicken thigh': 'chicken thighs', 'tuna canned': 'tuna', 'canned tuna': 'tuna',
+    'chicken': 'chicken breast', 'minced beef': 'minced meat', 'minced pork': 'minced meat',
+    'ground beef': 'minced meat', 'ground pork': 'minced meat',
+    'greek yoghurt': 'greek yogurt', 'yogurt': 'greek yogurt',
+    'cottage': 'cottage cheese', 'sour cream': 'sour cream',
+    'oil': 'sunflower oil', 'vegetable oil': 'sunflower oil',
+  }
+
   if (variations[key]) return moldovanProducts[variations[key]] || []
-  
+
   return []
 }

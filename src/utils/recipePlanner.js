@@ -1,5 +1,5 @@
 import { recipes, getRecipesByType } from './recipeDatabase'
-import { getAverageMacrosForIngredient, getAveragePriceForIngredient } from './moldovanProducts'
+import { getMaxMacrosForIngredient, getAveragePriceForIngredient } from './moldovanProducts'
 
 // Calculate daily calorie target using Mifflin-St Jeor
 const calculateCalorieTarget = (profile) => {
@@ -43,7 +43,7 @@ const scaleRecipe = (recipe, targetCalories) => {
   let cal = 0, p = 0, c = 0, f = 0, cost = 0
 
   scaledIngredients.forEach(ing => {
-    const macros = getAverageMacrosForIngredient(ing.key)
+    const macros = getMaxMacrosForIngredient(ing.key)
     const price = getAveragePriceForIngredient(ing.key)
 
     if (macros) {
