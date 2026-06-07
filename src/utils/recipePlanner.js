@@ -60,15 +60,24 @@ const scaleRecipe = (recipe, targetCalories) => {
     }
   })
 
-  return {
-    ...recipe,
-    ingredients: scaledIngredients,
-    cal: Math.round(cal),
-    p: Math.round(p * 10) / 10,
-    c: Math.round(c * 10) / 10,
-    f: Math.round(f * 10) / 10,
-    cost: Math.round(cost * 100) / 100,
-  }
+  const scaleSteps = (steps, factor) => {
+  return steps.map(step =>
+    step
+      .replace(/(\d+(?:\.\d+)?)\s*g/g, (match, num) => `${Math.round(Number(num) * factor)}g`)
+      .replace(/(\d+(?:\.\d+)?)\s*ml/g, (match, num) => `${Math.round(Number(num) * factor)}ml`)
+  )
+}
+
+return {
+  ...recipe,
+  ingredients: scaledIngredients,
+  steps: scaleSteps(recipe.steps, scaleFactor),
+  cal: Math.round(cal),
+  p: Math.round(p * 10) / 10,
+  c: Math.round(c * 10) / 10,
+  f: Math.round(f * 10) / 10,
+  cost: Math.round(cost * 100) / 100,
+}
 }
 
 // Filter recipes based on user preferences
