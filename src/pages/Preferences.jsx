@@ -253,8 +253,6 @@ export default function Preferences() {
   </>
 )}
 
-<button onClick={logout}
-
         <button onClick={logout}
           className="w-full bg-white text-[#E24B4A] font-semibold text-[15px] py-4 rounded-2xl border-[1.5px] border-[#F7C1C1]">
           Deconectează-te
