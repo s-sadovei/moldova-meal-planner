@@ -12,6 +12,16 @@ const categoryEmojis = {
   'Other': '🛍️',
 }
 
+const categoryRo = {
+  'Meat and fish': 'Carne și pește',
+  'Dairy and eggs': 'Lactate și ouă',
+  'Grains and bread': 'Cereale și pâine',
+  'Vegetables': 'Legume',
+  'Fruits': 'Fructe',
+  'Canned foods': 'Conserve',
+  'Other': 'Altele',
+}
+
 export default function ShoppingList() {
   const { mealPlan, toggleShoppingItem, markAtHome, brandPreferences, saveBrandPreference, getBrandPreference, profile } = useApp()
   const [selectedItem, setSelectedItem] = useState(null)
@@ -24,32 +34,31 @@ export default function ShoppingList() {
   const total = all.length
 
   const getEffectivePrice = (item) => {
-  const pref = getBrandPreference(item.name)
-  const amount = item.amount || 100
-  if (pref) {
-    return Math.round(pref.price * amount / 100 * 10) / 10
+    const pref = getBrandPreference(item.name)
+    const amount = item.amount || 100
+    if (pref) {
+      return Math.round(pref.price * amount / 100 * 10) / 10
+    }
+    const avgPrice = getAveragePriceForIngredient(item.name.toLowerCase())
+    if (avgPrice) {
+      return Math.round(avgPrice * amount / 100 * 10) / 10
+    }
+    return item.estimatedPrice
   }
-  const avgPrice = getAveragePriceForIngredient(item.name.toLowerCase())
-  if (avgPrice) {
-    return Math.round(avgPrice * amount / 100 * 10) / 10
-  }
-  return item.estimatedPrice
-}
 
   const atHome = all.filter(i => i.atHome)
   const spentSoFar = checked.reduce((sum, i) => sum + getEffectivePrice(i), 0)
   const totalCost = all.filter(i => !i.atHome).reduce((sum, i) => sum + getEffectivePrice(i), 0)
   const remaining = totalCost - spentSoFar
   const progressPct = Math.round((checked.length / total) * 100)
-  const budgetBarPct = Math.min(100, (spentSoFar / totalCost) * 100)
 
   const uncheckedCategories = [...new Set(unchecked.map(i => i.category))]
   const checkedCategories = [...new Set(checked.map(i => i.category))]
 
   const handleSelectBrand = (item, product) => {
-  saveBrandPreference(item.name, product)
-  setSelectedItem(null)
-}
+    saveBrandPreference(item.name, product)
+    setSelectedItem(null)
+  }
 
   const ItemCard = ({ item }) => {
     const products = getProductsForIngredient(item.name.toLowerCase())
@@ -68,7 +77,7 @@ export default function ShoppingList() {
             {item.name}
           </p>
           {item.atHome && (
-            <p className="text-[11px] text-[#639922] font-semibold mt-0.5">🏠 Already at home</p>
+            <p className="text-[11px] text-[#639922] font-semibold mt-0.5">🏠 Deja acasă</p>
           )}
           {!item.atHome && pref ? (
             <p className="text-[11px] text-[#2D5A27] font-semibold mt-0.5">{pref.brand} · {pref.productName}</p>
@@ -76,7 +85,7 @@ export default function ShoppingList() {
             <p className="text-[#B4B2A9] text-[12px] font-medium mt-0.5">{item.amount} {item.unit}</p>
           )}
           {hasProducts && !pref && !item.atHome && (
-            <p className="text-[11px] text-[#639922] font-semibold mt-0.5">Tap to choose brand →</p>
+            <p className="text-[11px] text-[#639922] font-semibold mt-0.5">Apasă pentru a alege brandul →</p>
           )}
         </div>
         <div className="flex items-center gap-2">
@@ -106,18 +115,18 @@ export default function ShoppingList() {
           <div>
             <h1 style={{ fontFamily: "'Playfair Display', serif" }}
               className="text-white text-[30px] font-extrabold leading-tight">
-              Shopping<br />List.
+              Listă de<br />Cumpărături.
             </h1>
-            <p className="text-[#9FE1CB] text-[13px] font-medium mt-1">Week plan ingredients</p>
+            <p className="text-[#9FE1CB] text-[13px] font-medium mt-1">Ingrediente pentru săptămână</p>
           </div>
           <span className="bg-[#C0DD97] text-[#2D5A27] text-[13px] font-bold px-4 py-1.5 rounded-full">
-            {checked.length} / {total} done
+            {checked.length} / {total} bifate
           </span>
         </div>
 
         <div className="flex flex-col gap-2">
           <div className="flex justify-between text-[12px] text-[#9FE1CB]">
-            <span>Items checked off</span>
+            <span>Produse bifate</span>
             <span>{progressPct}%</span>
           </div>
           <div className="w-full h-[6px] bg-white/15 rounded-full overflow-hidden">
@@ -134,70 +143,66 @@ export default function ShoppingList() {
       <div className="flex-1 px-5 pb-28 flex flex-col gap-5 overflow-y-auto">
 
         {/* Budget summary */}
-{(() => {
-  const weeklyBudget = profile?.budget || 0
-  const budgetSpentPct = weeklyBudget ? Math.min(100, (spentSoFar / weeklyBudget) * 100) : 0
-  const budgetEstimatePct = weeklyBudget ? Math.min(100, (totalCost / weeklyBudget) * 100) : 0
-  const isOverBudget = spentSoFar > weeklyBudget
-  const isEstimateOver = totalCost > weeklyBudget
-  const budgetRemaining = weeklyBudget - spentSoFar
+        {(() => {
+          const weeklyBudget = profile?.budget || 0
+          const budgetSpentPct = weeklyBudget ? Math.min(100, (spentSoFar / weeklyBudget) * 100) : 0
+          const budgetEstimatePct = weeklyBudget ? Math.min(100, (totalCost / weeklyBudget) * 100) : 0
+          const isOverBudget = spentSoFar > weeklyBudget
+          const isEstimateOver = totalCost > weeklyBudget
+          const budgetRemaining = weeklyBudget - spentSoFar
 
-  return (
-    <div className="bg-white rounded-[20px] border border-[#E8E6E0] p-4 flex flex-col gap-3">
-      <div className="flex justify-between items-center">
-        <div>
-          <p style={{ fontFamily: "'Playfair Display', serif" }}
-            className="text-[24px] font-extrabold leading-tight"
-            style={{ color: isOverBudget ? '#E24B4A' : '#2D5A27' }}>
-            {spentSoFar.toFixed(2)} MDL
-          </p>
-          <p className="text-[#888780] text-[11px] font-medium mt-0.5">spent so far</p>
-        </div>
-        <div className="text-right">
-          <p className="text-[#5F5E5A] text-[16px] font-bold">{weeklyBudget} MDL</p>
-          <p className="text-[#B4B2A9] text-[11px]">weekly budget</p>
-        </div>
-      </div>
+          return (
+            <div className="bg-white rounded-[20px] border border-[#E8E6E0] p-4 flex flex-col gap-3">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p style={{ fontFamily: "'Playfair Display', serif", color: isOverBudget ? '#E24B4A' : '#2D5A27' }}
+                    className="text-[24px] font-extrabold leading-tight">
+                    {spentSoFar.toFixed(2)} MDL
+                  </p>
+                  <p className="text-[#888780] text-[11px] font-medium mt-0.5">cheltuit până acum</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[#5F5E5A] text-[16px] font-bold">{weeklyBudget} MDL</p>
+                  <p className="text-[#B4B2A9] text-[11px]">buget săptămânal</p>
+                </div>
+              </div>
 
-      {/* Budget progress bar */}
-      <div className="flex flex-col gap-1">
-        <div className="w-full h-[8px] bg-[#F0EEE8] rounded-full overflow-hidden relative">
-          {/* Estimate bar (lighter) */}
-          <div className="absolute h-full rounded-full transition-all duration-300"
-            style={{ width: `${budgetEstimatePct}%`, backgroundColor: isEstimateOver ? '#fca5a5' : '#E8F5D0' }} />
-          {/* Spent bar (darker) */}
-          <div className="absolute h-full rounded-full transition-all duration-300"
-            style={{ width: `${budgetSpentPct}%`, backgroundColor: isOverBudget ? '#E24B4A' : '#2D5A27' }} />
-        </div>
-        <div className="flex justify-between text-[11px]">
-          <span className="text-[#B4B2A9]">Estimate: {totalCost.toFixed(2)} MDL</span>
-          <span className="text-[#B4B2A9]">Budget: {weeklyBudget} MDL</span>
-        </div>
-      </div>
+              <div className="flex flex-col gap-1">
+                <div className="w-full h-[8px] bg-[#F0EEE8] rounded-full overflow-hidden relative">
+                  <div className="absolute h-full rounded-full transition-all duration-300"
+                    style={{ width: `${budgetEstimatePct}%`, backgroundColor: isEstimateOver ? '#fca5a5' : '#E8F5D0' }} />
+                  <div className="absolute h-full rounded-full transition-all duration-300"
+                    style={{ width: `${budgetSpentPct}%`, backgroundColor: isOverBudget ? '#E24B4A' : '#2D5A27' }} />
+                </div>
+                <div className="flex justify-between text-[11px]">
+                  <span className="text-[#B4B2A9]">Estimat: {totalCost.toFixed(2)} MDL</span>
+                  <span className="text-[#B4B2A9]">Buget: {weeklyBudget} MDL</span>
+                </div>
+              </div>
 
-      {isOverBudget ? (
-        <p className="text-[#E24B4A] text-[12px] font-semibold">
-          ⚠️ {Math.abs(budgetRemaining).toFixed(2)} MDL over budget!
-        </p>
-      ) : isEstimateOver ? (
-        <p className="text-[#E24B4A] text-[12px] font-semibold">
-          ⚠️ Estimated total exceeds your budget by {(totalCost - weeklyBudget).toFixed(2)} MDL
-        </p>
-      ) : (
-        <p className="text-[#639922] text-[12px] font-semibold">
-          ✓ {budgetRemaining.toFixed(2)} MDL remaining in your budget
-        </p>
-      )}
-    </div>
-  )
-})()}
+              {isOverBudget ? (
+                <p className="text-[#E24B4A] text-[12px] font-semibold">
+                  ⚠️ {Math.abs(budgetRemaining).toFixed(2)} MDL peste buget!
+                </p>
+              ) : isEstimateOver ? (
+                <p className="text-[#E24B4A] text-[12px] font-semibold">
+                  ⚠️ Estimatul depășește bugetul cu {(totalCost - weeklyBudget).toFixed(2)} MDL
+                </p>
+              ) : (
+                <p className="text-[#639922] text-[12px] font-semibold">
+                  ✓ {budgetRemaining.toFixed(2)} MDL rămași în buget
+                </p>
+              )}
+            </div>
+          )
+        })()}
 
         {/* Unchecked items */}
         {uncheckedCategories.map(category => (
           <div key={category} className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
               <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest whitespace-nowrap">
-                {categoryEmojis[category] || '🛍️'} {category}
+                {categoryEmojis[category] || '🛍️'} {categoryRo[category] || category}
               </p>
               <div className="flex-1 h-px bg-[#E8E6E0]" />
             </div>
@@ -206,28 +211,28 @@ export default function ShoppingList() {
             ))}
           </div>
         ))}
-        {/* At home items */}
-{atHome.length > 0 && (
-  <div className="flex flex-col gap-2">
-    <div className="flex items-center gap-2">
-      <p className="text-[11px] font-semibold text-[#B4B2A9] uppercase tracking-widest whitespace-nowrap">🏠 At home</p>
-      <div className="flex-1 h-px bg-[#E8E6E0]" />
-      <span className="text-[11px] text-[#B4B2A9] font-medium">{atHome.length} items</span>
-    </div>
-    {atHome.map(item => (
-      <ItemCard key={item.id} item={item} />
-    ))}
-  </div>
-)}
 
+        {/* At home items */}
+        {atHome.length > 0 && (
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <p className="text-[11px] font-semibold text-[#B4B2A9] uppercase tracking-widest whitespace-nowrap">🏠 Acasă</p>
+              <div className="flex-1 h-px bg-[#E8E6E0]" />
+              <span className="text-[11px] text-[#B4B2A9] font-medium">{atHome.length} produse</span>
+            </div>
+            {atHome.map(item => (
+              <ItemCard key={item.id} item={item} />
+            ))}
+          </div>
+        )}
 
         {/* Checked items */}
         {checked.length > 0 && (
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <p className="text-[11px] font-semibold text-[#B4B2A9] uppercase tracking-widest whitespace-nowrap">✓ Bought</p>
+              <p className="text-[11px] font-semibold text-[#B4B2A9] uppercase tracking-widest whitespace-nowrap">✓ Cumpărate</p>
               <div className="flex-1 h-px bg-[#E8E6E0]" />
-              <span className="text-[11px] text-[#B4B2A9] font-medium">{checked.length} items</span>
+              <span className="text-[11px] text-[#B4B2A9] font-medium">{checked.length} produse</span>
             </div>
             {checkedCategories.map(category =>
               checked.filter(i => i.category === category).map(item => (
@@ -250,10 +255,10 @@ export default function ShoppingList() {
             <div className="w-9 h-1 bg-[#D3D1C7] rounded-full mx-auto" />
 
             <div>
-              <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Choose your brand</p>
+              <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Alege brandul</p>
               <p style={{ fontFamily: "'Playfair Display', serif" }}
                 className="text-[#2C2C2A] text-[22px] font-extrabold mt-1">{selectedItem.name}</p>
-              <p className="text-[#888780] text-[13px]">Select the product you usually buy</p>
+              <p className="text-[#888780] text-[13px]">Selectează produsul pe care îl cumperi de obicei</p>
             </div>
 
             <div className="flex flex-col gap-3">
@@ -275,17 +280,14 @@ export default function ShoppingList() {
                     </div>
                     <div className="text-right flex-shrink-0 ml-3">
                       <p style={{ fontFamily: "'Playfair Display', serif" }}
-  className="text-[#2D5A27] text-[20px] font-extrabold">
-  {Math.round(product.price * (selectedItem?.amount || 100) / 100 * 10) / 10} MDL
-</p>
-<p className="text-[#B4B2A9] text-[11px]">for {selectedItem?.amount}{selectedItem?.unit} · {product.price} MDL/100g</p>
-                      {product.pricePerKg && (
-                        <p className="text-[#B4B2A9] text-[11px]">{product.pricePerKg} MDL/kg</p>
-                      )}
+                        className="text-[#2D5A27] text-[20px] font-extrabold">
+                        {Math.round(product.price * (selectedItem?.amount || 100) / 100 * 10) / 10} MDL
+                      </p>
+                      <p className="text-[#B4B2A9] text-[11px]">pentru {selectedItem?.amount}{selectedItem?.unit} · {product.price} MDL/100g</p>
                     </div>
                   </div>
                   {getBrandPreference(selectedItem.name)?.id === product.id && (
-                    <p className="text-[#2D5A27] text-[12px] font-semibold mt-2">✓ Your preferred brand</p>
+                    <p className="text-[#2D5A27] text-[12px] font-semibold mt-2">✓ Brandul tău preferat</p>
                   )}
                 </div>
               ))}
@@ -293,7 +295,7 @@ export default function ShoppingList() {
               <div
                 onClick={() => setSelectedItem(null)}
                 className="bg-white rounded-[16px] border-[1.5px] border-[#E8E6E0] p-4 cursor-pointer text-center">
-                <p className="text-[14px] font-semibold text-[#888780]">Use estimated price instead</p>
+                <p className="text-[14px] font-semibold text-[#888780]">Folosește prețul estimat</p>
               </div>
             </div>
 
