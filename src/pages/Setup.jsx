@@ -17,7 +17,7 @@ export default function Setup() {
 
   const handleFinish = () => {
     if (!form.name || !form.age || !form.height || !form.weight) {
-      alert('Please fill in all required fields.')
+      alert('Te rugăm să completezi toate câmpurile obligatorii.')
       return
     }
     saveProfile({
@@ -33,11 +33,11 @@ export default function Setup() {
   const inputClass = "w-full bg-white border-[1.5px] border-[#E8E6E0] rounded-[14px] px-4 py-3.5 text-[14px] font-medium text-[#2C2C2A] outline-none focus:border-[#2D5A27]"
   const labelClass = "text-[12px] font-semibold text-[#5F5E5A] uppercase tracking-[0.8px]"
 
-  const titles = ['Your\nprofile.', 'Food\npreferences.', 'Budget.']
+  const titles = ['Profilul\ntău.', 'Preferințe\nalimentare.', 'Buget.']
   const subs = [
-    'Help us build the perfect meal plan for you.',
-    "Tell us what you like and we'll do the rest.",
-    "We'll keep your meals affordable.",
+    'Ajută-ne să îți creăm planul perfect de mese.',
+    'Spune-ne ce îți place și noi facem restul.',
+    'Îți vom menține mesele accesibile.',
   ]
 
   const ProgressBar = () => (
@@ -54,7 +54,7 @@ export default function Setup() {
         {step > 1 && (
           <button onClick={() => setStep(s => s - 1)}
             className="self-start text-[#9FE1CB] text-[13px] font-medium mb-2">
-            ← Back
+            ← Înapoi
           </button>
         )}
         <h1 style={{ fontFamily: "'Playfair Display', serif" }}
@@ -84,51 +84,51 @@ export default function Setup() {
       <Header />
       <div className="flex-1 px-6 py-5 flex flex-col gap-5 overflow-y-auto">
         <div className="flex flex-col gap-3">
-          <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Basic info</p>
+          <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Informații de bază</p>
           <div className="flex flex-col gap-2">
-            <label className={labelClass}>Name</label>
-            <input className={inputClass} placeholder="Your name" value={form.name} onChange={e => set('name', e.target.value)} />
+            <label className={labelClass}>Nume</label>
+            <input className={inputClass} placeholder="Numele tău" value={form.name} onChange={e => set('name', e.target.value)} />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-2">
-              <label className={labelClass}>Age</label>
+              <label className={labelClass}>Vârstă</label>
               <input className={inputClass} type="number" placeholder="25" value={form.age} onChange={e => set('age', e.target.value)} />
             </div>
             <div className="flex flex-col gap-2">
-              <label className={labelClass}>Gender</label>
+              <label className={labelClass}>Gen</label>
               <select className={inputClass} value={form.gender} onChange={e => set('gender', e.target.value)}>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                <option value="male">Masculin</option>
+                <option value="female">Feminin</option>
               </select>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-2">
-              <label className={labelClass}>Height (cm)</label>
+              <label className={labelClass}>Înălțime (cm)</label>
               <input className={inputClass} type="number" placeholder="175" value={form.height} onChange={e => set('height', e.target.value)} />
             </div>
             <div className="flex flex-col gap-2">
-              <label className={labelClass}>Weight (kg)</label>
+              <label className={labelClass}>Greutate (kg)</label>
               <input className={inputClass} type="number" placeholder="75" value={form.weight} onChange={e => set('weight', e.target.value)} />
             </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Your goal</p>
+          <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Obiectivul tău</p>
           <ToggleGroup
-            options={[['lose', 'Lose fat'], ['maintain', 'Maintain'], ['build', 'Build']]}
+            options={[['lose', 'Slăbit'], ['maintain', 'Menținere'], ['build', 'Masă']]}
             value={form.goal} onChange={v => set('goal', v)} />
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Activity level</p>
+          <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Nivel de activitate</p>
           <div className="flex flex-col gap-2">
             {[
-              ['sedentary', 'Sedentary', 'Little or no exercise'],
-              ['light', 'Light', '1–3 days/week'],
-              ['moderate', 'Moderate', '3–5 days/week'],
-              ['active', 'Active', '6–7 days/week'],
+              ['sedentary', 'Sedentar', 'Puțin sau deloc sport'],
+              ['light', 'Ușor', '1–3 zile/săptămână'],
+              ['moderate', 'Moderat', '3–5 zile/săptămână'],
+              ['active', 'Activ', '6–7 zile/săptămână'],
             ].map(([val, label, desc]) => (
               <button key={val} onClick={() => set('activityLevel', val)}
                 className={`w-full flex justify-between items-center px-4 py-3 rounded-[14px] border-[1.5px] transition ${form.activityLevel === val ? 'bg-[#EAF3DE] border-[#C0DD97]' : 'bg-white border-[#E8E6E0]'}`}>
@@ -141,9 +141,9 @@ export default function Setup() {
 
         <button onClick={() => setStep(2)}
           className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
-          Next →
+          Înainte →
         </button>
-        <p className="text-[12px] text-[#B4B2A9] text-center">Step 1 of 3</p>
+        <p className="text-[12px] text-[#B4B2A9] text-center">Pasul 1 din 3</p>
       </div>
     </div>
   )
@@ -154,28 +154,28 @@ export default function Setup() {
       <div className="flex-1 px-6 py-5 flex flex-col gap-5 overflow-y-auto">
 
         <div className="flex flex-col gap-2">
-          <label className={labelClass}>Foods you like</label>
-          <input className={inputClass} placeholder="e.g. rice, potatoes, oats"
+          <label className={labelClass}>Alimente preferate</label>
+          <input className={inputClass} placeholder="ex: orez, cartofi, ovăz"
             value={form.likedFoods} onChange={e => set('likedFoods', e.target.value)} />
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className={labelClass}>Foods you dislike</label>
-          <input className={inputClass} placeholder="e.g. cabbage, fish"
+          <label className={labelClass}>Alimente evitate</label>
+          <input className={inputClass} placeholder="ex: varză, pește"
             value={form.dislikedFoods} onChange={e => set('dislikedFoods', e.target.value)} />
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className={labelClass}>Allergies / restrictions</label>
-          <input className={inputClass} placeholder="e.g. lactose intolerant"
+          <label className={labelClass}>Alergii / restricții</label>
+          <input className={inputClass} placeholder="ex: intolerant la lactoză"
             value={form.allergies} onChange={e => set('allergies', e.target.value)} />
         </div>
 
         <button onClick={() => setStep(3)}
           className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
-          Next →
+          Înainte →
         </button>
-        <p className="text-[12px] text-[#B4B2A9] text-center">Step 2 of 3</p>
+        <p className="text-[12px] text-[#B4B2A9] text-center">Pasul 2 din 3</p>
       </div>
     </div>
   )
@@ -186,13 +186,13 @@ export default function Setup() {
       <div className="flex-1 px-6 py-5 flex flex-col gap-5 overflow-y-auto">
 
         <div className="flex flex-col gap-2">
-          <label className={labelClass}>Weekly budget (MDL)</label>
+          <label className={labelClass}>Buget săptămânal (MDL)</label>
           <input className={inputClass} type="number" placeholder="600"
             value={form.budget} onChange={e => set('budget', e.target.value)} />
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Meals per day</p>
+          <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Mese pe zi</p>
           <ToggleGroup
             options={[['2', '2'], ['3', '3'], ['4', '4'], ['5', '5']]}
             value={String(form.mealsPerDay)} onChange={v => set('mealsPerDay', Number(v))} />
@@ -200,9 +200,9 @@ export default function Setup() {
 
         <button onClick={handleFinish}
           className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
-          Generate My Meal Plan 🎉
+          Generează planul meu 🎉
         </button>
-        <p className="text-[12px] text-[#B4B2A9] text-center">Step 3 of 3</p>
+        <p className="text-[12px] text-[#B4B2A9] text-center">Pasul 3 din 3</p>
       </div>
     </div>
   )
