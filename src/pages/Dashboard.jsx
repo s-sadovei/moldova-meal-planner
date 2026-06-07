@@ -140,7 +140,7 @@ export default function Dashboard() {
             const eaten = isMealEaten(meal.name)
             return (
               <div key={i}
-                onClick={() => navigate('/meal', { state: { meal } })}
+                onClick={() => navigate('/meal', { state: { meal, fromDay: todayDayIndex } })}
                 className={`flex items-center gap-3 py-3 cursor-pointer transition-opacity ${i < today.meals.length - 1 ? 'border-b border-[#F0EEE8]' : ''} ${eaten ? 'opacity-50' : ''}`}>
                 <span className="text-[24px] w-9 text-center">{mealEmojis[meal.type] || '🍽️'}</span>
                 <div className="flex-1">
