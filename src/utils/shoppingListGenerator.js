@@ -1,7 +1,9 @@
 import { moldovanProducts, getAveragePriceForIngredient } from './moldovanProducts'
 
 const ingredientNamesRo = {
-  'chicken breast': 'Piept de pui',
+  'chicken breast': 'Piept de pui', 
+  'cottage cheese': 'Brânză de vaci 4-5%',
+  'cottage cheese 9': 'Brânză de vaci 9%',
   'chicken thighs': 'Pulpe de pui',
   'minced meat': 'Carne tocată',
   'ham': 'Șuncă',
@@ -10,7 +12,6 @@ const ingredientNamesRo = {
   'fish fillet': 'File de pește',
   'sea bream': 'Doradă',
   'eggs': 'Ouă',
-  'cottage cheese': 'Brânză de vaci',
   'greek yogurt': 'Iaurt grecesc',
   'kefir': 'Chefir',
   'milk': 'Lapte',
@@ -72,6 +73,7 @@ const ingredientCategories = {
   'eggs': 'Dairy and eggs',
   'egg': 'Dairy and eggs',
   'cottage cheese': 'Dairy and eggs',
+  'cottage cheese 9': 'Dairy and eggs',
   'greek yogurt': 'Dairy and eggs',
   'greek yoghurt': 'Dairy and eggs',
   'kefir': 'Dairy and eggs',

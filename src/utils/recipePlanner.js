@@ -1,7 +1,6 @@
 import { recipes, getRecipesByType } from './recipeDatabase'
 import { getMaxMacrosForIngredient, getAveragePriceForIngredient } from './moldovanProducts'
 
-// Calculate daily calorie target using Mifflin-St Jeor
 const calculateCalorieTarget = (profile) => {
   const { gender, age, weight, height, activityLevel, goal } = profile
 
@@ -30,8 +29,27 @@ const calculateCalorieTarget = (profile) => {
   return Math.round(tdee + (goalAdjustments[goal] || 0))
 }
 
-// Scale a recipe to match target calories
-const scaleRecipe = (recipe, targetCalories) => {
+const swapIngredientsByGoal = (ingredients, goal) => {
+  return ingredients.map(ing => {
+    if (ing.key === 'cottage cheese' && goal === 'build') {
+      return { ...ing, key: 'cottage cheese 9', name: 'Brânză de vaci 9%' }
+    }
+    if (ing.key === 'cottage cheese 9' && goal !== 'build') {
+      return { ...ing, key: 'cottage cheese', name: 'Brânză de vaci 4-5%' }
+    }
+    return ing
+  })
+}
+
+const scaleSteps = (steps, factor) => {
+  return steps.map(step =>
+    step
+      .replace(/(\d+(?:\.\d+)?)\s*g/g, (match, num) => `${Math.round(Number(num) * factor)}g`)
+      .replace(/(\d+(?:\.\d+)?)\s*ml/g, (match, num) => `${Math.round(Number(num) * factor)}ml`)
+  )
+}
+
+const scaleRecipe = (recipe, targetCalories, goal) => {
   const scaleFactor = targetCalories / recipe.baseCalories
 
   const scaledIngredients = recipe.ingredients.map(ing => ({
@@ -39,10 +57,11 @@ const scaleRecipe = (recipe, targetCalories) => {
     amount: Math.round(ing.amount * scaleFactor),
   }))
 
-  // Recalculate macros and cost from scaled ingredients
+  const adjustedIngredients = swapIngredientsByGoal(scaledIngredients, goal)
+
   let cal = 0, p = 0, c = 0, f = 0, cost = 0
 
-  scaledIngredients.forEach(ing => {
+  adjustedIngredients.forEach(ing => {
     const macros = getMaxMacrosForIngredient(ing.key)
     const price = getAveragePriceForIngredient(ing.key)
 
@@ -60,27 +79,18 @@ const scaleRecipe = (recipe, targetCalories) => {
     }
   })
 
-  const scaleSteps = (steps, factor) => {
-  return steps.map(step =>
-    step
-      .replace(/(\d+(?:\.\d+)?)\s*g/g, (match, num) => `${Math.round(Number(num) * factor)}g`)
-      .replace(/(\d+(?:\.\d+)?)\s*ml/g, (match, num) => `${Math.round(Number(num) * factor)}ml`)
-  )
+  return {
+    ...recipe,
+    ingredients: adjustedIngredients,
+    steps: scaleSteps(recipe.steps, scaleFactor),
+    cal: Math.round(cal),
+    p: Math.round(p * 10) / 10,
+    c: Math.round(c * 10) / 10,
+    f: Math.round(f * 10) / 10,
+    cost: Math.round(cost * 100) / 100,
+  }
 }
 
-return {
-  ...recipe,
-  ingredients: scaledIngredients,
-  steps: scaleSteps(recipe.steps, scaleFactor),
-  cal: Math.round(cal),
-  p: Math.round(p * 10) / 10,
-  c: Math.round(c * 10) / 10,
-  f: Math.round(f * 10) / 10,
-  cost: Math.round(cost * 100) / 100,
-}
-}
-
-// Filter recipes based on user preferences
 const filterRecipes = (recipeList, profile) => {
   const dislikes = (profile.dislikedFoods || '').toLowerCase().split(',').map(s => s.trim()).filter(Boolean)
   const allergies = (profile.allergies || '').toLowerCase().split(',').map(s => s.trim()).filter(Boolean)
@@ -94,7 +104,6 @@ const filterRecipes = (recipeList, profile) => {
   })
 }
 
-// Get budget per meal
 const getBudgetPerMeal = (profile) => {
   const { budget, mealsPerDay } = profile
   return budget / 7 / mealsPerDay
@@ -104,11 +113,10 @@ const DAYS = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă', 'Dumi
 
 export const generatePlanFromRecipes = (profile) => {
   const calorieTarget = calculateCalorieTarget(profile)
-  const proteinTarget = Math.round(profile.weight * 1.8) // 1.8g per kg bodyweight
+  const proteinTarget = Math.round(profile.weight * 1.8)
   const budgetPerMeal = getBudgetPerMeal(profile)
   const mealsPerDay = profile.mealsPerDay || 3
 
-  // Determine meal types for the day
   const getMealTypes = (count) => {
     if (count === 2) return ['lunch', 'dinner']
     if (count === 3) return ['breakfast', 'lunch', 'dinner']
@@ -118,47 +126,40 @@ export const generatePlanFromRecipes = (profile) => {
 
   const mealTypes = getMealTypes(mealsPerDay)
 
-  // Calories per meal type
   const getCaloriesForType = (type, dailyTarget, mealCount) => {
     if (type === 'snack') return Math.round(dailyTarget * 0.12)
     const snackCount = mealTypes.filter(t => t === 'snack').length
     const snackCalories = snackCount * Math.round(dailyTarget * 0.12)
     const mainCalories = dailyTarget - snackCalories
-    const mainCount = mealCount - snackCount
     if (type === 'breakfast') return Math.round(mainCalories * 0.3)
     if (type === 'lunch') return Math.round(mainCalories * 0.4)
     if (type === 'dinner') return Math.round(mainCalories * 0.3)
     return Math.round(dailyTarget / mealCount)
   }
 
-  // Pick recipes for the week avoiding repeats
   const usedRecipeIds = {}
   mealTypes.forEach(type => { usedRecipeIds[type] = [] })
 
   const pickRecipe = (type, targetCals, budgetLimit) => {
     let pool = filterRecipes(getRecipesByType(type), profile)
 
-    // Filter by budget
     pool = pool.filter(r => {
       const scaleFactor = targetCals / r.baseCalories
       const estimatedCost = r.baseCost * scaleFactor
-      return estimatedCost <= budgetLimit * 1.3 // allow 30% over budget per meal
+      return estimatedCost <= budgetLimit * 1.3
     })
 
-    // Avoid repeats
     const unused = pool.filter(r => !usedRecipeIds[type].includes(r.id))
     const candidates = unused.length > 0 ? unused : pool
 
     if (candidates.length === 0) return null
 
-    // Pick randomly from candidates
     const picked = candidates[Math.floor(Math.random() * candidates.length)]
     usedRecipeIds[type].push(picked.id)
 
     return picked
   }
 
-  // Build 7-day plan
   const weekPlan = DAYS.map((day, dayIndex) => {
     const meals = mealTypes.map((type, mealIndex) => {
       const targetCals = getCaloriesForType(type, calorieTarget, mealsPerDay)
@@ -168,12 +169,13 @@ export const generatePlanFromRecipes = (profile) => {
 
       const scaled = recipe.fixed ? {
         ...recipe,
+        ingredients: swapIngredientsByGoal(recipe.ingredients, profile.goal),
         cal: recipe.baseCalories,
         p: recipe.baseMacros.p,
         c: recipe.baseMacros.c,
         f: recipe.baseMacros.f,
         cost: recipe.baseCost,
-      } : scaleRecipe(recipe, targetCals)
+      } : scaleRecipe(recipe, targetCals, profile.goal)
 
       return {
         id: `${day}_${mealIndex}`,
@@ -185,12 +187,12 @@ export const generatePlanFromRecipes = (profile) => {
         f: scaled.f,
         cost: scaled.cost,
         ingredients: scaled.ingredients.map(ing => ({
-  food: ing.key,
-  amount: ing.amount,
-  unit: ing.unit,
-  key: ing.key,
-  displayName: ing.name,
-})),
+          food: ing.key,
+          amount: ing.amount,
+          unit: ing.unit,
+          key: ing.key,
+          displayName: ing.name,
+        })),
         steps: scaled.steps,
       }
     }).filter(Boolean)
