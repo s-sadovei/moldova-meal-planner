@@ -282,7 +282,7 @@ disabled={!eaten && fromDay !== undefined && fromDay !== todayDayIndex}>
 {eaten ? '✓ Marcat ca mâncat' : (fromDay !== undefined && fromDay !== todayDayIndex) ? '🔒 Indisponibil' : '🍽️ Marchează ca mâncat'}
     </button>
   )
-})}
+})()}
 
       </div>
 
