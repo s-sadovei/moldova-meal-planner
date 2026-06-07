@@ -1,5 +1,62 @@
 import { moldovanProducts, getAveragePriceForIngredient } from './moldovanProducts'
 
+const ingredientNamesRo = {
+  'chicken breast': 'Piept de pui',
+  'chicken thighs': 'Pulpe de pui',
+  'minced meat': 'Carne tocată',
+  'ham': 'Șuncă',
+  'chicken sausages': 'Mici de pui',
+  'tuna': 'Ton',
+  'fish fillet': 'File de pește',
+  'sea bream': 'Doradă',
+  'eggs': 'Ouă',
+  'cottage cheese': 'Brânză de vaci',
+  'greek yogurt': 'Iaurt grecesc',
+  'kefir': 'Chefir',
+  'milk': 'Lapte',
+  'sour cream': 'Smântână',
+  'sweet cheese': 'Brânzică dulce',
+  'protein drink': 'Băutură proteică',
+  'oats': 'Fulgi de ovăz',
+  'rice': 'Orez',
+  'buckwheat': 'Hrișcă',
+  'pasta': 'Paste făinoase',
+  'bread': 'Pâine',
+  'breadcrumbs': 'Pesmeți măcinați',
+  'cornmeal': 'Mălai',
+  'flour': 'Făină',
+  'couscous': 'Couscous',
+  'lentils': 'Linte roșie',
+  'chickpeas': 'Năut',
+  'dried beans': 'Fasole uscată',
+  'potatoes': 'Cartofi',
+  'sweet potato': 'Cartof batат',
+  'cabbage': 'Varză',
+  'carrots': 'Morcovi',
+  'tomatoes': 'Roșii',
+  'cucumbers': 'Castraveți',
+  'bell peppers': 'Ardei gras',
+  'onions': 'Ceapă',
+  'garlic': 'Usturoi',
+  'broccoli': 'Broccoli',
+  'mushrooms': 'Ciuperci',
+  'avocado': 'Avocado',
+  'frozen spinach': 'Spanac congelat',
+  'frozen broccoli': 'Broccoli congelat',
+  'frozen peas': 'Mazăre congelată',
+  'frozen vegetables mix': 'Legume congelate mix',
+  'apples': 'Mere',
+  'bananas': 'Banane',
+  'pears': 'Pere',
+  'oranges': 'Portocale',
+  'canned beans': 'Fasole la conservă',
+  'canned corn': 'Porumb la conservă',
+  'canned peas': 'Mazăre la conservă',
+  'pasta sauce': 'Sos de paste',
+  'sunflower oil': 'Ulei de floarea soarelui',
+  'olive oil': 'Ulei de măsline',
+}
+
 const ingredientCategories = {
   'chicken breast': 'Meat and fish',
   'chicken thighs': 'Meat and fish',
@@ -101,12 +158,12 @@ export const generateShoppingList = (weekPlan) => {
         const key = food.toLowerCase().trim()
         if (!totals[key]) {
           totals[key] = {
-            name: food,
-            normalizedKey: key,
-            amount: 0,
-            category: getCategory(key),
-            unit: getUnit(key),
-          }
+  name: ingredientNamesRo[key] || food,
+  normalizedKey: key,
+  amount: 0,
+  category: getCategory(key),
+  unit: getUnit(key),
+}
         }
         totals[key].amount += amount
       })
