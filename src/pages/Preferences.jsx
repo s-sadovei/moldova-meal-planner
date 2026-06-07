@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { getRecipeById } from '../utils/recipeDatabase'
 
 export default function Preferences() {
+  const navigate = useNavigate()
+  const { user, profile, mealPlan, saveProfile, logout, favoriteRecipes, toggleFavoriteRecipe } = useApp()
+
   const [form, setForm] = useState({ ...profile })
   const [saved, setSaved] = useState(false)
 
@@ -27,9 +30,6 @@ export default function Preferences() {
   const activityDesc = { sedentary: 'Puțin sau deloc sport', light: '1–3 zile/săptămână', moderate: '3–5 zile/săptămână', active: '6–7 zile/săptămână' }
 
   const [editing, setEditing] = useState(null)
-
-  const navigate = useNavigate()
-  const { user, profile, mealPlan, saveProfile, logout, favoriteRecipes, toggleFavoriteRecipe } = useApp()
 
   const inputClass = "w-full bg-[#F7F5F0] border-[1.5px] border-[#E8E6E0] rounded-[14px] px-4 py-3 text-[14px] font-medium text-[#2C2C2A] outline-none focus:border-[#2D5A27]"
   const labelClass = "text-[12px] font-semibold text-[#5F5E5A] uppercase tracking-[0.8px] mb-1 block"
