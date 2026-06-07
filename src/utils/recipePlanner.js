@@ -193,9 +193,10 @@ const pickRecipe = (type, targetCals, budgetLimit) => {
       } : scaleRecipe(recipe, targetCals, profile.goal)
 
       return {
-        id: `${day}_${mealIndex}`,
-        name: scaled.name,
-        type,
+  id: `${day}_${mealIndex}`,
+  recipeId: recipe.id,
+  name: scaled.name,
+  type,
         cal: scaled.cal,
         p: scaled.p,
         c: scaled.c,

@@ -102,12 +102,12 @@ const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / 
     className="text-[#9FE1CB] text-[13px] font-medium">
     ← Înapoi
   </button>
-  {meal.id && (
-    <button onClick={() => toggleFavoriteRecipe(meal.id)}
-      className="text-[24px] transition">
-      {isFavoriteRecipe(meal.id) ? '❤️' : '🤍'}
-    </button>
-  )}
+  {meal.recipeId && (
+  <button onClick={() => toggleFavoriteRecipe(meal.recipeId)}
+    className="text-[24px] transition">
+    {isFavoriteRecipe(meal.recipeId) ? '❤️' : '🤍'}
+  </button>
+)}
 </div>
         <p className="text-[#C0DD97] text-[11px] font-semibold uppercase tracking-widest">
           {mealEmojis[meal.type]} {meal.type}
