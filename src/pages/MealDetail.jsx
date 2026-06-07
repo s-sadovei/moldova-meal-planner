@@ -240,16 +240,18 @@ const kcal = pref
         // Check which ingredients are not accounted for
         const shoppingList = mealPlan?.shoppingList || []
         const unaccounted = meal.ingredients
-          ?.filter(({ food }) => food?.toLowerCase() !== 'water')
-          .filter(({ food, amount }) => {
-            const shoppingItem = shoppingList.find(i =>
-              i.name.toLowerCase() === food.toLowerCase() ||
-              i.name.toLowerCase().includes(food.toLowerCase()) ||
-              food.toLowerCase().includes(i.name.toLowerCase())
-            )
-            if (!shoppingItem) return false
-            return !shoppingItem.bought && !shoppingItem.atHome
-          }) || []
+  ?.filter(({ food }) => food?.toLowerCase() !== 'water')
+  .filter(({ food, amount }) => {
+    const shoppingItem = shoppingList.find(i =>
+      i.ingredientKey === food.toLowerCase() ||
+      i.ingredientKey === food ||
+      i.name.toLowerCase() === food.toLowerCase() ||
+      i.name.toLowerCase().includes(food.toLowerCase()) ||
+      food.toLowerCase().includes(i.name.toLowerCase())
+    )
+    if (!shoppingItem) return false
+    return !shoppingItem.bought && !shoppingItem.atHome
+  }) || []
 
         if (unaccounted.length === 0) {
           markMealEaten({
@@ -454,10 +456,12 @@ const kcal = pref
           // Mark as bought in shopping list
           const shoppingList = mealPlan?.shoppingList || []
           const shoppingItem = shoppingList.find(i =>
-            i.name.toLowerCase() === currentIngredientCheck.food.toLowerCase() ||
-            i.name.toLowerCase().includes(currentIngredientCheck.food.toLowerCase()) ||
-            currentIngredientCheck.food.toLowerCase().includes(i.name.toLowerCase())
-          )
+  i.ingredientKey === currentIngredientCheck.food.toLowerCase() ||
+  i.ingredientKey === currentIngredientCheck.food ||
+  i.name.toLowerCase() === currentIngredientCheck.food.toLowerCase() ||
+  i.name.toLowerCase().includes(currentIngredientCheck.food.toLowerCase()) ||
+  currentIngredientCheck.food.toLowerCase().includes(i.name.toLowerCase())
+)
           if (shoppingItem) toggleShoppingItem(shoppingItem.id)
 
           // Move to next ingredient
@@ -506,10 +510,12 @@ const kcal = pref
               // Find shopping list item
               const shoppingList = mealPlan?.shoppingList || []
               const shoppingItem = shoppingList.find(i =>
-                i.name.toLowerCase() === currentIngredientCheck.food.toLowerCase() ||
-                i.name.toLowerCase().includes(currentIngredientCheck.food.toLowerCase()) ||
-                currentIngredientCheck.food.toLowerCase().includes(i.name.toLowerCase())
-              )
+  i.ingredientKey === currentIngredientCheck.food.toLowerCase() ||
+  i.ingredientKey === currentIngredientCheck.food ||
+  i.name.toLowerCase() === currentIngredientCheck.food.toLowerCase() ||
+  i.name.toLowerCase().includes(currentIngredientCheck.food.toLowerCase()) ||
+  currentIngredientCheck.food.toLowerCase().includes(i.name.toLowerCase())
+)
 
               if (shoppingItem) {
                 splitShoppingItem(shoppingItem.id, amount)
