@@ -50,7 +50,7 @@ export default function ShoppingList() {
   const spentSoFar = checked.reduce((sum, i) => sum + getEffectivePrice(i), 0)
   const totalCost = all.filter(i => !i.atHome).reduce((sum, i) => sum + getEffectivePrice(i), 0)
   const remaining = totalCost - spentSoFar
-  const progressPct = Math.round((checked.length / total) * 100)
+  const progressPct = Math.round(((checked.length + atHome.length) / total) * 100)
 
   const uncheckedCategories = [...new Set(unchecked.map(i => i.category))]
   const checkedCategories = [...new Set(checked.map(i => i.category))]
