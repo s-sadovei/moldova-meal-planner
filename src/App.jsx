@@ -20,7 +20,7 @@ function AppRoutes() {
     </div>
     <p style={{ fontFamily: "'Playfair Display', serif" }}
       className="text-[#2D5A27] text-[22px] font-bold">Moldova Meal Planner</p>
-    <p className="text-[#888780] text-[13px]">Loading your plan...</p>
+    <p className="text-[#888780] text-[13px]">Se încarcă planul tău...</p>
   </div>
 )
 
@@ -31,10 +31,10 @@ if (generating) return (
     </div>
     <div className="flex flex-col items-center gap-2 text-center">
       <p style={{ fontFamily: "'Playfair Display', serif" }}
-        className="text-[#2D5A27] text-[26px] font-bold">Building your plan...</p>
-      <p className="text-[#888780] text-[14px] leading-relaxed">
-        Our AI is creating a personalized meal plan using real Moldovan foods and your budget.
-      </p>
+  className="text-[#2D5A27] text-[26px] font-bold">Construim planul tău...</p>
+<p className="text-[#888780] text-[14px] leading-relaxed">
+  Creăm un plan de mese personalizat cu produse reale din Moldova și bugetul tău.
+</p>
     </div>
     <div className="flex gap-2 mt-2">
       {[0, 1, 2].map(i => (

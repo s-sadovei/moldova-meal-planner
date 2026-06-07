@@ -5,11 +5,11 @@ export default function BottomNav() {
   const location = useLocation()
 
   const tabs = [
-    { path: '/dashboard', icon: '🏠', label: 'Dashboard' },
-    { path: '/plan', icon: '📅', label: 'Plan' },
-    { path: '/shopping', icon: '🛒', label: 'Shopping' },
-    { path: '/preferences', icon: '👤', label: 'Profile' },
-  ]
+  { path: '/dashboard', icon: '🏠', label: 'Acasă' },
+  { path: '/plan', icon: '📅', label: 'Plan' },
+  { path: '/shopping', icon: '🛒', label: 'Cumpărături' },
+  { path: '/preferences', icon: '👤', label: 'Profil' },
+]
 
   return (
     <div style={{
