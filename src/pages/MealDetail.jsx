@@ -49,6 +49,7 @@ export default function MealDetail() {
 
   const meal = location.state?.meal
 const fromDay = location.state?.fromDay
+console.log('fromDay:', fromDay, 'todayDayIndex:', todayDayIndex, 'fromFavorites:', location.state?.fromFavorites)
 if (!meal) { navigate(-1); return null }
 
   const usedInMeals = mealPlan?.weekPlan.flatMap(d => d.meals)
