@@ -149,16 +149,11 @@ const pickRecipe = (type, targetCals, budgetLimit) => {
   pool = pool.filter(r => {
     const scaleFactor = targetCals / r.baseCalories
     const estimatedCost = r.baseCost * scaleFactor
-    return estimatedCost <= budgetLimit * 2
+    return estimatedCost <= budgetLimit * 1.5
   })
 
   const unused = pool.filter(r => !usedRecipeIds[type].includes(r.id))
-let candidates = unused.length > 0 ? unused : pool
-
-// If still empty, use all recipes of that type ignoring budget
-if (candidates.length === 0) {
-  candidates = getRecipesByType(type)
-}
+const candidates = unused.length > 0 ? unused : pool
 
 if (candidates.length === 0) return null
 
