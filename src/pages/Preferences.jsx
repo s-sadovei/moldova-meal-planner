@@ -3,6 +3,38 @@ import { useApp } from '../context/AppContext'
 import { useNavigate } from 'react-router-dom'
 import { getRecipeById } from '../utils/recipeDatabase'
 
+const SettingRow = ({ icon, label, value, editKey, children }) => (
+    <div>
+      <div className="flex items-center gap-3 px-4 py-3.5 cursor-pointer"
+        onClick={() => setEditing(editing === editKey ? null : editKey)}>
+        <div className="w-9 h-9 bg-[#F7F5F0] rounded-[10px] flex items-center justify-center text-[20px] flex-shrink-0">
+          {icon}
+        </div>
+        <div className="flex-1">
+          <p className="text-[14px] font-semibold text-[#2C2C2A]">{label}</p>
+          <p className="text-[12px] text-[#B4B2A9] font-medium mt-0.5">{value}</p>
+        </div>
+        <span className="text-[#D3D1C7] text-[18px]">{editing === editKey ? '↑' : '›'}</span>
+      </div>
+      {editing === editKey && (
+        <div className="px-4 pb-4 border-t border-[#F0EEE8] pt-3">
+          {children}
+        </div>
+      )}
+    </div>
+  )
+
+  const ToggleGroup = ({ options, value, onChange }) => (
+    <div className="flex gap-2">
+      {options.map(([val, label]) => (
+        <button key={val} onClick={() => onChange(val)}
+          className={`flex-1 py-2.5 rounded-[12px] text-[13px] font-semibold border-[1.5px] transition ${value === val ? 'bg-[#2D5A27] text-white border-[#2D5A27]' : 'bg-white text-[#888780] border-[#E8E6E0]'}`}>
+          {label}
+        </button>
+      ))}
+    </div>
+  )
+
 export default function Preferences() {
   const navigate = useNavigate()
   const { user, profile, mealPlan, saveProfile, logout, favoriteRecipes, toggleFavoriteRecipe } = useApp()
@@ -34,37 +66,7 @@ export default function Preferences() {
   const inputClass = "w-full bg-[#F7F5F0] border-[1.5px] border-[#E8E6E0] rounded-[14px] px-4 py-3 text-[14px] font-medium text-[#2C2C2A] outline-none focus:border-[#2D5A27]"
   const labelClass = "text-[12px] font-semibold text-[#5F5E5A] uppercase tracking-[0.8px] mb-1 block"
 
-  const SettingRow = ({ icon, label, value, editKey, children }) => (
-    <div>
-      <div className="flex items-center gap-3 px-4 py-3.5 cursor-pointer"
-        onClick={() => setEditing(editing === editKey ? null : editKey)}>
-        <div className="w-9 h-9 bg-[#F7F5F0] rounded-[10px] flex items-center justify-center text-[20px] flex-shrink-0">
-          {icon}
-        </div>
-        <div className="flex-1">
-          <p className="text-[14px] font-semibold text-[#2C2C2A]">{label}</p>
-          <p className="text-[12px] text-[#B4B2A9] font-medium mt-0.5">{value}</p>
-        </div>
-        <span className="text-[#D3D1C7] text-[18px]">{editing === editKey ? '↑' : '›'}</span>
-      </div>
-      {editing === editKey && (
-        <div className="px-4 pb-4 border-t border-[#F0EEE8] pt-3">
-          {children}
-        </div>
-      )}
-    </div>
-  )
-
-  const ToggleGroup = ({ options, value, onChange }) => (
-    <div className="flex gap-2">
-      {options.map(([val, label]) => (
-        <button key={val} onClick={() => onChange(val)}
-          className={`flex-1 py-2.5 rounded-[12px] text-[13px] font-semibold border-[1.5px] transition ${value === val ? 'bg-[#2D5A27] text-white border-[#2D5A27]' : 'bg-white text-[#888780] border-[#E8E6E0]'}`}>
-          {label}
-        </button>
-      ))}
-    </div>
-  )
+  
 
   return (
     <div className="min-h-screen bg-[#F7F5F0] flex flex-col">
