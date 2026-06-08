@@ -65,10 +65,14 @@ export const moldovanProducts = {
     { id: 'kf_4', brand: 'Olympus', productName: 'Chefir proteic', size: '330g', price: 12.32, priceUnit: '100g', cal: 66, p: 8, c: 4, f: 2, stores: ['Kaufland'], inStock: true },
   ],
   'milk': [
-    { id: 'milk_1', brand: 'Căsuța mea', productName: 'Lapte 1.5%', size: '930ml', price: 2.18, priceUnit: '100ml', cal: 43.5, p: 2.8, c: 4.7, f: 1.5, stores: ['Kaufland'], inStock: true },
-    { id: 'milk_2', brand: 'Căsuța mea', productName: 'Lapte 2.5%', size: '930ml', price: 2.47, priceUnit: '100ml', cal: 52, p: 2.9, c: 4.7, f: 2.5, stores: ['Kaufland'], inStock: true },
-    { id: 'milk_3', brand: 'Căsuța mea', productName: 'Lapte 3.5%', size: '930ml', price: 2.47, priceUnit: '100ml', cal: 61, p: 2.9, c: 4.7, f: 3.5, stores: ['Kaufland'], inStock: true },
+    { id: 'milk_1', brand: 'Căsuța mea', productName: 'Lapte 1.5%', size: '930ml', price: 1.94, priceUnit: '100ml', cal: 43.5, p: 2.8, c: 4.7, f: 1.5, stores: ['Kaufland', 'Metro'], inStock: true },
+    { id: 'milk_2', brand: 'Căsuța mea', productName: 'Lapte 2.5%', size: '930ml', price: 1.93, priceUnit: '100ml', cal: 52, p: 2.9, c: 4.7, f: 2.5, stores: ['Kaufland', 'Metro'], inStock: true },
+    { id: 'milk_3', brand: 'Căsuța mea', productName: 'Lapte 3.5%', size: '930ml', price: 2.47, priceUnit: '100ml', cal: 61, p: 2.9, c: 4.7, f: 3.5, stores: ['Kaufland', 'Metro'], inStock: true },
     { id: 'milk_4', brand: 'MilkMark', productName: 'Lapte 3.5%', size: '900ml', price: 2.66, priceUnit: '100ml', cal: 61.5, p: 3.1, c: 4.4, f: 3.5, stores: ['Kaufland'], inStock: true },
+    { id: 'milk_5', brand: 'METRO Chef', productName: 'Lapte 1.5%', size: '1kg', price: 1.80, priceUnit: '100ml', cal: 44.3, p: 3, c: 4.7, f: 1.5, stores: ['Metro'], inStock: true },
+    { id: 'milk_6', brand: 'METRO Chef', productName: 'Lapte 2.5%', size: '1kg', price: 1.79, priceUnit: '100ml', cal: 52.9, p: 2.9, c: 4.7, f: 2.5, stores: ['Metro'], inStock: true },
+    { id: 'milk_7', brand: 'JLC', productName: 'Lapte 2.5%', size: '930ml', price: 2.30, priceUnit: '100ml', cal: 57, p: 2.9, c: 4.6, f: 2.5, stores: ['Metro'], inStock: true },
+    { id: 'milk_8', brand: 'METRO Chef Bio', productName: 'Băutură de migdale', size: '1l', price: 3.90, priceUnit: '100ml', cal: 18, p: 0.6, c: 0, f: 1.7, stores: ['Metro'], inStock: true },
   ],
   'sour cream': [
     { id: 'sm_1', brand: 'JLC', productName: 'Smântână 10%', size: '400g', price: 5.29, priceUnit: '100g', cal: 114, p: 3, c: 3, f: 10, stores: ['Kaufland'], inStock: true },
