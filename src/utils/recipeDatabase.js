@@ -2,6 +2,29 @@ export const recipes = [
 
   // ============ MIC DEJUN ============
 
+{
+  id: 'breakfast_8',
+  name: 'Ovăz cu Lapte și Banană',
+  type: 'breakfast',
+  fixed: false,
+  budgetTier: 'budget',
+  baseCost: 12,
+  baseCalories: 480,
+  baseMacros: { p: 18.5, c: 72.4, f: 10.2 },
+  ingredients: [
+    { key: 'oats', name: 'Fulgi de ovăz', amount: 80, unit: 'g' },
+    { key: 'milk', name: 'Lapte', amount: 250, unit: 'ml' },
+    { key: 'bananas', name: 'Banane', amount: 100, unit: 'g' },
+  ],
+  steps: [
+    'Măsoară 80g de fulgi de ovăz și pune-i într-o oală mică. Adaugă 250ml lapte și pune pe foc mic-mediu.',
+    'Amestecă continuu timp de 4-5 minute până când ovăzul absoarbe laptele și devine cremos. Dacă e prea gros, mai adaugă puțin lapte.',
+    'Toarnă ovăzul în bol și lasă-l să se răcească 1-2 minute.',
+    'Curăță banana și taie-o în felii subțiri, aranjează deasupra bolului.',
+    'Condimente opționale: scorțișoară sau un strop de miere — nu influențează semnificativ caloriile și nu sunt obligatorii.',
+  ],
+},
+
   {
     id: 'breakfast_1',
     name: 'Ovăz cu Brânză de Vaci și Banană',
