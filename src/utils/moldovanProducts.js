@@ -73,8 +73,13 @@ export const moldovanProducts = {
 ],
 
   'greek yogurt': [
-    { id: 'gy_1', brand: 'Olympus', productName: 'Iaurt grecesc 0%', size: '150g', price: 10.33, priceUnit: '100g', cal: 48, p: 8, c: 4, f: 0, stores: ['Kaufland'], inStock: true },
-    { id: 'gy_2', brand: 'Olympus', productName: 'Iaurt grecesc 2%', size: '150g', price: 10.33, priceUnit: '100g', cal: 65, p: 8, c: 3.8, f: 2, stores: ['Kaufland'], inStock: true },
+    { id: 'gy_1', brand: 'Olympus', productName: 'Iaurt grecesc 0%', size: '150g', price: 10.33, priceUnit: '100g', cal: 48, p: 8, c: 4, f: 0, stores: ['Kaufland', 'Metro'], inStock: true },
+    { id: 'gy_2', brand: 'Olympus', productName: 'Iaurt grecesc 2%', size: '150g', price: 10.33, priceUnit: '100g', cal: 65, p: 8, c: 3.8, f: 2, stores: ['Kaufland', 'Metro'], inStock: true },
+    { id: 'gy_3', brand: 'Evrofarma', productName: 'Iaurt grecesc 10%', size: '500g', price: 11.58, priceUnit: '100g', cal: 136, p: 7.5, c: 4, f: 10, stores: ['Metro'], inStock: true },
+    { id: 'gy_4', brand: 'Olympus Protein', productName: 'Iaurt 0%', size: '200g', price: 12.75, priceUnit: '100g', cal: 56, p: 10, c: 4, f: 0, stores: ['Metro'], inStock: true },
+    { id: 'gy_5', brand: 'Olympus Protein', productName: 'Iaurt 2%', size: '330g', price: 9.54, priceUnit: '100g', cal: 66, p: 8, c: 4, f: 2, stores: ['Metro'], inStock: true },
+    { id: 'gy_6', brand: 'Olympus Protein', productName: 'Iaurt cu aromă 0%', size: '180g', price: 16.38, priceUnit: '100g', cal: 51, p: 8.1, c: 4.5, f: 0, stores: ['Metro'], inStock: true },
+    { id: 'gy_7', brand: 'Olympus', productName: 'Iaurt grecesc fără lactoză', size: '150g', price: 10.66, priceUnit: '100g', cal: 65, p: 8, c: 3.8, f: 2, stores: ['Metro'], inStock: true },
   ],
   'kefir': [
     { id: 'kf_1', brand: 'Căsuța mea', productName: 'Chefir 1%', size: '930g', price: 2.58, priceUnit: '100g', cal: 41, p: 3, c: 4, f: 1, stores: ['Kaufland'], inStock: true },
