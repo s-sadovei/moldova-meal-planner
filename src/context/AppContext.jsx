@@ -151,6 +151,7 @@ if (favoritesData) setFavoriteRecipes(favoritesData.map(f => f.recipe_id))
     setGenerating(true)
 
     const plan = generatePlanFromRecipes(profileData, favoriteRecipes)
+await new Promise(resolve => setTimeout(resolve, 3000 + Math.random() * 2000))
 setGenerating(false)
 
     const recalculatedShoppingList = generateShoppingList(plan.weekPlan)
@@ -189,6 +190,7 @@ setMealPlan(updatedPlan)
     if (profile) {
       setGenerating(true)
 const plan = generatePlanFromRecipes(profile, favoriteRecipes)
+await new Promise(resolve => setTimeout(resolve, 3000 + Math.random() * 2000))
 setGenerating(false)
       const recalculatedShoppingList = generateShoppingList(plan.weekPlan)
 const updatedPlan = { ...plan, shoppingList: recalculatedShoppingList }
