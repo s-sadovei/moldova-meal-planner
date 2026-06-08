@@ -138,7 +138,8 @@ export const generatePlanFromRecipes = (profile, favoriteRecipeIds = []) => {
   }
 
   const usedRecipeIds = {}
-  mealTypes.forEach(type => { usedRecipeIds[type] = [] })
+mealTypes.forEach(type => { usedRecipeIds[type] = [] })
+const usedRecipeIdsToday = []
 
   const favoriteUsageCount = {}
 favoriteRecipeIds.forEach(id => { favoriteUsageCount[id] = 0 })
@@ -152,8 +153,8 @@ const pickRecipe = (type, targetCals, budgetLimit) => {
     return estimatedCost <= budgetLimit * 1.5
   })
 
-  const unused = pool.filter(r => !usedRecipeIds[type].includes(r.id))
-const candidates = unused.length > 0 ? unused : pool
+  const unused = pool.filter(r => !usedRecipeIds[type].includes(r.id) && !usedRecipeIdsToday.includes(r.id))
+const candidates = unused.length > 0 ? unused : pool.filter(r => !usedRecipeIdsToday.includes(r.id)).length > 0 ? pool.filter(r => !usedRecipeIdsToday.includes(r.id)) : pool
 
 if (candidates.length === 0) return null
 
@@ -167,8 +168,9 @@ if (candidates.length === 0) return null
     ? availableFavorites[Math.floor(Math.random() * availableFavorites.length)]
     : candidates[Math.floor(Math.random() * candidates.length)]
 
-  usedRecipeIds[type].push(picked.id)
-  if (favoriteRecipeIds.includes(picked.id)) {
+  uusedRecipeIds[type].push(picked.id)
+usedRecipeIdsToday.push(picked.id)
+if (favoriteRecipeIds.includes(picked.id)) {
     favoriteUsageCount[picked.id] = (favoriteUsageCount[picked.id] || 0) + 1
   }
 
@@ -176,7 +178,8 @@ if (candidates.length === 0) return null
 }
 
   const weekPlan = DAYS.map((day, dayIndex) => {
-    const meals = mealTypes.map((type, mealIndex) => {
+  usedRecipeIdsToday.length = 0
+  const meals = mealTypes.map((type, mealIndex) => {
       const targetCals = getCaloriesForType(type, calorieTarget, mealsPerDay)
       const recipe = pickRecipe(type, targetCals, budgetPerMeal)
 

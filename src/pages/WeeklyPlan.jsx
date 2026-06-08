@@ -76,7 +76,9 @@ export default function WeeklyPlan() {
               onClick={() => navigate('/meal', { state: { meal, fromDay: selectedDay } })}>
               <span className="text-[26px] w-9 text-center">{mealEmojis[meal.type] || '🍽️'}</span>
               <div className="flex-1">
-                <p className="text-[11px] font-semibold text-[#639922] uppercase tracking-wide capitalize">{meal.type}</p>
+                <p className="text-[11px] font-semibold text-[#639922] uppercase tracking-wide">
+  {meal.type === 'breakfast' ? 'Mic dejun' : meal.type === 'lunch' ? 'Prânz' : meal.type === 'dinner' ? 'Cină' : 'Gustare'}
+</p>
                 <p className="text-[15px] font-semibold text-[#2C2C2A] mt-0.5">{meal.name}</p>
               </div>
               <div className="flex flex-col items-end gap-0.5">
