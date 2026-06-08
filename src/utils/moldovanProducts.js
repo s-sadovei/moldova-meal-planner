@@ -81,11 +81,11 @@ export const moldovanProducts = {
     { id: 'gy_6', brand: 'Olympus Protein', productName: 'Iaurt cu aromă 0%', size: '180g', price: 16.38, priceUnit: '100g', cal: 51, p: 8.1, c: 4.5, f: 0, stores: ['Metro'], inStock: true },
     { id: 'gy_7', brand: 'Olympus', productName: 'Iaurt grecesc fără lactoză', size: '150g', price: 10.66, priceUnit: '100g', cal: 65, p: 8, c: 3.8, f: 2, stores: ['Metro'], inStock: true },
   ],
-  'kefir': [
+ 'kefir': [
     { id: 'kf_1', brand: 'Căsuța mea', productName: 'Chefir 1%', size: '930g', price: 2.58, priceUnit: '100g', cal: 41, p: 3, c: 4, f: 1, stores: ['Kaufland'], inStock: true },
     { id: 'kf_2', brand: 'Latti', productName: 'Chefir 2.5%', size: '870g', price: 2.75, priceUnit: '100g', cal: 49, p: 2.9, c: 3.8, f: 2.5, stores: ['Kaufland'], inStock: true },
     { id: 'kf_3', brand: 'MilkMark', productName: 'Chefir 2.5%', size: '900g', price: 2.54, priceUnit: '100g', cal: 50, p: 3, c: 3.8, f: 2.5, stores: ['Kaufland'], inStock: true },
-    { id: 'kf_4', brand: 'Olympus', productName: 'Chefir proteic', size: '330g', price: 12.32, priceUnit: '100g', cal: 66, p: 8, c: 4, f: 2, stores: ['Kaufland'], inStock: true },
+    { id: 'kf_4', brand: 'Olympus', productName: 'Chefir proteic 2%', size: '330g', price: 9.54, priceUnit: '100g', cal: 66, p: 8, c: 4, f: 2, stores: ['Kaufland', 'Metro'], inStock: true },
   ],
   'milk': [
     { id: 'milk_1', brand: 'Căsuța mea', productName: 'Lapte 1.5%', size: '930ml', price: 1.94, priceUnit: '100ml', cal: 43.5, p: 2.8, c: 4.7, f: 1.5, stores: ['Kaufland', 'Metro'], inStock: true },
