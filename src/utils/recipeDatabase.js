@@ -25,6 +25,31 @@ export const recipes = [
   ],
 },
 
+{
+  id: 'breakfast_9',
+  name: 'Omletă cu Mozzarella și Roșii',
+  type: 'breakfast',
+  fixed: false,
+  budgetTier: 'medium',
+  baseCost: 32,
+  baseCalories: 520,
+  baseMacros: { p: 35.2, c: 4.8, f: 38.6 },
+  ingredients: [
+    { key: 'eggs', name: 'Ouă', amount: 3, unit: 'pcs' },
+    { key: 'mozzarella', name: 'Mozzarella', amount: 80, unit: 'g' },
+    { key: 'tomatoes', name: 'Roșii', amount: 100, unit: 'g' },
+    { key: 'sunflower oil', name: 'Ulei de floarea soarelui', amount: 10, unit: 'ml' },
+  ],
+  steps: [
+    'Sparge 3 ouă într-un bol, adaugă un praf de sare și piper și bate bine cu o furculiță.',
+    'Taie 100g roșii în cuburi mici și 80g mozzarella în felii subțiri.',
+    'Încălzește 10ml ulei într-o tigaie la foc mediu.',
+    'Toarnă ouăle bătute în tigaie și lasă să se întărească ușor pe margini, aproximativ 2 minute.',
+    'Adaugă roșiile și mozzarella pe jumătate din omletă.',
+    'Pliază omleta în jumătate peste umplutură și mai lasă 1-2 minute până mozzarella se topește. Servește imediat.',
+  ],
+},
+
   {
     id: 'breakfast_1',
     name: 'Ovăz cu Brânză de Vaci și Banană',
@@ -381,6 +406,82 @@ export const recipes = [
       'Condimente opționale: chimen, turmeric, coriandru, usturoi — nu influențează semnificativ caloriile și nu sunt obligatorii.',
     ],
   },
+  
+  {
+  id: 'lunch_8',
+  name: 'Salată Grecească cu Feta',
+  type: 'lunch',
+  fixed: false,
+  budgetTier: 'budget',
+  baseCost: 28,
+  baseCalories: 380,
+  baseMacros: { p: 12.5, c: 14.2, f: 28.6 },
+  ingredients: [
+    { key: 'tomatoes', name: 'Roșii', amount: 200, unit: 'g' },
+    { key: 'cucumbers', name: 'Castraveți', amount: 150, unit: 'g' },
+    { key: 'bell peppers', name: 'Ardei gras', amount: 100, unit: 'g' },
+    { key: 'onions', name: 'Ceapă roșie', amount: 50, unit: 'g' },
+    { key: 'feta', name: 'Brânză feta', amount: 80, unit: 'g' },
+    { key: 'olive oil', name: 'Ulei de măsline', amount: 15, unit: 'ml' },
+  ],
+  steps: [
+    'Taie 200g roșii în cuburi mari și pune-le într-un bol.',
+    'Taie 150g castraveți în rondele sau jumătăți și adaugă peste roșii.',
+    'Taie 100g ardei gras în fâșii și 50g ceapă roșie în inele subțiri, adaugă în bol.',
+    'Taie 80g brânză feta în cuburi și adaugă deasupra legumelor.',
+    'Toarnă 15ml ulei de măsline și condimentează cu sare, piper și oregano după gust.',
+    'Amestecă ușor și servește imediat.',
+  ],
+},
+
+{
+  id: 'breakfast_9',
+  name: 'Omletă cu Mozzarella și Roșii',
+  type: 'breakfast',
+  fixed: false,
+  budgetTier: 'medium',
+  baseCost: 32,
+  baseCalories: 520,
+  baseMacros: { p: 35.2, c: 4.8, f: 38.6 },
+  ingredients: [
+    { key: 'eggs', name: 'Ouă', amount: 3, unit: 'pcs' },
+    { key: 'mozzarella', name: 'Mozzarella', amount: 80, unit: 'g' },
+    { key: 'tomatoes', name: 'Roșii', amount: 100, unit: 'g' },
+    { key: 'sunflower oil', name: 'Ulei de floarea soarelui', amount: 10, unit: 'ml' },
+  ],
+  steps: [
+    'Sparge 3 ouă într-un bol, adaugă un praf de sare și piper și bate bine cu o furculiță.',
+    'Taie 100g roșii în cuburi mici și 80g mozzarella în felii subțiri.',
+    'Încălzește 10ml ulei într-o tigaie la foc mediu.',
+    'Toarnă ouăle bătute în tigaie și lasă să se întărească ușor pe margini, aproximativ 2 minute.',
+    'Adaugă roșiile și mozzarella pe jumătate din omletă.',
+    'Pliază omleta în jumătate peste umplutură și mai lasă 1-2 minute până mozzarella se topește. Servește imediat.',
+  ],
+},
+{
+  id: 'lunch_9',
+  name: 'Paste cu Parmezan și Ulei de Măsline',
+  type: 'lunch',
+  fixed: false,
+  budgetTier: 'budget',
+  baseCost: 22,
+  baseCalories: 620,
+  baseMacros: { p: 22.4, c: 78.6, f: 22.8 },
+  ingredients: [
+    { key: 'pasta', name: 'Paste făinoase', amount: 150, unit: 'g' },
+    { key: 'parmesan', name: 'Parmezan', amount: 30, unit: 'g' },
+    { key: 'olive oil', name: 'Ulei de măsline', amount: 20, unit: 'ml' },
+    { key: 'garlic', name: 'Usturoi', amount: 10, unit: 'g' },
+  ],
+  steps: [
+    'Fierbe apă cu sare într-o oală mare. Adaugă 150g paste și fierbe conform instrucțiunilor de pe ambalaj, de obicei 8-10 minute.',
+    'În timp ce pastele fierb, toacă mărunt 10g usturoi.',
+    'Încălzește 20ml ulei de măsline într-o tigaie la foc mic și adaugă usturoiul. Călește 1-2 minute până devine auriu, fără să se ardă.',
+    'Scurge pastele și adaugă-le în tigaie peste ulei și usturoi. Amestecă bine.',
+    'Rade sau presară 30g parmezan deasupra și amestecă până se topește parțial.',
+    'Servește imediat cu piper negru proaspăt măcinat după gust.',
+  ],
+},
 
   // ============ CINĂ ============
 
@@ -566,6 +667,31 @@ export const recipes = [
       'Condimente opționale: sare, piper, ulei de măsline stropit pe salată, ceapă verde — nu influențează semnificativ caloriile și nu sunt obligatorii.',
     ],
   },
+
+{
+  id: 'dinner_8',
+  name: 'Piept de Pui cu Mozzarella la Cuptor',
+  type: 'dinner',
+  fixed: false,
+  budgetTier: 'medium',
+  baseCost: 45,
+  baseCalories: 520,
+  baseMacros: { p: 58.4, c: 4.2, f: 28.8 },
+  ingredients: [
+    { key: 'chicken breast', name: 'Piept de pui', amount: 250, unit: 'g' },
+    { key: 'mozzarella', name: 'Mozzarella', amount: 80, unit: 'g' },
+    { key: 'tomatoes', name: 'Roșii', amount: 100, unit: 'g' },
+    { key: 'olive oil', name: 'Ulei de măsline', amount: 10, unit: 'ml' },
+  ],
+  steps: [
+    'Preîncălzește cuptorul la 200°C.',
+    'Pune 250g piept de pui într-o tavă unsă cu 10ml ulei de măsline. Condimentează cu sare, piper și oregano pe ambele părți.',
+    'Taie 100g roșii în felii rotunde și aranjează deasupra pieptului de pui.',
+    'Taie 80g mozzarella în felii și pune deasupra roșiilor.',
+    'Bagă tava în cuptor și coace 25-30 minute până pieptul de pui este gătit complet și mozzarella este topită și ușor aurie.',
+    'Lasă să se odihnească 3-4 minute înainte de a servi.',
+  ],
+},
 
   // ============ GUSTĂRI ============
 
