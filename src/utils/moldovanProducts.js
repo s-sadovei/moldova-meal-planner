@@ -97,10 +97,10 @@ export const moldovanProducts = {
     { id: 'milk_7', brand: 'JLC', productName: 'Lapte 2.5%', size: '930ml', price: 2.30, priceUnit: '100ml', cal: 57, p: 2.9, c: 4.6, f: 2.5, stores: ['Metro'], inStock: true },
     { id: 'milk_8', brand: 'METRO Chef Bio', productName: 'Băutură de migdale', size: '1l', price: 3.90, priceUnit: '100ml', cal: 18, p: 0.6, c: 0, f: 1.7, stores: ['Metro'], inStock: true },
   ],
-  'sour cream': [
+ 'sour cream': [
     { id: 'sm_1', brand: 'JLC', productName: 'Smântână 10%', size: '400g', price: 5.29, priceUnit: '100g', cal: 114, p: 3, c: 3, f: 10, stores: ['Kaufland'], inStock: true },
-    { id: 'sm_2', brand: 'JLC', productName: 'Smântână 15%', size: '400g', price: 6.31, priceUnit: '100g', cal: 159, p: 2.9, c: 3, f: 15, stores: ['Kaufland'], inStock: true },
-    { id: 'sm_3', brand: 'Latti', productName: 'Smântână 15%', size: '300g', price: 7.30, priceUnit: '100g', cal: 159, p: 3, c: 3, f: 15, stores: ['Kaufland'], inStock: true },
+    { id: 'sm_2', brand: 'JLC', productName: 'Smântână 15%', size: '400g', price: 6.31, priceUnit: '100g', cal: 159, p: 2.9, c: 3, f: 15, stores: ['Kaufland', 'Metro'], inStock: true },
+    { id: 'sm_3', brand: 'Latti', productName: 'Smântână 15%', size: '300g', price: 5.65, priceUnit: '100g', cal: 159, p: 3, c: 3, f: 15, stores: ['Kaufland', 'Metro'], inStock: true },
     { id: 'sm_4', brand: 'MilkMark', productName: 'Smântână 15%', size: '350g', price: 7.00, priceUnit: '100g', cal: 158.6, p: 2.9, c: 3, f: 15, stores: ['Kaufland'], inStock: true },
   ],
   'protein drink': [
