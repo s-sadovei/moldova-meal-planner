@@ -168,7 +168,7 @@ if (candidates.length === 0) return null
     ? availableFavorites[Math.floor(Math.random() * availableFavorites.length)]
     : candidates[Math.floor(Math.random() * candidates.length)]
 
-  uusedRecipeIds[type].push(picked.id)
+  usedRecipeIds[type].push(picked.id)
 usedRecipeIdsToday.push(picked.id)
 if (favoriteRecipeIds.includes(picked.id)) {
     favoriteUsageCount[picked.id] = (favoriteUsageCount[picked.id] || 0) + 1
