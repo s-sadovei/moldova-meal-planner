@@ -3,37 +3,37 @@ import { useApp } from '../context/AppContext'
 import { useNavigate } from 'react-router-dom'
 import { getRecipeById } from '../utils/recipeDatabase'
 
-const SettingRow = ({ icon, label, value, editKey, children }) => (
-    <div>
-      <div className="flex items-center gap-3 px-4 py-3.5 cursor-pointer"
-        onClick={() => setEditing(editing === editKey ? null : editKey)}>
-        <div className="w-9 h-9 bg-[#F7F5F0] rounded-[10px] flex items-center justify-center text-[20px] flex-shrink-0">
-          {icon}
-        </div>
-        <div className="flex-1">
-          <p className="text-[14px] font-semibold text-[#2C2C2A]">{label}</p>
-          <p className="text-[12px] text-[#B4B2A9] font-medium mt-0.5">{value}</p>
-        </div>
-        <span className="text-[#D3D1C7] text-[18px]">{editing === editKey ? '↑' : '›'}</span>
+const SettingRow = ({ icon, label, value, editKey, editing, setEditing, children }) => (
+  <div>
+    <div className="flex items-center gap-3 px-4 py-3.5 cursor-pointer"
+      onClick={() => setEditing(editing === editKey ? null : editKey)}>
+      <div className="w-9 h-9 bg-[#F7F5F0] rounded-[10px] flex items-center justify-center text-[20px] flex-shrink-0">
+        {icon}
       </div>
-      {editing === editKey && (
-        <div className="px-4 pb-4 border-t border-[#F0EEE8] pt-3">
-          {children}
-        </div>
-      )}
+      <div className="flex-1">
+        <p className="text-[14px] font-semibold text-[#2C2C2A]">{label}</p>
+        <p className="text-[12px] text-[#B4B2A9] font-medium mt-0.5">{value}</p>
+      </div>
+      <span className="text-[#D3D1C7] text-[18px]">{editing === editKey ? '↑' : '›'}</span>
     </div>
-  )
+    {editing === editKey && (
+      <div className="px-4 pb-4 border-t border-[#F0EEE8] pt-3">
+        {children}
+      </div>
+    )}
+  </div>
+)
 
-  const ToggleGroup = ({ options, value, onChange }) => (
-    <div className="flex gap-2">
-      {options.map(([val, label]) => (
-        <button key={val} onClick={() => onChange(val)}
-          className={`flex-1 py-2.5 rounded-[12px] text-[13px] font-semibold border-[1.5px] transition ${value === val ? 'bg-[#2D5A27] text-white border-[#2D5A27]' : 'bg-white text-[#888780] border-[#E8E6E0]'}`}>
-          {label}
-        </button>
-      ))}
-    </div>
-  )
+const ToggleGroup = ({ options, value, onChange }) => (
+  <div className="flex gap-2">
+    {options.map(([val, label]) => (
+      <button key={val} onClick={() => onChange(val)}
+        className={`flex-1 py-2.5 rounded-[12px] text-[13px] font-semibold border-[1.5px] transition ${value === val ? 'bg-[#2D5A27] text-white border-[#2D5A27]' : 'bg-white text-[#888780] border-[#E8E6E0]'}`}>
+        {label}
+      </button>
+    ))}
+  </div>
+)
 
 export default function Preferences() {
   const navigate = useNavigate()
@@ -41,6 +41,7 @@ export default function Preferences() {
 
   const [form, setForm] = useState({ ...profile })
   const [saved, setSaved] = useState(false)
+  const [editing, setEditing] = useState(null)
 
   const set = (key, val) => setForm(prev => ({ ...prev, [key]: val }))
 
@@ -61,12 +62,8 @@ export default function Preferences() {
   const activityLabels = { sedentary: 'Sedentar', light: 'Ușor', moderate: 'Moderat', active: 'Activ' }
   const activityDesc = { sedentary: 'Puțin sau deloc sport', light: '1–3 zile/săptămână', moderate: '3–5 zile/săptămână', active: '6–7 zile/săptămână' }
 
-  const [editing, setEditing] = useState(null)
-
   const inputClass = "w-full bg-[#F7F5F0] border-[1.5px] border-[#E8E6E0] rounded-[14px] px-4 py-3 text-[14px] font-medium text-[#2C2C2A] outline-none focus:border-[#2D5A27]"
   const labelClass = "text-[12px] font-semibold text-[#5F5E5A] uppercase tracking-[0.8px] mb-1 block"
-
-  
 
   return (
     <div className="min-h-screen bg-[#F7F5F0] flex flex-col">
@@ -108,7 +105,7 @@ export default function Preferences() {
         {/* Account */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Cont</p>
         <div className="bg-white rounded-[20px] border border-[#E8E6E0] overflow-hidden -mt-2">
-          <SettingRow icon="👤" label="Nume" value={form.name || '—'} editKey="name">
+          <SettingRow icon="👤" label="Nume" value={form.name || '—'} editKey="name" editing={editing} setEditing={setEditing}>
             <div>
               <label className={labelClass}>Numele tău</label>
               <input className={inputClass} placeholder="ex: Ion Popescu" value={form.name || ''} onChange={e => set('name', e.target.value)} />
@@ -119,13 +116,13 @@ export default function Preferences() {
         {/* Goal */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Obiectivul meu</p>
         <div className="bg-white rounded-[20px] border border-[#E8E6E0] overflow-hidden -mt-2">
-          <SettingRow icon="🎯" label="Obiectiv fitness" value={goalLabels[form.goal]} editKey="goal">
+          <SettingRow icon="🎯" label="Obiectiv fitness" value={goalLabels[form.goal]} editKey="goal" editing={editing} setEditing={setEditing}>
             <ToggleGroup
               options={[['lose', 'Slăbit'], ['maintain', 'Menținere'], ['build', 'Masă']]}
               value={form.goal} onChange={v => set('goal', v)} />
           </SettingRow>
           <div className="h-px bg-[#F0EEE8]" />
-          <SettingRow icon="🏃" label="Nivel de activitate" value={`${activityLabels[form.activityLevel]} · ${activityDesc[form.activityLevel]}`} editKey="activity">
+          <SettingRow icon="🏃" label="Nivel de activitate" value={`${activityLabels[form.activityLevel]} · ${activityDesc[form.activityLevel]}`} editKey="activity" editing={editing} setEditing={setEditing}>
             <div className="flex flex-col gap-2">
               {[
                 ['sedentary', 'Sedentar', 'Puțin sau deloc sport'],
@@ -142,7 +139,7 @@ export default function Preferences() {
             </div>
           </SettingRow>
           <div className="h-px bg-[#F0EEE8]" />
-          <SettingRow icon="🍽️" label="Mese pe zi" value={`${form.mealsPerDay} mese`} editKey="meals">
+          <SettingRow icon="🍽️" label="Mese pe zi" value={`${form.mealsPerDay} mese`} editKey="meals" editing={editing} setEditing={setEditing}>
             <ToggleGroup
               options={[['2', '2'], ['3', '3'], ['4', '4'], ['5', '5']]}
               value={String(form.mealsPerDay)} onChange={v => set('mealsPerDay', Number(v))} />
@@ -152,21 +149,21 @@ export default function Preferences() {
         {/* Body */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Corp și nutriție</p>
         <div className="bg-white rounded-[20px] border border-[#E8E6E0] overflow-hidden -mt-2">
-          <SettingRow icon="⚖️" label="Greutate" value={`${form.weight} kg`} editKey="weight">
+          <SettingRow icon="⚖️" label="Greutate" value={`${form.weight} kg`} editKey="weight" editing={editing} setEditing={setEditing}>
             <div>
               <label className={labelClass}>Greutate (kg)</label>
               <input className={inputClass} type="number" value={form.weight} onChange={e => set('weight', e.target.value)} />
             </div>
           </SettingRow>
           <div className="h-px bg-[#F0EEE8]" />
-          <SettingRow icon="📏" label="Înălțime" value={`${form.height} cm`} editKey="height">
+          <SettingRow icon="📏" label="Înălțime" value={`${form.height} cm`} editKey="height" editing={editing} setEditing={setEditing}>
             <div>
               <label className={labelClass}>Înălțime (cm)</label>
               <input className={inputClass} type="number" value={form.height} onChange={e => set('height', e.target.value)} />
             </div>
           </SettingRow>
           <div className="h-px bg-[#F0EEE8]" />
-          <SettingRow icon="💰" label="Buget săptămânal" value={`${form.budget} MDL`} editKey="budget">
+          <SettingRow icon="💰" label="Buget săptămânal" value={`${form.budget} MDL`} editKey="budget" editing={editing} setEditing={setEditing}>
             <div>
               <label className={labelClass}>Buget (MDL)</label>
               <input className={inputClass} type="number" value={form.budget} onChange={e => set('budget', e.target.value)} />
@@ -177,21 +174,21 @@ export default function Preferences() {
         {/* Food preferences */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Preferințe alimentare</p>
         <div className="bg-white rounded-[20px] border border-[#E8E6E0] overflow-hidden -mt-2">
-          <SettingRow icon="👍" label="Alimente preferate" value={form.likedFoods || 'Neselectat'} editKey="likes">
+          <SettingRow icon="👍" label="Alimente preferate" value={form.likedFoods || 'Neselectat'} editKey="likes" editing={editing} setEditing={setEditing}>
             <div>
               <label className={labelClass}>Alimente pe care le preferi</label>
               <input className={inputClass} placeholder="ex: orez, pui, ouă" value={form.likedFoods || ''} onChange={e => set('likedFoods', e.target.value)} />
             </div>
           </SettingRow>
           <div className="h-px bg-[#F0EEE8]" />
-          <SettingRow icon="🚫" label="Alimente evitate" value={form.dislikedFoods || 'Neselectat'} editKey="dislikes">
+          <SettingRow icon="🚫" label="Alimente evitate" value={form.dislikedFoods || 'Neselectat'} editKey="dislikes" editing={editing} setEditing={setEditing}>
             <div>
               <label className={labelClass}>Alimente pe care nu le consumi</label>
               <input className={inputClass} placeholder="ex: varză, pește" value={form.dislikedFoods || ''} onChange={e => set('dislikedFoods', e.target.value)} />
             </div>
           </SettingRow>
           <div className="h-px bg-[#F0EEE8]" />
-          <SettingRow icon="⚠️" label="Alergii" value={form.allergies || 'Neselectat'} editKey="allergies">
+          <SettingRow icon="⚠️" label="Alergii" value={form.allergies || 'Neselectat'} editKey="allergies" editing={editing} setEditing={setEditing}>
             <div>
               <label className={labelClass}>Alergii sau restricții</label>
               <input className={inputClass} placeholder="ex: intolerant la lactoză" value={form.allergies || ''} onChange={e => set('allergies', e.target.value)} />
@@ -205,56 +202,56 @@ export default function Preferences() {
         </button>
 
         {/* Favorites */}
-{favoriteRecipes.length > 0 && (
-  <>
-    <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Rețete favorite</p>
-    <div className="bg-white rounded-[20px] border border-[#E8E6E0] overflow-hidden -mt-2">
-      {favoriteRecipes.map((recipeId, i) => {
-        const recipe = getRecipeById(recipeId)
-        if (!recipe) return null
-        return (
-          <div key={recipeId}>
-            <div className="flex items-center gap-3 px-4 py-3.5 cursor-pointer"
-              onClick={() => navigate('/meal', { state: { meal: {
-                id: recipe.id,
-                name: recipe.name,
-                type: recipe.type,
-                cal: recipe.baseCalories,
-                p: recipe.baseMacros.p,
-                c: recipe.baseMacros.c,
-                f: recipe.baseMacros.f,
-                cost: recipe.baseCost,
-                ingredients: recipe.ingredients.map(ing => ({
-                  food: ing.key,
-                  amount: ing.amount,
-                  unit: ing.unit,
-                  key: ing.key,
-                  displayName: ing.name,
-                })),
-                steps: recipe.steps,
-              }, fromFavorites: true } })}>
-              <div className="w-9 h-9 bg-[#F7F5F0] rounded-[10px] flex items-center justify-center text-[20px] flex-shrink-0">
-                {recipe.type === 'breakfast' ? '🌅' : recipe.type === 'lunch' ? '🍗' : recipe.type === 'dinner' ? '🐟' : '🥛'}
-              </div>
-              <div className="flex-1">
-                <p className="text-[14px] font-semibold text-[#2C2C2A]">{recipe.name}</p>
-                <p className="text-[12px] text-[#B4B2A9] font-medium mt-0.5">{recipe.baseCalories} kcal · {recipe.baseCost} MDL</p>
-              </div>
-              <button
-  onClick={e => { e.stopPropagation(); toggleFavoriteRecipe(recipeId) }}
-  className="p-1 transition">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="#E24B4A" stroke="#E24B4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-  </svg>
-</button>
+        {favoriteRecipes.length > 0 && (
+          <>
+            <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Rețete favorite</p>
+            <div className="bg-white rounded-[20px] border border-[#E8E6E0] overflow-hidden -mt-2">
+              {favoriteRecipes.map((recipeId, i) => {
+                const recipe = getRecipeById(recipeId)
+                if (!recipe) return null
+                return (
+                  <div key={recipeId}>
+                    <div className="flex items-center gap-3 px-4 py-3.5 cursor-pointer"
+                      onClick={() => navigate('/meal', { state: { meal: {
+                        id: recipe.id,
+                        name: recipe.name,
+                        type: recipe.type,
+                        cal: recipe.baseCalories,
+                        p: recipe.baseMacros.p,
+                        c: recipe.baseMacros.c,
+                        f: recipe.baseMacros.f,
+                        cost: recipe.baseCost,
+                        ingredients: recipe.ingredients.map(ing => ({
+                          food: ing.key,
+                          amount: ing.amount,
+                          unit: ing.unit,
+                          key: ing.key,
+                          displayName: ing.name,
+                        })),
+                        steps: recipe.steps,
+                      }, fromFavorites: true } })}>
+                      <div className="w-9 h-9 bg-[#F7F5F0] rounded-[10px] flex items-center justify-center text-[20px] flex-shrink-0">
+                        {recipe.type === 'breakfast' ? '🌅' : recipe.type === 'lunch' ? '🍗' : recipe.type === 'dinner' ? '🐟' : '🥛'}
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-[14px] font-semibold text-[#2C2C2A]">{recipe.name}</p>
+                        <p className="text-[12px] text-[#B4B2A9] font-medium mt-0.5">{recipe.baseCalories} kcal · {recipe.baseCost} MDL</p>
+                      </div>
+                      <button
+                        onClick={e => { e.stopPropagation(); toggleFavoriteRecipe(recipeId) }}
+                        className="p-1 transition">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="#E24B4A" stroke="#E24B4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                      </button>
+                    </div>
+                    {i < favoriteRecipes.length - 1 && <div className="h-px bg-[#F0EEE8] mx-4" />}
+                  </div>
+                )
+              })}
             </div>
-            {i < favoriteRecipes.length - 1 && <div className="h-px bg-[#F0EEE8] mx-4" />}
-          </div>
-        )
-      })}
-    </div>
-  </>
-)}
+          </>
+        )}
 
         <button onClick={logout}
           className="w-full bg-white text-[#E24B4A] font-semibold text-[15px] py-4 rounded-2xl border-[1.5px] border-[#F7C1C1]">
