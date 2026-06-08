@@ -38,7 +38,8 @@ export const moldovanProducts = {
     { id: 'eggs_2', brand: 'Moldovo', productName: 'Ouă', size: '10 buc', price: 4.45, priceUnit: 'egg', cal: 155, p: 13, c: 1.1, f: 11, stores: ['Kaufland'], inStock: true },
     { id: 'eggs_3', brand: 'GSV Universal', productName: 'Ouă', size: '10 buc', price: 4.49, priceUnit: 'egg', cal: 155, p: 13, c: 1.1, f: 11, stores: ['Kaufland'], inStock: true },
     { id: 'eggs_4', brand: 'Appetito', productName: 'Ouă', size: '10 buc', price: 4.09, priceUnit: 'egg', cal: 155, p: 13, c: 1.1, f: 11, stores: ['Kaufland'], inStock: true },
-    { id: 'eggs_5', brand: 'Big Familia', productName: 'Ouă M', size: '30 buc', price: 4.83, priceUnit: 'egg', cal: 155, p: 13, c: 1.1, f: 11, stores: ['Kaufland'], inStock: true },
+    { id: 'eggs_5', brand: 'Big Family', productName: 'Ouă M', size: '30 buc', price: 4.83, priceUnit: 'egg', cal: 155, p: 13, c: 1.1, f: 11, stores: ['Kaufland', 'Metro'], inStock: true },
+    { id: 'eggs_6', brand: 'Fine Life', productName: 'Ouă L', size: '10 buc', price: 4.85, priceUnit: 'egg', cal: 155, p: 13, c: 1.1, f: 11, stores: ['Metro'], inStock: true },
   ],
   'cottage cheese': [
   { id: 'bv_1', brand: 'Grăuncior', productName: 'Brânză de vaci 4%', size: '400g', price: 9.74, priceUnit: '100g', cal: 110, p: 17, c: 1.5, f: 4, stores: ['Kaufland'], inStock: true },
