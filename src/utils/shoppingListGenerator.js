@@ -2,6 +2,10 @@ import { moldovanProducts, getAveragePriceForIngredient } from './moldovanProduc
 
 const ingredientNamesRo = {
   'chicken breast': 'Piept de pui', 
+  'mozzarella': 'Mozzarella',
+'cream cheese': 'Cremă de brânză',
+'parmesan': 'Parmezan',
+'feta': 'Brânză feta',
   'cottage cheese': 'Brânză de vaci 4-5%',
   'cottage cheese 9': 'Brânză de vaci 9%',
   'chicken thighs': 'Pulpe de pui',
@@ -61,6 +65,10 @@ const ingredientNamesRo = {
 const ingredientCategories = {
   'chicken breast': 'Meat and fish',
   'chicken thighs': 'Meat and fish',
+  'mozzarella': 'Dairy and eggs',
+'cream cheese': 'Dairy and eggs',
+'parmesan': 'Dairy and eggs',
+'feta': 'Dairy and eggs',
   'minced meat': 'Meat and fish',
   'ham': 'Meat and fish',
   'chicken sausages': 'Meat and fish',

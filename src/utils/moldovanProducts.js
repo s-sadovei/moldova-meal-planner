@@ -54,6 +54,24 @@ export const moldovanProducts = {
   'sweet cheese': [
     { id: 'sc_1', brand: 'BigLapik', productName: 'Brânzică dulce cu vanilie degresată', size: '100g', price: 8.59, priceUnit: '100g', cal: 165, p: 17.6, c: 22.6, f: 0.05, stores: ['Kaufland'], inStock: true },
   ],
+
+ 'mozzarella': [
+  { id: 'moz_1', brand: 'Ambrosi', productName: 'Mozzarella', size: '125g', price: 20.72, priceUnit: '100g', cal: 213, p: 18, c: 0.4, f: 15.5, stores: ['Metro'], inStock: true },
+  { id: 'moz_2', brand: 'Drochia', productName: 'Mozzarella Mini', size: '200g', price: 26.45, priceUnit: '100g', cal: 252, p: 22.5, c: 0, f: 18, stores: ['Metro'], inStock: true },
+],
+'cream cheese': [
+  { id: 'cc_1', brand: 'Philadelphia', productName: 'Cremă de brânză Light', size: '125g', price: 37.19, priceUnit: '100g', cal: 148, p: 7.4, c: 5.2, f: 11, stores: ['Metro'], inStock: true },
+  { id: 'cc_2', brand: 'Latti', productName: 'Cremă de brânză', size: '150g', price: 20.99, priceUnit: '100g', cal: 249, p: 5.8, c: 4.8, f: 23, stores: ['Kaufland', 'Metro'], inStock: true },
+],
+'parmesan': [
+  { id: 'parm_1', brand: 'Ambrosi Bio', productName: 'Parmigiano Reggiano', size: '150g', price: 104.60, priceUnit: '100g', cal: 402, p: 32, c: 0, f: 30, stores: ['Metro'], inStock: true },
+  { id: 'parm_2', brand: 'METRO Chef', productName: 'Grana Padano', size: '250g', price: 45.96, priceUnit: '100g', cal: 398, p: 33, c: 0, f: 29, stores: ['Metro'], inStock: true },
+],
+'feta': [
+  { id: 'feta_1', brand: 'Evrofarma', productName: 'Brânză Feta', size: '200g', price: 40.45, priceUnit: '100g', cal: 304.8, p: 16.8, c: 0.9, f: 26, stores: ['Metro'], inStock: true },
+  { id: 'feta_2', brand: 'Latti', productName: 'Brânză bulgărească', size: '400g', price: 21.23, priceUnit: '100g', cal: 194, p: 6, c: 2, f: 18, stores: ['Metro'], inStock: true },
+],
+
   'greek yogurt': [
     { id: 'gy_1', brand: 'Olympus', productName: 'Iaurt grecesc 0%', size: '150g', price: 10.33, priceUnit: '100g', cal: 48, p: 8, c: 4, f: 0, stores: ['Kaufland'], inStock: true },
     { id: 'gy_2', brand: 'Olympus', productName: 'Iaurt grecesc 2%', size: '150g', price: 10.33, priceUnit: '100g', cal: 65, p: 8, c: 3.8, f: 2, stores: ['Kaufland'], inStock: true },
