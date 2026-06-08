@@ -154,12 +154,13 @@ const pickRecipe = (type, targetCals, budgetLimit) => {
   })
 
 const isSnack = type === 'snack'
-const unused = pool.filter(r => !usedRecipeIds[type].includes(r.id) && !usedRecipeIdsToday.includes(r.id))
 const unusedWeekly = pool.filter(r => !usedRecipeIds[type].includes(r.id))
 const unusedToday = pool.filter(r => !usedRecipeIdsToday.includes(r.id))
-const candidates = unused.length > 0 ? unused : 
-  isSnack ? (unusedToday.length > 0 ? unusedToday : pool) :
-  (unusedWeekly.length > 0 ? unusedWeekly : pool)
+const unusedBoth = pool.filter(r => !usedRecipeIds[type].includes(r.id) && !usedRecipeIdsToday.includes(r.id))
+
+const candidates = isSnack
+  ? (unusedToday.length > 0 ? unusedToday : pool)
+  : (unusedBoth.length > 0 ? unusedBoth : unusedWeekly.length > 0 ? unusedWeekly : getRecipesByType(type))
 
 if (candidates.length === 0) return null
 
