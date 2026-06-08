@@ -232,6 +232,9 @@ export const moldovanProducts = {
   'apples': [
     { id: 'app_1', brand: 'Local', productName: 'Mere roșii', size: 'per kg', price: 1.89, priceUnit: '100g', cal: 52, p: 0.3, c: 14, f: 0.2, stores: ['Kaufland'], inStock: true },
   ],
+  'lemon': [
+  { id: 'lem_1', brand: 'Import', productName: 'Lămâie', size: 'per kg', price: 6.79, priceUnit: '100g', cal: 29, p: 1.1, c: 9, f: 0.3, stores: ['Kaufland', 'Metro'], inStock: true },
+],
   'bananas': [
     { id: 'ban_1', brand: 'Import', productName: 'Banane', size: 'per kg', price: 3.15, priceUnit: '100g', cal: 89, p: 1.1, c: 23, f: 0.3, stores: ['Kaufland'], inStock: true },
   ],
@@ -253,6 +256,10 @@ export const moldovanProducts = {
     { id: 'oo_2', brand: 'La Espanola', productName: 'Ulei de măsline', size: '500ml', price: 26.39, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
     { id: 'oo_3', brand: 'Casă D\'Oro', productName: 'Ulei de măsline', size: '1L', price: 24.80, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
   ],
+  'butter': [
+  { id: 'but_1', brand: 'Latti', productName: 'Unt 72.5%', size: '180g', price: 19.99, priceUnit: '100g', cal: 660, p: 1, c: 0.9, f: 72.5, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'but_2', brand: 'Căsuța Mea', productName: 'Unt 72.5%', size: '200g', price: 22.95, priceUnit: '100g', cal: 725, p: 0, c: 0, f: 72.5, stores: ['Kaufland', 'Metro'], inStock: true },
+],
 }
 
 export const getAverageMacrosForIngredient = (ingredientKey) => {

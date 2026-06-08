@@ -50,6 +50,30 @@ export const recipes = [
   ],
 },
 
+{
+  id: 'breakfast_10',
+  name: 'Ouă Scramble cu Unt',
+  type: 'breakfast',
+  fixed: false,
+  budgetTier: 'budget',
+  baseCost: 18,
+  baseCalories: 420,
+  baseMacros: { p: 28.4, c: 2.2, f: 32.8 },
+  ingredients: [
+    { key: 'eggs', name: 'Ouă', amount: 4, unit: 'pcs' },
+    { key: 'butter', name: 'Unt', amount: 15, unit: 'g' },
+    { key: 'milk', name: 'Lapte', amount: 30, unit: 'ml' },
+  ],
+  steps: [
+    'Sparge 4 ouă într-un bol, adaugă 30ml lapte, un praf de sare și piper. Bate bine cu o furculiță până devine omogen.',
+    'Pune 15g unt într-o tigaie la foc mic. Lasă untul să se topească încet fără să se ardă.',
+    'Toarnă ouăle bătute în tigaie și lasă-le 20-30 secunde fără să amesteci.',
+    'Începe să amesteci ușor cu o spatulă de silicon, trăgând ouăle dinspre margini spre centru.',
+    'Continuă să amesteci la foc mic timp de 2-3 minute până ouăle sunt cremoase și abia coagulate. Nu le lăsa să se întărească prea mult.',
+    'Ia tigaia de pe foc cu 30 secunde înainte să fie gata — căldura reziduală termină gătirea. Servește imediat.',
+  ],
+},
+
   {
     id: 'breakfast_1',
     name: 'Ovăz cu Brânză de Vaci și Banană',
@@ -693,6 +717,31 @@ export const recipes = [
     'Taie 80g mozzarella în felii și pune deasupra roșiilor.',
     'Bagă tava în cuptor și coace 25-30 minute până pieptul de pui este gătit complet și mozzarella este topită și ușor aurie.',
     'Lasă să se odihnească 3-4 minute înainte de a servi.',
+  ],
+},
+
+{
+  id: 'dinner_9',
+  name: 'Pui la Tigaie cu Unt și Usturoi',
+  type: 'dinner',
+  fixed: false,
+  budgetTier: 'medium',
+  baseCost: 42,
+  baseCalories: 520,
+  baseMacros: { p: 52.6, c: 3.2, f: 28.4 },
+  ingredients: [
+    { key: 'chicken breast', name: 'Piept de pui', amount: 280, unit: 'g' },
+    { key: 'butter', name: 'Unt', amount: 25, unit: 'g' },
+    { key: 'garlic', name: 'Usturoi', amount: 15, unit: 'g' },
+    { key: 'lemon', name: 'Lămâie', amount: 30, unit: 'g' },
+  ],
+  steps: [
+    'Taie 280g piept de pui în fâșii sau lasă-l întreg. Condimentează cu sare, piper și paprika pe ambele părți.',
+    'Încălzește tigaia la foc mediu-mare. Adaugă 25g unt și lasă-l să se topească și să facă spumă.',
+    'Adaugă puiul și gătește 4-5 minute pe o parte fără să miști, până devine auriu.',
+    'Întoarce puiul și adaugă 15g usturoi tocat mărunt. Gătește încă 4-5 minute, stropind puiul cu untul și usturoiul din tigaie.',
+    'Verifică că puiul este gătit complet — sucul trebuie să fie limpede când înțepi cu un cuțit.',
+    'Stoarce puțin suc de lămâie deasupra înainte de servire pentru prospețime. Servește imediat.',
   ],
 },
 
