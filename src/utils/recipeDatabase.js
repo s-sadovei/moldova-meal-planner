@@ -54,7 +54,7 @@ export const recipes = [
   id: 'breakfast_10',
   name: 'Ouă Scramble cu Unt',
   type: 'breakfast',
-  fixed: false,
+  fixed: true,
   budgetTier: 'budget',
   baseCost: 18,
   baseCalories: 420,
