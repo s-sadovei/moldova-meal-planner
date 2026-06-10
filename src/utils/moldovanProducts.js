@@ -192,6 +192,10 @@ export const moldovanProducts = {
   'breadcrumbs': [
     { id: 'bc_1', brand: 'Franzeluța', productName: 'Pesmeți măcinați', size: '400g', price: 4.10, priceUnit: '100g', cal: 414.3, p: 11.8, c: 76, f: 1.5, stores: ['Kaufland'], inStock: true },
   ],
+  'lavash': [
+  { id: 'lav_1', brand: 'Katifia', productName: 'Lavash Armenesc Lux', size: '360g/3buc', price: 6.80, priceUnit: '100g', cal: 169, p: 6, c: 32.8, f: 1, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'lav_2', brand: 'Local', productName: 'Lavash Armenesc subțire', size: '270g/3buc', price: 6.85, priceUnit: '100g', cal: 232.5, p: 7.8, c: 49.2, f: 1.3, stores: ['Kaufland', 'Metro'], inStock: true },
+],
   'lentils': [
   { id: 'lentils_1', brand: 'Bunetto', productName: 'Linte roșie', size: '800g', price: 3.49, priceUnit: '100g', cal: 310, p: 25, c: 46.5, f: 1.5, stores: ['Kaufland', 'Metro'], inStock: true },
   ],
