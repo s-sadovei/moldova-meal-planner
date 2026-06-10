@@ -26,31 +26,6 @@ export const recipes = [
 },
 
 {
-  id: 'breakfast_9',
-  name: 'Omletă cu Mozzarella și Roșii',
-  type: 'breakfast',
-  fixed: false,
-  budgetTier: 'medium',
-  baseCost: 32,
-  baseCalories: 520,
-  baseMacros: { p: 35.2, c: 4.8, f: 38.6 },
-  ingredients: [
-    { key: 'eggs', name: 'Ouă', amount: 3, unit: 'pcs' },
-    { key: 'mozzarella', name: 'Mozzarella', amount: 80, unit: 'g' },
-    { key: 'tomatoes', name: 'Roșii', amount: 100, unit: 'g' },
-    { key: 'sunflower oil', name: 'Ulei de floarea soarelui', amount: 10, unit: 'ml' },
-  ],
-  steps: [
-    'Sparge 3 ouă într-un bol, adaugă un praf de sare și piper și bate bine cu o furculiță.',
-    'Taie 100g roșii în cuburi mici și 80g mozzarella în felii subțiri.',
-    'Încălzește 10ml ulei într-o tigaie la foc mediu.',
-    'Toarnă ouăle bătute în tigaie și lasă să se întărească ușor pe margini, aproximativ 2 minute.',
-    'Adaugă roșiile și mozzarella pe jumătate din omletă.',
-    'Pliază omleta în jumătate peste umplutură și mai lasă 1-2 minute până mozzarella se topește. Servește imediat.',
-  ],
-},
-
-{
   id: 'breakfast_10',
   name: 'Ouă Scramble cu Unt',
   type: 'breakfast',
@@ -245,6 +220,31 @@ export const recipes = [
       'Condimente opționale: scorțișoară, vanilie — nu influențează caloriile și nu sunt obligatorii.',
     ],
   },
+
+  {
+  id: 'breakfast_9',
+  name: 'Omletă cu Mozzarella și Roșii',
+  type: 'breakfast',
+  fixed: false,
+  budgetTier: 'medium',
+  baseCost: 32,
+  baseCalories: 520,
+  baseMacros: { p: 35.2, c: 4.8, f: 38.6 },
+  ingredients: [
+    { key: 'eggs', name: 'Ouă', amount: 3, unit: 'pcs' },
+    { key: 'mozzarella', name: 'Mozzarella', amount: 80, unit: 'g' },
+    { key: 'tomatoes', name: 'Roșii', amount: 100, unit: 'g' },
+    { key: 'sunflower oil', name: 'Ulei de floarea soarelui', amount: 10, unit: 'ml' },
+  ],
+  steps: [
+    'Sparge 3 ouă într-un bol, adaugă un praf de sare și piper și bate bine cu o furculiță.',
+    'Taie 100g roșii în cuburi mici și 80g mozzarella în felii subțiri.',
+    'Încălzește 10ml ulei într-o tigaie la foc mediu.',
+    'Toarnă ouăle bătute în tigaie și lasă să se întărească ușor pe margini, aproximativ 2 minute.',
+    'Adaugă roșiile și mozzarella pe jumătate din omletă.',
+    'Pliază omleta în jumătate peste umplutură și mai lasă 1-2 minute până mozzarella se topește. Servește imediat.',
+  ],
+},
 
   // ============ PRÂNZ ============
 
@@ -458,30 +458,7 @@ export const recipes = [
   ],
 },
 
-{
-  id: 'breakfast_9',
-  name: 'Omletă cu Mozzarella și Roșii',
-  type: 'breakfast',
-  fixed: false,
-  budgetTier: 'medium',
-  baseCost: 32,
-  baseCalories: 520,
-  baseMacros: { p: 35.2, c: 4.8, f: 38.6 },
-  ingredients: [
-    { key: 'eggs', name: 'Ouă', amount: 3, unit: 'pcs' },
-    { key: 'mozzarella', name: 'Mozzarella', amount: 80, unit: 'g' },
-    { key: 'tomatoes', name: 'Roșii', amount: 100, unit: 'g' },
-    { key: 'sunflower oil', name: 'Ulei de floarea soarelui', amount: 10, unit: 'ml' },
-  ],
-  steps: [
-    'Sparge 3 ouă într-un bol, adaugă un praf de sare și piper și bate bine cu o furculiță.',
-    'Taie 100g roșii în cuburi mici și 80g mozzarella în felii subțiri.',
-    'Încălzește 10ml ulei într-o tigaie la foc mediu.',
-    'Toarnă ouăle bătute în tigaie și lasă să se întărească ușor pe margini, aproximativ 2 minute.',
-    'Adaugă roșiile și mozzarella pe jumătate din omletă.',
-    'Pliază omleta în jumătate peste umplutură și mai lasă 1-2 minute până mozzarella se topește. Servește imediat.',
-  ],
-},
+
 {
   id: 'lunch_9',
   name: 'Paste cu Pui și Parmezan',
@@ -507,6 +484,34 @@ export const recipes = [
     'În același timp fierbe 150g paste în apă cu sare conform instrucțiunilor, aproximativ 8-10 minute.',
     'Scurge pastele și adaugă-le în tigaie peste pui și roșii. Amestecă bine.',
     'Servește cu 20g parmezan ras deasupra și piper negru după gust.',
+  ],
+},
+
+
+{
+  id: 'lunch_10',
+  name: 'Paste Alfredo cu Pui',
+  type: 'lunch',
+  fixed: false,
+  budgetTier: 'medium',
+  baseCost: 52,
+  baseCalories: 720,
+  baseMacros: { p: 48.2, c: 68.4, f: 24.6 },
+  ingredients: [
+    { key: 'pasta', name: 'Paste făinoase', amount: 150, unit: 'g' },
+    { key: 'chicken breast', name: 'Piept de pui', amount: 180, unit: 'g' },
+    { key: 'heavy cream', name: 'Frișcă', amount: 80, unit: 'ml' },
+    { key: 'parmesan', name: 'Parmezan', amount: 20, unit: 'g' },
+    { key: 'garlic', name: 'Usturoi', amount: 10, unit: 'g' },
+    { key: 'butter', name: 'Unt', amount: 15, unit: 'g' },
+  ],
+  steps: [
+    'Fierbe 150g paste în apă cu sare conform instrucțiunilor, aproximativ 8-10 minute. Păstrează 50ml din apa de la paste înainte de a le scurge.',
+    'Taie 180g piept de pui în fâșii subțiri și condimentează cu sare și piper.',
+    'Topește 15g unt într-o tigaie la foc mediu. Adaugă puiul și gătește 5-6 minute până este auriu și gătit complet.',
+    'Adaugă 10g usturoi tocat și gătește 1 minut.',
+    'Toarnă 80ml frișcă în tigaie și lasă să fiarbă ușor 2-3 minute până se îngroașă puțin.',
+    'Adaugă pastele scurse și 20g parmezan ras. Amestecă bine, adaugă puțin din apa de paste dacă sosul e prea gros. Servește imediat.',
   ],
 },
 
@@ -742,6 +747,33 @@ export const recipes = [
     'Întoarce puiul și adaugă 15g usturoi tocat mărunt. Gătește încă 4-5 minute, stropind puiul cu untul și usturoiul din tigaie.',
     'Verifică că puiul este gătit complet — sucul trebuie să fie limpede când înțepi cu un cuțit.',
     'Stoarce puțin suc de lămâie deasupra înainte de servire pentru prospețime. Servește imediat.',
+  ],
+},
+
+{
+  id: 'dinner_10',
+  name: 'Supă Cremă de Legume cu Frișcă',
+  type: 'dinner',
+  fixed: false,
+  budgetTier: 'budget',
+  baseCost: 24,
+  baseCalories: 380,
+  baseMacros: { p: 8.2, c: 42.6, f: 18.4 },
+  ingredients: [
+    { key: 'potatoes', name: 'Cartofi', amount: 200, unit: 'g' },
+    { key: 'carrots', name: 'Morcovi', amount: 100, unit: 'g' },
+    { key: 'onions', name: 'Ceapă', amount: 80, unit: 'g' },
+    { key: 'garlic', name: 'Usturoi', amount: 10, unit: 'g' },
+    { key: 'heavy cream', name: 'Frișcă', amount: 80, unit: 'ml' },
+    { key: 'butter', name: 'Unt', amount: 15, unit: 'g' },
+  ],
+  steps: [
+    'Curăță și taie 200g cartofi, 100g morcovi și 80g ceapă în cuburi mari.',
+    'Topește 15g unt într-o oală la foc mediu. Adaugă ceapa și călește 3-4 minute până devine translucidă.',
+    'Adaugă 10g usturoi tocat, morcovii și cartofii. Amestecă 1-2 minute.',
+    'Toarnă 600ml apă sau supă de legume și fierbe 20-25 minute până legumele sunt moi.',
+    'Pasează cu un blender vertical până obții o cremă fină. Dacă e prea groasă adaugă puțină apă.',
+    'Adaugă 80ml frișcă și amestecă bine. Condimentează cu sare și piper după gust. Servește cu crutoane opțional.',
   ],
 },
 

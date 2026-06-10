@@ -60,6 +60,7 @@ const ingredientNamesRo = {
   'canned beans': 'Fasole la conservă',
   'canned corn': 'Porumb la conservă',
   'canned peas': 'Mazăre la conservă',
+  'heavy cream': 'Frișcă',
   'pasta sauce': 'Sos de paste',
   'sunflower oil': 'Ulei de floarea soarelui',
   'olive oil': 'Ulei de măsline',

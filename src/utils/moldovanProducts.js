@@ -262,6 +262,10 @@ export const moldovanProducts = {
     { id: 'oo_2', brand: 'La Espanola', productName: 'Ulei de măsline', size: '500ml', price: 26.39, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
     { id: 'oo_3', brand: 'Casă D\'Oro', productName: 'Ulei de măsline', size: '1L', price: 24.80, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
   ],
+  'heavy cream': [
+  { id: 'hc_1', brand: 'Galychyna', productName: 'Frișcă 33%', size: '500g', price: 10.58, priceUnit: '100g', cal: 319, p: 0, c: 3.1, f: 33, stores: ['Metro'], inStock: true },
+  { id: 'hc_2', brand: 'Latti', productName: 'Frișcă UHT 15%', size: '500g', price: 7.998, priceUnit: '100g', cal: 161, p: 2.9, c: 3.7, f: 15, stores: ['Kaufland', 'Metro'], inStock: true },
+],
   'butter': [
   { id: 'but_1', brand: 'Latti', productName: 'Unt 72.5%', size: '180g', price: 19.99, priceUnit: '100g', cal: 660, p: 1, c: 0.9, f: 72.5, stores: ['Kaufland', 'Metro'], inStock: true },
   { id: 'but_2', brand: 'Căsuța Mea', productName: 'Unt 72.5%', size: '200g', price: 22.95, priceUnit: '100g', cal: 725, p: 0, c: 0, f: 72.5, stores: ['Kaufland', 'Metro'], inStock: true },
