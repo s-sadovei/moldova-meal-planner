@@ -41,15 +41,21 @@ export const moldovanProducts = {
     { id: 'eggs_5', brand: 'Big Family', productName: 'Ouă M', size: '30 buc', price: 4.83, priceUnit: 'egg', cal: 155, p: 13, c: 1.1, f: 11, stores: ['Kaufland', 'Metro'], inStock: true },
     { id: 'eggs_6', brand: 'Fine Life', productName: 'Ouă L', size: '10 buc', price: 4.85, priceUnit: 'egg', cal: 155, p: 13, c: 1.1, f: 11, stores: ['Metro'], inStock: true },
   ],
-  'cottage cheese': [
+'cottage cheese': [
   { id: 'bv_1', brand: 'Grăuncior', productName: 'Brânză de vaci 4%', size: '400g', price: 9.74, priceUnit: '100g', cal: 110, p: 17, c: 1.5, f: 4, stores: ['Kaufland'], inStock: true },
   { id: 'bv_2', brand: 'Căsuța mea', productName: 'Brânză de vaci 5.5%', size: '500g', price: 9.59, priceUnit: '100g', cal: 116, p: 15, c: 3, f: 5.5, stores: ['Kaufland'], inStock: true },
-  { id: 'bv_3', brand: 'Latti', productName: 'Brânză de vaci 5.5%', size: '350g', price: 9.76, priceUnit: '100g', cal: 114, p: 15.1, c: 1.1, f: 5.5, stores: ['Kaufland'], inStock: true },
+  { id: 'bv_3', brand: 'Latti', productName: 'Brânză de vaci 5.5%', size: '350g', price: 9.40, priceUnit: '100g', cal: 114, p: 15.1, c: 1.1, f: 5.5, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'bv_7', brand: 'JLC', productName: 'Brânză de vaci 2%', size: '250g', price: 9.20, priceUnit: '100g', cal: 98, p: 18, c: 2, f: 2, stores: ['Metro'], inStock: true },
+  { id: 'bv_8', brand: 'Lactis', productName: 'Brânză de vaci 5%', size: '500g', price: 9.70, priceUnit: '100g', cal: 120, p: 17, c: 1.8, f: 5, stores: ['Metro'], inStock: true },
 ],
 'cottage cheese 9': [
-  { id: 'bv_4', brand: 'Incomlac', productName: 'Brânză de vaci 9%', size: '500g', price: 10.11, priceUnit: '100g', cal: 156, p: 16.7, c: 2, f: 9, stores: ['Kaufland'], inStock: true },
-  { id: 'bv_5', brand: 'Căsuța mea', productName: 'Brânză de vaci 9%', size: '500g', price: 9.43, priceUnit: '100g', cal: 159, p: 16.7, c: 2, f: 9, stores: ['Kaufland'], inStock: true },
-  { id: 'bv_6', brand: 'Latti', productName: 'Brânză de vaci 9%', size: '350g', price: 10.54, priceUnit: '100g', cal: 145, p: 14, c: 2, f: 9, stores: ['Kaufland'], inStock: true },
+  { id: 'bv_4', brand: 'Incomlac', productName: 'Brânză de vaci 9%', size: '500g', price: 10.11, priceUnit: '100g', cal: 156, p: 16.7, c: 2, f: 9, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'bv_5', brand: 'Căsuța mea', productName: 'Brânză de vaci 9%', size: '500g', price: 9.43, priceUnit: '100g', cal: 159, p: 16.7, c: 2, f: 9, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'bv_6', brand: 'Latti', productName: 'Brânză de vaci 9%', size: '350g', price: 10.54, priceUnit: '100g', cal: 145, p: 14, c: 2, f: 9, stores: ['Kaufland', 'Metro'], inStock: true },
+],
+'cottage cheese 0': [
+  { id: 'bv_9', brand: 'JLC', productName: 'Brânză de vaci 0%', size: '500g', price: 7.998, priceUnit: '100g', cal: 80, p: 18, c: 1.8, f: 0.1, stores: ['Metro'], inStock: true },
+  { id: 'bv_10', brand: 'Căsuța Mea', productName: 'Brânză de vaci 0%', size: '500g', price: 7.40, priceUnit: '100g', cal: 88, p: 18, c: 1.8, f: 0, stores: ['Metro'], inStock: true },
 ],
   'sweet cheese': [
     { id: 'sc_1', brand: 'BigLapik', productName: 'Brânzică dulce cu vanilie degresată', size: '100g', price: 8.59, priceUnit: '100g', cal: 165, p: 17.6, c: 22.6, f: 0.05, stores: ['Kaufland'], inStock: true },

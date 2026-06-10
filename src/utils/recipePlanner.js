@@ -34,8 +34,14 @@ const swapIngredientsByGoal = (ingredients, goal) => {
     if (ing.key === 'cottage cheese' && goal === 'build') {
       return { ...ing, key: 'cottage cheese 9', name: 'Brânză de vaci 9%' }
     }
+    if (ing.key === 'cottage cheese' && goal === 'lose') {
+      return { ...ing, key: 'cottage cheese 0', name: 'Brânză de vaci 0%' }
+    }
     if (ing.key === 'cottage cheese 9' && goal !== 'build') {
-      return { ...ing, key: 'cottage cheese', name: 'Brânză de vaci 4-5%' }
+      return { ...ing, key: goal === 'lose' ? 'cottage cheese 0' : 'cottage cheese', name: goal === 'lose' ? 'Brânză de vaci 0%' : 'Brânză de vaci 4-5%' }
+    }
+    if (ing.key === 'cottage cheese 0' && goal !== 'lose') {
+      return { ...ing, key: goal === 'build' ? 'cottage cheese 9' : 'cottage cheese', name: goal === 'build' ? 'Brânză de vaci 9%' : 'Brânză de vaci 4-5%' }
     }
     return ing
   })
