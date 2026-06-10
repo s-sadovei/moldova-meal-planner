@@ -116,10 +116,10 @@ export const moldovanProducts = {
 
   // GRAINS & BREAD
   'oats': [
-    { id: 'oats_1', brand: 'Roman', productName: 'Fulgi de ovăz', size: '450g', price: 1.60, priceUnit: '100g', cal: 359, p: 14.1, c: 54.1, f: 7, stores: ['Kaufland'], inStock: true },
-    { id: 'oats_2', brand: 'Bunetto', productName: 'Fulgi de ovăz', size: '500g', price: 2.75, priceUnit: '100g', cal: 359, p: 14.1, c: 54.1, f: 7, stores: ['Kaufland'], inStock: true },
-    { id: 'oats_3', brand: 'K-Classic', productName: 'Fulgi de ovăz', size: '500g', price: 1.89, priceUnit: '100g', cal: 373, p: 13, c: 68, f: 6.9, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'oats_1', brand: 'Roman', productName: 'Fulgi de ovăz', size: '450g', price: 1.60, priceUnit: '100g', cal: 359, p: 14.1, c: 54.1, f: 7, stores: ['Kaufland'], inStock: true },
+  { id: 'oats_2', brand: 'Bunetto', productName: 'Fulgi de ovăz', size: '500g', price: 2.75, priceUnit: '100g', cal: 359, p: 14.1, c: 54.1, f: 7, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'oats_3', brand: 'K-Classic', productName: 'Fulgi de ovăz', size: '500g', price: 1.89, priceUnit: '100g', cal: 373, p: 13, c: 68, f: 6.9, stores: ['Kaufland'], inStock: true },
+],
   'rice': [
   { id: 'rice_1', brand: 'Bunetto', productName: 'Orez clasic', size: '900g', price: 2.05, priceUnit: '100g', cal: 333, p: 7, c: 71.8, f: 1, stores: ['Kaufland', 'Metro'], inStock: true },
   { id: 'rice_2', brand: 'De la bunica', productName: 'Orez clasic', size: '900g', price: 1.88, priceUnit: '100g', cal: 346, p: 6.44, c: 79.16, f: 1, stores: ['Kaufland'], inStock: true },
