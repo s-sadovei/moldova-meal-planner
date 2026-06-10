@@ -221,10 +221,15 @@ export const moldovanProducts = {
     { id: 'peas_2', brand: 'ARO', productName: 'Mazăre verde', size: '400g', price: 3.50, priceUnit: '100g', cal: 83, p: 6.9, c: 8, f: 2, stores: ['Metro'], inStock: true },
   ],
   'pasta sauce': [
-    { id: 'ps_1', brand: 'K-Classic', productName: 'Sos paste Arrabbiata', size: '420g', price: 10.69, priceUnit: '100g', cal: 43, p: 1.6, c: 7.4, f: 0.6, stores: ['Kaufland'], inStock: true },
-    { id: 'ps_2', brand: 'Panzani', productName: 'Sos paste Arrabbiata', size: '400g', price: 17.48, priceUnit: '100g', cal: 52, p: 1.7, c: 6.7, f: 1.8, stores: ['Kaufland'], inStock: true },
-    { id: 'ps_3', brand: 'Mutti', productName: 'Sos paste Arrabbiata', size: '400g', price: 18.73, priceUnit: '100g', cal: 52, p: 1.5, c: 4.6, f: 2.7, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'ps_1', brand: 'K-Classic', productName: 'Sos paste Arrabbiata', size: '420g', price: 10.69, priceUnit: '100g', cal: 43, p: 1.6, c: 7.4, f: 0.6, stores: ['Kaufland'], inStock: true },
+  { id: 'ps_2', brand: 'Panzani', productName: 'Sos paste Arrabbiata', size: '400g', price: 17.48, priceUnit: '100g', cal: 52, p: 1.7, c: 6.7, f: 1.8, stores: ['Kaufland'], inStock: true },
+  { id: 'ps_3', brand: 'Mutti', productName: 'Sos paste Arrabbiata', size: '400g', price: 18.73, priceUnit: '100g', cal: 52, p: 1.5, c: 4.6, f: 2.7, stores: ['Kaufland'], inStock: true },
+  { id: 'ps_4', brand: 'Barilla', productName: 'Sos Bolognese', size: '400g', price: 9.75, priceUnit: '100g', cal: 68, p: 1.3, c: 6, f: 4, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'ps_5', brand: 'Barilla', productName: 'Sos Napoletana', size: '400g', price: 9.75, priceUnit: '100g', cal: 69, p: 1.4, c: 6.3, f: 4, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'ps_6', brand: 'Barilla', productName: 'Sos Arrabbiata', size: '400g', price: 9.25, priceUnit: '100g', cal: 64, p: 1.4, c: 6.9, f: 3.1, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'ps_7', brand: 'Barilla', productName: 'Sos Olive', size: '400g', price: 11.50, priceUnit: '100g', cal: 329, p: 1.9, c: 6.7, f: 4.5, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'ps_8', brand: 'Casa Rinaldi', productName: 'Sos de roșii', size: '690g', price: 5.35, priceUnit: '100g', cal: 27, p: 1.5, c: 4.4, f: 0.5, stores: ['Kaufland', 'Metro'], inStock: true },
+],
   'canned tomatoes': [
     { id: 'ct_1', brand: 'METRO Chef', productName: 'Roșii decojite', size: '400g', price: 4.75, priceUnit: '100g', cal: 29, p: 1.2, c: 5.3, f: 0.1, stores: ['Metro'], inStock: true },
     { id: 'ct_2', brand: 'METRO Chef', productName: 'Roșii întregi decojite', size: '800g', price: 4.62, priceUnit: '100g', cal: 41, p: 1.2, c: 6.9, f: 0.6, stores: ['Metro'], inStock: true },
@@ -233,8 +238,31 @@ export const moldovanProducts = {
     { id: 'crt_1', brand: 'METRO Chef', productName: 'Roșii pasate', size: '500g', price: 4.50, priceUnit: '100g', cal: 22, p: 1.2, c: 3.0, f: 0.2, stores: ['Metro'], inStock: true },
   ],
   'tomato paste': [
-    { id: 'tp_1', brand: 'Vis', productName: 'Pastă de tomate 25%', size: '415g', price: 8.89, priceUnit: '100g', cal: 45, p: 0.2, c: 10.5, f: 0.2, stores: ['Metro'], inStock: true },
-  ],
+  { id: 'tp_1', brand: 'Vis', productName: 'Pastă de tomate 25%', size: '415g', price: 8.89, priceUnit: '100g', cal: 45, p: 0.2, c: 10.5, f: 0.2, stores: ['Metro'], inStock: true },
+  { id: 'tp_2', brand: 'Lux Menu', productName: 'Pastă de tomate', size: '70g', price: 13.56, priceUnit: '100g', cal: 91, p: 6, c: 18.9, f: 0, stores: ['Kaufland', 'Metro'], inStock: true },
+],
+'pesto': [
+  { id: 'pest_1', brand: 'Barilla', productName: 'Pesto Genovese', size: '190g', price: 26.79, priceUnit: '100g', cal: 520, p: 5, c: 7, f: 52, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'pest_2', brand: 'Barilla', productName: 'Pesto Rosso', size: '190g', price: 26.79, priceUnit: '100g', cal: 324, p: 3.8, c: 13.2, f: 28, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'pest_3', brand: 'Barilla', productName: 'Pesto con Rucola', size: '190g', price: 26.79, priceUnit: '100g', cal: 443, p: 3.9, c: 10.2, f: 42.5, stores: ['Kaufland', 'Metro'], inStock: true },
+],
+'mustard': [
+  { id: 'must_1', brand: 'TORCIN', productName: 'Muștar American', size: '130g', price: 11.53, priceUnit: '100g', cal: 161, p: 4.4, c: 21.7, f: 5.1, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'must_2', brand: 'TORCIN', productName: 'Muștar Dijon', size: '130g', price: 11.53, priceUnit: '100g', cal: 186, p: 6.4, c: 20, f: 7.4, stores: ['Kaufland', 'Metro'], inStock: true },
+],
+'soy sauce': [
+  { id: 'soys_1', brand: 'Sen Soy', productName: 'Sos de soia clasic', size: '250g', price: 17.20, priceUnit: '100g', cal: 60, p: 2.5, c: 11, f: 0, stores: ['Kaufland', 'Metro'], inStock: true },
+],
+'adjika': [
+  { id: 'adj_1', brand: 'Gutarom', productName: 'Adjică delicioasă', size: '500g', price: 6.50, priceUnit: '100g', cal: 108, p: 1.1, c: 10, f: 0, stores: ['Metro'], inStock: true },
+],
+'sweet chili sauce': [
+  { id: 'scs_1', brand: 'METRO Chef', productName: 'Sos chilli dulce', size: '605g', price: 9.40, priceUnit: '100g', cal: 150, p: 0.5, c: 33, f: 0.5, stores: ['Metro'], inStock: true },
+],
+'satsebeli': [
+  { id: 'sat_1', brand: 'TORCIN', productName: 'Sos Satsebeli', size: '200g', price: 16.75, priceUnit: '100g', cal: 80, p: 1.3, c: 16.9, f: 0.2, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'sat_2', brand: 'TORCIN', productName: 'Sos Mexicano', size: '200g', price: 16.75, priceUnit: '100g', cal: 100, p: 1.4, c: 21.7, f: 0.2, stores: ['Kaufland', 'Metro'], inStock: true },
+],
   'black beans': [
     { id: 'bb_1', brand: 'METRO Chef', productName: 'Fasole neagră', size: '400g', price: 5.75, priceUnit: '100g', cal: 92, p: 7.1, c: 11.0, f: 0.7, stores: ['Metro'], inStock: true },
   ],
