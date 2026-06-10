@@ -339,19 +339,23 @@ export const moldovanProducts = {
   { id: 'av_2', brand: 'Metro', productName: 'Avocado', size: 'per kg', price: 9.89, priceUnit: '100g', cal: 160, p: 2, c: 9, f: 15, stores: ['Metro'], inStock: true },
 ],
   'frozen spinach': [
-    { id: 'fs_1', brand: 'K-Classic', productName: 'Spanac congelat', size: '750g', price: 0.80, priceUnit: '100g', cal: 23, p: 2.2, c: 1.4, f: 0.4, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'fs_1', brand: 'K-Classic', productName: 'Spanac congelat', size: '750g', price: 0.80, priceUnit: '100g', cal: 23, p: 2.2, c: 1.4, f: 0.4, stores: ['Kaufland'], inStock: true },
+  { id: 'fs_2', brand: 'Fine Life', productName: 'Spanac tocat congelat', size: '450g', price: 4.00, priceUnit: '100g', cal: 23, p: 2.2, c: 1.4, f: 0.4, stores: ['Metro'], inStock: true },
+],
   'frozen broccoli': [
-    { id: 'fb_1', brand: 'K-Classic', productName: 'Broccoli congelat', size: '750g', price: 0.85, priceUnit: '100g', cal: 28, p: 2.4, c: 4, f: 0.4, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'fb_1', brand: 'K-Classic', productName: 'Broccoli congelat', size: '750g', price: 0.85, priceUnit: '100g', cal: 28, p: 2.4, c: 4, f: 0.4, stores: ['Kaufland'], inStock: true },
+  { id: 'fb_2', brand: 'Fine Life', productName: 'Broccoli congelat', size: '405g', price: 7.77, priceUnit: '100g', cal: 28, p: 2.4, c: 4, f: 0.4, stores: ['Metro'], inStock: true },
+],
   'frozen peas': [
-    { id: 'fp_1', brand: 'K-Classic', productName: 'Mazăre congelată', size: '750g', price: 0.75, priceUnit: '100g', cal: 77, p: 5.2, c: 12, f: 0.4, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'fp_1', brand: 'K-Classic', productName: 'Mazăre congelată', size: '750g', price: 0.75, priceUnit: '100g', cal: 77, p: 5.2, c: 12, f: 0.4, stores: ['Kaufland'], inStock: true },
+  { id: 'fp_2', brand: 'METRO Chef', productName: 'Mazăre congelată', size: '1kg', price: 5.79, priceUnit: '100g', cal: 77, p: 5.2, c: 12, f: 0.4, stores: ['Metro'], inStock: true },
+],
   'frozen vegetables mix': [
-    { id: 'fvm_1', brand: 'K-Classic', productName: 'Legume congelate Italian mix', size: '750g', price: 5.59, priceUnit: '100g', cal: 45, p: 2.5, c: 7, f: 0.5, stores: ['Kaufland'], inStock: true },
-    { id: 'fvm_2', brand: 'K-Classic', productName: 'Legume congelate Mexican mix', size: '750g', price: 5.99, priceUnit: '100g', cal: 50, p: 2.8, c: 8, f: 0.6, stores: ['Kaufland'], inStock: true },
-    { id: 'fvm_3', brand: 'K-Classic', productName: 'Legume congelate Asian mix', size: '750g', price: 5.59, priceUnit: '100g', cal: 45, p: 2.5, c: 7, f: 0.5, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'fvm_1', brand: 'K-Classic', productName: 'Legume congelate Italian mix', size: '750g', price: 5.59, priceUnit: '100g', cal: 45, p: 2.5, c: 7, f: 0.5, stores: ['Kaufland'], inStock: true },
+  { id: 'fvm_2', brand: 'K-Classic', productName: 'Legume congelate Mexican mix', size: '750g', price: 5.99, priceUnit: '100g', cal: 50, p: 2.8, c: 8, f: 0.6, stores: ['Kaufland'], inStock: true },
+  { id: 'fvm_3', brand: 'K-Classic', productName: 'Legume congelate Asian mix', size: '750g', price: 5.59, priceUnit: '100g', cal: 45, p: 2.5, c: 7, f: 0.5, stores: ['Kaufland'], inStock: true },
+  { id: 'fvm_4', brand: 'Fine Life', productName: 'Legume congelate Mexican mix', size: '450g', price: 5.55, priceUnit: '100g', cal: 50, p: 2.8, c: 8, f: 0.6, stores: ['Metro'], inStock: true },
+],
 
   // FRUITS
   'apples': [
