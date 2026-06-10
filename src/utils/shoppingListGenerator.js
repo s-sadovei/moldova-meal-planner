@@ -91,6 +91,10 @@ const ingredientNamesRo = {
   'almonds': 'Migdale',
   'raisins': 'Stafide',
   'dates': 'Curmale',
+  'yeast': 'Drojdie uscată',
+  'baking soda': 'Bicarbonat de sodiu',
+  'corn starch': 'Amidon din porumb',
+  'potato starch': 'Amidon de cartofi',
 }
 
 const ingredientCategories = {
@@ -99,6 +103,10 @@ const ingredientCategories = {
   'balsamic vinegar': 'Other',
   'sesame oil': 'Other',
   'chicken thighs': 'Meat and fish',
+  'yeast': 'Other',
+  'baking soda': 'Other',
+  'corn starch': 'Other',
+  'potato starch': 'Other',
   'mozzarella': 'Dairy and eggs',
   'bulgur': 'Grains and bread',
   'cream cheese': 'Dairy and eggs',

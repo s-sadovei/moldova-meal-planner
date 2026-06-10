@@ -162,6 +162,9 @@ export const moldovanProducts = {
   { id: 'cs_1', brand: 'Bunetto', productName: 'Couscous', size: '800g', price: 3.74, priceUnit: '100g', cal: 376, p: 13, c: 72, f: 2.3, stores: ['Kaufland'], inStock: true },
   { id: 'cs_2', brand: 'METRO Chef', productName: 'Couscous', size: '800g', price: 4.50, priceUnit: '100g', cal: 370, p: 12, c: 75, f: 1.5, stores: ['Metro'], inStock: true },
 ],
+'bulgur': [
+  { id: 'bulg_1', brand: 'METRO Chef', productName: 'Bulgur', size: '900g', price: 2.55, priceUnit: '100g', cal: 350, p: 13, c: 73, f: 1.8, stores: ['Metro'], inStock: true },
+],
   'flour': [
   { id: 'flour_1', brand: 'Bunetto', productName: 'Făină de grâu', size: '1kg', price: 1.14, priceUnit: '100g', cal: 340, p: 10, c: 70, f: 1, stores: ['Kaufland'], inStock: true },
   { id: 'flour_2', brand: 'Băneasa', productName: 'Făină de grâu', size: '2kg', price: 1.80, priceUnit: '100g', cal: 346, p: 10.7, c: 73.1, f: 0.9, stores: ['Kaufland', 'Metro'], inStock: true },
@@ -357,6 +360,18 @@ export const moldovanProducts = {
 ],
   'sugar': [
   { id: 'sug_1', brand: 'Domnița', productName: 'Zahăr', size: '1kg', price: 1.95, priceUnit: '100g', cal: 398, p: 0, c: 99.8, f: 0, stores: ['Kaufland'], inStock: true },
+],
+'yeast': [
+  { id: 'yeast_1', brand: 'Dr. Oetker', productName: 'Drojdie uscată', size: '7g', price: 142.71, priceUnit: '100g', cal: 0, p: 0, c: 0, f: 0, stores: ['Kaufland'], inStock: true },
+],
+'baking soda': [
+  { id: 'bsoda_1', brand: 'Dr. Oetker', productName: 'Bicarbonat de sodiu', size: '50g', price: 18.98, priceUnit: '100g', cal: 0, p: 0, c: 0, f: 0, stores: ['Kaufland'], inStock: true },
+],
+'corn starch': [
+  { id: 'cst_1', brand: 'Stalagmita', productName: 'Amidon din porumb', size: '300g', price: 7.33, priceUnit: '100g', cal: 381, p: 0.2, c: 30.5, f: 0.8, stores: ['Kaufland'], inStock: true },
+],
+'potato starch': [
+  { id: 'pst_1', brand: 'Stalagmita', productName: 'Amidon de cartofi', size: '500g', price: 4.80, priceUnit: '100g', cal: 375, p: 0.5, c: 97, f: 0.2, stores: ['Kaufland'], inStock: true },
 ],
   'condensed milk': [
   { id: 'cm_1', brand: 'Latti', productName: 'Lapte condensat integral cu zahăr 8.5%', size: '480g', price: 8.54, priceUnit: '100g', cal: 338.5, p: 7.2, c: 58.3, f: 8.5, stores: ['Kaufland', 'Metro'], inStock: true },
