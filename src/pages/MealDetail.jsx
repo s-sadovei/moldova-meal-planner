@@ -164,15 +164,18 @@ const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / 
             const pref = getBrandPreference(food)
             const products = getProductsForIngredient(food)
             const isEgg = food === 'eggs'
+const isScoop = unit === 'scoops'
 const kcal = pref
   ? isEgg
     ? Math.round(pref.cal * amount * 0.6)
+    : isScoop
+    ? Math.round(pref.cal * amount)
     : Math.round((pref.cal * amount) / 100)
   : 0
 
             return (
               <div key={i}
-                onClick={() => { setSelectedIngredient({ food, amount }); setChangingBrand(false) }}
+                onClick={() => { setSelectedIngredient({ food, amount, unit }); setChangingBrand(false) }}
                 className="flex items-center gap-3 bg-white rounded-[14px] border border-[#E8E6E0] px-4 py-3 cursor-pointer">
                 <span className="text-[22px] w-8 text-center">{getEmoji(food)}</span>
                 <div className="flex-1">
@@ -181,7 +184,7 @@ const kcal = pref
                     <p className="text-[11px] text-[#2D5A27] font-semibold">{pref.brand} · {pref.size}</p>
                   ) : (
                     <p className="text-[12px] text-[#B4B2A9] font-medium">
-                      {food === 'eggs' ? `${amount} buc` : `${amount}g`}
+                      {food === 'eggs' ? `${amount} buc` : unit === 'scoops' ? `${amount} scoops` : `${amount}g`}
                       {products.length > 0 && <span className="text-[#639922]"> · {isProduce(food) ? 'apasă pentru a vedea magazinul' : 'apasă pentru a alege brandul'}</span>}
                     </p>
                   )}
@@ -191,12 +194,12 @@ const kcal = pref
                     <>
                       <p className="text-[12px] font-semibold text-[#639922]">{kcal} kcal</p>
                       <p className="text-[11px] text-[#2D5A27] font-semibold">
-  {isEgg ? (pref.price * amount).toFixed(2) : (pref.price * amount / 100).toFixed(2)} MDL
+  {isEgg || isScoop ? (pref.price * amount).toFixed(2) : (pref.price * amount / 100).toFixed(2)} MDL
 </p>
                     </>
                   ) : (
                     <p className="text-[12px] text-[#B4B2A9]">
-                      {food === 'eggs' ? `${amount} buc` : `${amount}g`}
+                      {food === 'eggs' ? `${amount} buc` : unit === 'scoops' ? `${amount} scoops` : `${amount}g`}
                     </p>
                   )}
                 </div>
@@ -342,13 +345,15 @@ disabled={!eaten && fromDay !== undefined && fromDay !== todayDayIndex}>
                       <div>
                         <p style={{ fontFamily: "'Playfair Display', serif" }}
   className="text-[#2D5A27] text-[20px] font-extrabold">
-  {selectedIngredient.food === 'eggs'
+  {selectedIngredient.food === 'eggs' || selectedIngredient.unit === 'scoops'
     ? (pref.price * selectedIngredient.amount).toFixed(2)
     : (pref.price * selectedIngredient.amount / 100).toFixed(2)} MDL
 </p>
 <p className="text-[#888780] text-[11px]">
   {selectedIngredient.food === 'eggs'
     ? `pentru ${selectedIngredient.amount} ouă folosite`
+    : selectedIngredient.unit === 'scoops'
+    ? `pentru ${selectedIngredient.amount} scoops folosite`
     : `pentru ${selectedIngredient.amount}g folosite`}
 </p>
                       </div>
@@ -387,13 +392,15 @@ disabled={!eaten && fromDay !== undefined && fromDay !== todayDayIndex}>
                               <div className="text-right ml-3 flex-shrink-0">
                                 <p style={{ fontFamily: "'Playfair Display', serif" }}
   className="text-[#2D5A27] text-[18px] font-extrabold">
-  {selectedIngredient.food === 'eggs'
+  {selectedIngredient.food === 'eggs' || selectedIngredient.unit === 'scoops'
     ? (product.price * selectedIngredient.amount).toFixed(2)
     : (product.price * selectedIngredient.amount / 100).toFixed(2)} MDL
 </p>
 <p className="text-[#B4B2A9] text-[11px]">
   {selectedIngredient.food === 'eggs'
     ? `pentru ${selectedIngredient.amount} ouă`
+    : selectedIngredient.unit === 'scoops'
+    ? `pentru ${selectedIngredient.amount} scoops`
     : `pentru ${selectedIngredient.amount}g`}
 </p>
                               </div>
