@@ -120,6 +120,7 @@ const ingredientNamesRo = {
   'lavash': 'Lavaș',
   'shrimp': 'Creveți',
   'sweet chili sauce': 'Sos chilli dulce',
+  'protein powder': 'Proteină din zer',
   'satsebeli': 'Sos Satsebeli/Mexicano',
   'chicken wings': 'Aripi de pui',
   'minced beef': 'Carne tocată de vită',
@@ -131,6 +132,7 @@ const ingredientNamesRo = {
 const ingredientCategories = {
   'chicken breast': 'Meat and fish',
   'vinegar': 'Other',
+  'protein powder': 'Other',
   'canned tomatoes': 'Canned foods',
   'tomato paste': 'Canned foods',
   'lavash': 'Grains and bread',
@@ -285,6 +287,7 @@ const getCategory = (foodName) => {
 const getUnit = (foodName) => {
   const key = foodName.toLowerCase().trim()
   if (key === 'eggs' || key === 'egg') return 'pcs'
+  if (key === 'protein powder') return 'scoops'
   if (key.includes('oil') || key.includes('milk') || key.includes('kefir')) return 'ml'
   return 'g'
 }
@@ -316,8 +319,12 @@ export const generateShoppingList = (weekPlan) => {
   return Object.values(totals).map((item, index) => {
     const avgPrice = getAveragePriceForIngredient(item.normalizedKey)
     const estimatedPrice = avgPrice
-      ? Math.round(avgPrice * item.amount / 100 * 10) / 10
-      : Math.round(item.amount * 0.1)
+  ? item.unit === 'scoops'
+    ? Math.round(avgPrice * item.amount * 10) / 10
+    : item.unit === 'pcs'
+    ? Math.round(avgPrice * item.amount * 10) / 10
+    : Math.round(avgPrice * item.amount / 100 * 10) / 10
+  : Math.round(item.amount * 0.1)
 
     return {
   id: index,

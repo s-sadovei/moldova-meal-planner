@@ -160,7 +160,7 @@ const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / 
         {/* Ingredients */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Ingrediente</p>
         <div className="flex flex-col gap-2 -mt-2">
-          {meal.ingredients?.filter(({ food }) => food?.toLowerCase() !== 'water').map(({ food, amount, displayName }, i) => {
+          {meal.ingredients?.filter(({ food }) => food?.toLowerCase() !== 'water').map(({ food, amount, displayName, unit }, i) => {
             const pref = getBrandPreference(food)
             const products = getProductsForIngredient(food)
             const isEgg = food === 'eggs'

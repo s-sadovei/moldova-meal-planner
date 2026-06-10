@@ -72,7 +72,7 @@ const scaleRecipe = (recipe, targetCalories, goal) => {
     const price = getAveragePriceForIngredient(ing.key)
 
     if (macros) {
-      const ratio = ing.unit === 'pcs' ? (ing.amount * 0.78) : ing.amount / 100
+      const ratio = ing.unit === 'pcs' ? (ing.amount * 0.78) : ing.unit === 'scoops' ? ing.amount : ing.amount / 100
       cal += macros.cal * ratio
       p += macros.p * ratio
       c += macros.c * ratio
@@ -80,9 +80,9 @@ const scaleRecipe = (recipe, targetCalories, goal) => {
     }
 
     if (price) {
-      const ratio = ing.unit === 'pcs' ? ing.amount : ing.amount / 100
-      cost += price * ratio
-    }
+    const ratio = ing.unit === 'pcs' ? ing.amount : ing.unit === 'scoops' ? ing.amount : ing.amount / 100
+    cost += price * ratio
+  }
   })
 
   return {

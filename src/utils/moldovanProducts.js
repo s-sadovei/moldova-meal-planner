@@ -517,6 +517,10 @@ export const moldovanProducts = {
   { id: 'but_1', brand: 'Latti', productName: 'Unt 72.5%', size: '180g', price: 19.99, priceUnit: '100g', cal: 660, p: 1, c: 0.9, f: 72.5, stores: ['Kaufland', 'Metro'], inStock: true },
   { id: 'but_2', brand: 'Căsuța Mea', productName: 'Unt 72.5%', size: '200g', price: 22.95, priceUnit: '100g', cal: 725, p: 0, c: 0, f: 72.5, stores: ['Kaufland', 'Metro'], inStock: true },
 ],
+  'protein powder': [
+  { id: 'pp_1', brand: 'MyProtein', productName: 'Impact Whey Protein', size: '2.6kg/90 porții', price: 18.11, priceUnit: 'scoop', cal: 107, p: 20, c: 2.1, f: 1.9, stores: ['Online'], inStock: true },
+  { id: 'pp_2', brand: 'Balkan Pro Health', productName: 'Whey Protein Concentrate', size: '1.2kg', price: 20.83, priceUnit: 'scoop', cal: 99, p: 20, c: 1.1, f: 1.6, stores: ['Online'], inStock: true },
+],
 }
 
 export const getAverageMacrosForIngredient = (ingredientKey) => {
