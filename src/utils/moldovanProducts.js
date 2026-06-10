@@ -338,6 +338,9 @@ export const moldovanProducts = {
     { id: 'oo_2', brand: 'La Espanola', productName: 'Ulei de măsline', size: '500ml', price: 26.39, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
     { id: 'oo_3', brand: 'Casă D\'Oro', productName: 'Ulei de măsline', size: '1L', price: 24.80, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
   ],
+  'sugar': [
+  { id: 'sug_1', brand: 'Domnița', productName: 'Zahăr', size: '1kg', price: 1.95, priceUnit: '100g', cal: 398, p: 0, c: 99.8, f: 0, stores: ['Kaufland'], inStock: true },
+],
   'condensed milk': [
   { id: 'cm_1', brand: 'Latti', productName: 'Lapte condensat integral cu zahăr 8.5%', size: '480g', price: 8.54, priceUnit: '100g', cal: 338.5, p: 7.2, c: 58.3, f: 8.5, stores: ['Kaufland', 'Metro'], inStock: true },
 ],
