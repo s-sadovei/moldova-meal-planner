@@ -43,9 +43,19 @@ export const moldovanProducts = {
   { id: 'cm_1', brand: 'Axedum', productName: 'Perișoare de pui refrigerate', size: '500g', price: 11.58, priceUnit: '100g', cal: 205, p: 23.2, c: 0, f: 0.25, stores: ['Metro'], inStock: true },
 ],
   'tuna': [
-    { id: 'tuna_1', brand: 'K-Classic', productName: 'Ton în apă', size: '160g/112g', price: 34.73, priceUnit: '100g', cal: 130, p: 29, c: 0, f: 1, stores: ['Kaufland'], inStock: true },
-    { id: 'tuna_2', brand: 'K-Classic', productName: 'Ton în ulei', size: '185g/135g', price: 33.26, priceUnit: '100g', cal: 130, p: 28, c: 0, f: 2, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'tuna_1', brand: 'K-Classic', productName: 'Ton în apă', size: '160g/112g', price: 34.73, priceUnit: '100g', cal: 130, p: 29, c: 0, f: 1, stores: ['Kaufland'], inStock: true },
+  { id: 'tuna_2', brand: 'K-Classic', productName: 'Ton în ulei', size: '185g/135g', price: 33.26, priceUnit: '100g', cal: 130, p: 28, c: 0, f: 2, stores: ['Kaufland'], inStock: true },
+  { id: 'tuna_3', brand: 'Acvatoria', productName: 'Ton în suc propriu', size: '185g', price: 17.29, priceUnit: '100g', cal: 90, p: 18, c: 0, f: 2, stores: ['Metro'], inStock: true },
+  { id: 'tuna_4', brand: 'Acvatoria', productName: 'Ton în ulei', size: '185g', price: 17.29, priceUnit: '100g', cal: 200, p: 18, c: 0, f: 14, stores: ['Metro'], inStock: true },
+  { id: 'tuna_5', brand: 'ARO', productName: 'Ton bucăți în suc propriu', size: '185g', price: 20.54, priceUnit: '100g', cal: 97, p: 20, c: 0, f: 1.5, stores: ['Metro'], inStock: true },
+  { id: 'tuna_6', brand: 'ARO', productName: 'Ton bucăți în ulei', size: '185g', price: 20.54, priceUnit: '100g', cal: 177, p: 24.9, c: 0, f: 8.6, stores: ['Metro'], inStock: true },
+],
+'black olives': [
+  { id: 'bo_1', brand: 'ARO', productName: 'Măsline negre fără sâmburi', size: '300g', price: 10.50, priceUnit: '100g', cal: 175, p: 1.8, c: 5.2, f: 16.3, stores: ['Metro'], inStock: true },
+],
+'green olives': [
+  { id: 'go_1', brand: 'ARO', productName: 'Măsline verzi cu sâmburi', size: '300g', price: 10.50, priceUnit: '100g', cal: 117, p: 1.1, c: 0, f: 19.1, stores: ['Metro'], inStock: true },
+],
   'fish fillet': [
     { id: 'ff_1', brand: 'Golden Fish', productName: 'File de merluciu congelat', size: '1.1kg', price: 15.91, priceUnit: '100g', cal: 90.9, p: 17.7, c: 0, f: 2.2, stores: ['Kaufland'], inStock: true },
     { id: 'ff_2', brand: 'Azuris', productName: 'File pangasius congelat', size: '1kg', price: 9.99, priceUnit: '100g', cal: 90, p: 15, c: 0, f: 3, stores: ['Kaufland'], inStock: true },
@@ -174,11 +184,11 @@ export const moldovanProducts = {
   ],
   'lentils': [
   { id: 'lentils_1', brand: 'Bunetto', productName: 'Linte roșie', size: '800g', price: 3.49, priceUnit: '100g', cal: 310, p: 25, c: 46.5, f: 1.5, stores: ['Kaufland', 'Metro'], inStock: true },
-],
- 'chickpeas': [
-  { id: 'cp_1', brand: 'Bunetto', productName: 'Năut', size: '800g', price: 3.24, priceUnit: '100g', cal: 389, p: 19, c: 58, f: 6, stores: ['Kaufland'], inStock: true },
-  { id: 'cp_2', brand: 'ARO', productName: 'Năut conservat', size: '410g', price: 5.97, priceUnit: '100g', cal: 120, p: 7, c: 17, f: 2, stores: ['Metro'], inStock: true },
-],
+  ],
+  'chickpeas': [
+    { id: 'cp_1', brand: 'Bunetto', productName: 'Năut', size: '800g', price: 3.24, priceUnit: '100g', cal: 389, p: 19, c: 58, f: 6, stores: ['Kaufland'], inStock: true },
+    { id: 'cp_2', brand: 'ARO', productName: 'Năut conservat', size: '410g', price: 5.97, priceUnit: '100g', cal: 120, p: 7, c: 17, f: 2, stores: ['Metro'], inStock: true },
+  ],
   'dried beans': [
     { id: 'db_1', brand: 'Bunetto', productName: 'Fasole albă', size: '900g', price: 3.42, priceUnit: '100g', cal: 320, p: 21, c: 57, f: 1.5, stores: ['Kaufland'], inStock: true },
   ],
@@ -196,10 +206,11 @@ export const moldovanProducts = {
   
 
   // CANNED & PRESERVED
-  'canned beans': [
+    'canned beans': [
     { id: 'cb2_1', brand: 'Vis', productName: 'Fasole albă în sos tomat', size: '410g', price: 6.32, priceUnit: '100g', cal: 100, p: 5.1, c: 16, f: 1.2, stores: ['Kaufland'], inStock: true },
     { id: 'cb2_2', brand: 'K-Classic', productName: 'Fasole roșie în saramură', size: '420g', price: 8.20, priceUnit: '100g', cal: 98, p: 8, c: 12, f: 0.7, stores: ['Kaufland'], inStock: true },
     { id: 'cb2_3', brand: 'Vis', productName: 'Fasole roșie în sos tomat', size: '410g', price: 6.56, priceUnit: '100g', cal: 102, p: 5.2, c: 17.5, f: 0.8, stores: ['Kaufland'], inStock: true },
+    { id: 'cb2_4', brand: 'ARO', productName: 'Fasole Cannellini albă', size: '400g', price: 6.12, priceUnit: '100g', cal: 100, p: 5.1, c: 16, f: 1.2, stores: ['Metro'], inStock: true },
   ],
   'canned corn': [
     { id: 'corn_1', brand: 'Vis', productName: 'Porumb dulce conservat', size: '420g', price: 5.21, priceUnit: '100g', cal: 92, p: 2.6, c: 14.9, f: 1.9, stores: ['Kaufland'], inStock: true },
