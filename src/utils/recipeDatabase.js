@@ -246,6 +246,28 @@ export const recipes = [
   ],
 },
 
+{
+  id: 'breakfast_11',
+  name: 'Shake Proteic cu Banană',
+  type: 'breakfast',
+  fixed: true,
+  budgetTier: 'budget',
+  baseCost: 25,
+  baseCalories: 320,
+  baseMacros: { p: 43, c: 28, f: 5 },
+  ingredients: [
+    { key: 'protein powder', name: 'Proteină din zer', amount: 2, unit: 'scoops' },
+    { key: 'milk', name: 'Lapte', amount: 300, unit: 'ml' },
+    { key: 'bananas', name: 'Banane', amount: 100, unit: 'g' },
+  ],
+  steps: [
+    'Pune 300ml lapte rece în blender.',
+    'Adaugă 2 linguri de proteină din zer și banana tăiată în bucăți.',
+    'Mixează 30-60 secunde până obții o textură omogenă.',
+    'Servește imediat.',
+  ],
+},
+
   // ============ PRÂNZ ============
 
   {
