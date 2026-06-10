@@ -57,13 +57,23 @@ export const moldovanProducts = {
   { id: 'go_1', brand: 'ARO', productName: 'Măsline verzi cu sâmburi', size: '300g', price: 10.50, priceUnit: '100g', cal: 117, p: 1.1, c: 0, f: 19.1, stores: ['Metro'], inStock: true },
 ],
   'fish fillet': [
-    { id: 'ff_1', brand: 'Golden Fish', productName: 'File de merluciu congelat', size: '1.1kg', price: 15.91, priceUnit: '100g', cal: 90.9, p: 17.7, c: 0, f: 2.2, stores: ['Kaufland'], inStock: true },
-    { id: 'ff_2', brand: 'Azuris', productName: 'File pangasius congelat', size: '1kg', price: 9.99, priceUnit: '100g', cal: 90, p: 15, c: 0, f: 3, stores: ['Kaufland'], inStock: true },
-    { id: 'ff_3', brand: 'Golden Fish', productName: 'File de mintai congelat', size: '1kg', price: 9.40, priceUnit: '100g', cal: 72, p: 16, c: 0, f: 0.5, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'ff_1', brand: 'Golden Fish', productName: 'File de merluciu congelat', size: '1.1kg', price: 15.91, priceUnit: '100g', cal: 90.9, p: 17.7, c: 0, f: 2.2, stores: ['Kaufland'], inStock: true },
+  { id: 'ff_2', brand: 'Azuris', productName: 'File pangasius congelat', size: '1kg', price: 9.99, priceUnit: '100g', cal: 90, p: 15, c: 0, f: 3, stores: ['Kaufland'], inStock: true },
+  { id: 'ff_3', brand: 'Golden Fish', productName: 'File de mintai congelat', size: '1kg', price: 9.40, priceUnit: '100g', cal: 72, p: 16, c: 0, f: 0.5, stores: ['Kaufland'], inStock: true },
+  { id: 'ff_4', brand: 'Norven', productName: 'Hek trunchi congelat', size: '~1kg', price: 10.29, priceUnit: '100g', cal: 111, p: 17.2, c: 0, f: 4.7, stores: ['Metro'], inStock: true },
+  { id: 'ff_5', brand: 'Norven', productName: 'File biban congelat', size: '~1kg', price: 17.79, priceUnit: '100g', cal: 103, p: 18.2, c: 0, f: 3.3, stores: ['Metro'], inStock: true },
+  { id: 'ff_6', brand: 'METRO Chef', productName: 'File tilapia congelat', size: '900g', price: 18.54, priceUnit: '100g', cal: 96, p: 20, c: 0, f: 2.7, stores: ['Metro'], inStock: true },
+],
+'salmon': [
+  { id: 'sal_1', brand: 'Metro', productName: 'Rondele somon proaspăt', size: '~1kg', price: 33.90, priceUnit: '100g', cal: 216, p: 20, c: 0, f: 16, stores: ['Metro'], inStock: true },
+  { id: 'sal_2', brand: 'METRO Chef', productName: 'File somon posterior', size: '~1kg', price: 31.90, priceUnit: '100g', cal: 178, p: 19.9, c: 0.4, f: 10.9, stores: ['Metro'], inStock: true },
+],
+'shrimp': [
+  { id: 'shr_1', brand: 'METRO Chef', productName: 'Creveți White Tiger fierți curățați', size: '900g', price: 38.43, priceUnit: '100g', cal: 73, p: 17.3, c: 0.3, f: 0.3, stores: ['Metro'], inStock: true },
+],
   'sea bream': [
-    { id: 'sb_1', brand: 'Ocean Fish', productName: 'Dorada Grill', size: '1kg', price: 31.00, priceUnit: '100g', cal: 132, p: 25.1, c: 0, f: 3.6, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'sb_1', brand: 'Ocean Fish', productName: 'Dorada Grill', size: '1kg', price: 29.79, priceUnit: '100g', cal: 132, p: 25.1, c: 0, f: 3.6, stores: ['Kaufland', 'Metro'], inStock: true },
+],
 
   // DAIRY & EGGS
   'eggs': [
