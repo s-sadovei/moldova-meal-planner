@@ -35,9 +35,10 @@ export const moldovanProducts = {
   'ham': [
     { id: 'ham_1', brand: 'Rogob', productName: 'Pastramă de porc', size: '1kg', price: 21.90, priceUnit: '100g', cal: 230, p: 15.6, c: 2.4, f: 17.1, stores: ['Kaufland'], inStock: true },
   ],
-  'chicken sausages': [
-    { id: 'cs_1', brand: 'George Standard', productName: 'Mici de pui', size: '410g', price: 16.71, priceUnit: '100g', cal: 129, p: 18.6, c: 1.1, f: 5.8, stores: ['Kaufland'], inStock: true },
-  ],
+ 'chicken sausages': [
+  { id: 'cs_1', brand: 'George Standard', productName: 'Mici de pui', size: '410g', price: 16.71, priceUnit: '100g', cal: 129, p: 18.6, c: 1.1, f: 5.8, stores: ['Kaufland'], inStock: true },
+  { id: 'cs_2', brand: 'Axedum', productName: 'Mici de pui refrigerat', size: '500g', price: 12.78, priceUnit: '100g', cal: 182, p: 22, c: 0.25, f: 10.4, stores: ['Metro'], inStock: true },
+],
   'tuna': [
     { id: 'tuna_1', brand: 'K-Classic', productName: 'Ton în apă', size: '160g/112g', price: 34.73, priceUnit: '100g', cal: 130, p: 29, c: 0, f: 1, stores: ['Kaufland'], inStock: true },
     { id: 'tuna_2', brand: 'K-Classic', productName: 'Ton în ulei', size: '185g/135g', price: 33.26, priceUnit: '100g', cal: 130, p: 28, c: 0, f: 2, stores: ['Kaufland'], inStock: true },
