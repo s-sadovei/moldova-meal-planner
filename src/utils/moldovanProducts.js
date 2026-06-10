@@ -129,11 +129,13 @@ export const moldovanProducts = {
     { id: 'bw_2', brand: 'Delcon', productName: 'Hrișcă', size: '1kg', price: 1.66, priceUnit: '100g', cal: 329, p: 12.6, c: 68, f: 2.6, stores: ['Kaufland'], inStock: true },
   ],
   'pasta': [
-    { id: 'pasta_1', brand: 'Barilla', productName: 'Spaghetti nr 5', size: '500g', price: 4.16, priceUnit: '100g', cal: 359, p: 13, c: 71, f: 2, stores: ['Kaufland'], inStock: true },
-    { id: 'pasta_2', brand: 'Antonio di Vaio', productName: 'Spaghetti', size: '500g', price: 4.70, priceUnit: '100g', cal: 353.7, p: 12.5, c: 71.6, f: 1.2, stores: ['Kaufland'], inStock: true },
-    { id: 'pasta_3', brand: 'K-Classic', productName: 'Spaghetti', size: '500g', price: 4.98, priceUnit: '100g', cal: 365, p: 14, c: 70, f: 2.6, stores: ['Kaufland'], inStock: true },
-    { id: 'pasta_4', brand: 'Băneasa', productName: 'Paste făinoase', size: '400g', price: 6.56, priceUnit: '100g', cal: 350, p: 12, c: 70, f: 1.5, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'pasta_1', brand: 'Barilla', productName: 'Spaghetti nr 5', size: '500g', price: 4.16, priceUnit: '100g', cal: 359, p: 13, c: 71, f: 2, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'pasta_2', brand: 'Antonio di Vaio', productName: 'Spaghetti', size: '500g', price: 4.70, priceUnit: '100g', cal: 353.7, p: 12.5, c: 71.6, f: 1.2, stores: ['Kaufland'], inStock: true },
+  { id: 'pasta_3', brand: 'K-Classic', productName: 'Spaghetti', size: '500g', price: 4.98, priceUnit: '100g', cal: 365, p: 14, c: 70, f: 2.6, stores: ['Kaufland'], inStock: true },
+  { id: 'pasta_4', brand: 'Băneasa', productName: 'Paste făinoase', size: '400g', price: 6.56, priceUnit: '100g', cal: 350, p: 12, c: 70, f: 1.5, stores: ['Kaufland'], inStock: true },
+  { id: 'pasta_5', brand: 'Băneasa', productName: 'Fusilli', size: '1kg', price: 3.70, priceUnit: '100g', cal: 351, p: 11, c: 72.9, f: 1.2, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'pasta_6', brand: 'METRO Chef', productName: 'Spaghetti', size: '1kg', price: 4.05, priceUnit: '100g', cal: 350, p: 12.5, c: 70.5, f: 1.2, stores: ['Metro'], inStock: true },
+],
   'cornmeal': [
     { id: 'cm_1', brand: 'Băneasa', productName: 'Mălai', size: '1kg', price: 1.75, priceUnit: '100g', cal: 348, p: 7.53, c: 77.9, f: 1.12, stores: ['Kaufland'], inStock: true },
   ],
@@ -180,45 +182,57 @@ export const moldovanProducts = {
 
   // VEGETABLES
   'potatoes': [
-    { id: 'pot_1', brand: 'Local', productName: 'Cartofi albi', size: 'per kg', price: 1.24, priceUnit: '100g', cal: 77, p: 2, c: 17, f: 0.1, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'pot_1', brand: 'Kaufland', productName: 'Cartofi albi', size: 'per kg', price: 1.24, priceUnit: '100g', cal: 77, p: 2, c: 17, f: 0.1, stores: ['Kaufland'], inStock: true },
+  { id: 'pot_2', brand: 'Metro', productName: 'Cartofi albi', size: 'per kg', price: 1.50, priceUnit: '100g', cal: 77, p: 2, c: 17, f: 0.1, stores: ['Metro'], inStock: true },
+],
   'sweet potato': [
-    { id: 'sp_1', brand: 'Local', productName: 'Cartof batат', size: 'per kg', price: 5.79, priceUnit: '100g', cal: 86, p: 1.6, c: 20, f: 0.1, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'sp_1', brand: 'Kaufland', productName: 'Cartof dulce', size: 'per kg', price: 5.79, priceUnit: '100g', cal: 86, p: 1.6, c: 20, f: 0.1, stores: ['Kaufland'], inStock: true },
+  { id: 'sp_2', brand: 'Metro', productName: 'Cartof dulce', size: 'per kg', price: 5.59, priceUnit: '100g', cal: 86, p: 1.6, c: 20, f: 0.1, stores: ['Metro'], inStock: true },
+],
   'cabbage': [
-    { id: 'cab_1', brand: 'Local', productName: 'Varză albă', size: 'per kg', price: 2.39, priceUnit: '100g', cal: 25, p: 1.3, c: 6, f: 0.1, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'cab_1', brand: 'Kaufland', productName: 'Varză albă', size: 'per kg', price: 2.39, priceUnit: '100g', cal: 25, p: 1.3, c: 6, f: 0.1, stores: ['Kaufland'], inStock: true },
+  { id: 'cab_2', brand: 'Metro', productName: 'Varză albă', size: 'per kg', price: 0.70, priceUnit: '100g', cal: 25, p: 1.3, c: 6, f: 0.1, stores: ['Metro'], inStock: true },
+],
   'carrots': [
-    { id: 'car_1', brand: 'Local', productName: 'Morcovi', size: 'per kg', price: 1.65, priceUnit: '100g', cal: 41, p: 0.9, c: 10, f: 0.2, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'car_1', brand: 'Kaufland', productName: 'Morcovi', size: 'per kg', price: 1.65, priceUnit: '100g', cal: 41, p: 0.9, c: 10, f: 0.2, stores: ['Kaufland'], inStock: true },
+  { id: 'car_2', brand: 'Metro', productName: 'Morcovi', size: 'per kg', price: 1.35, priceUnit: '100g', cal: 41, p: 0.9, c: 10, f: 0.2, stores: ['Metro'], inStock: true },
+],
   'tomatoes': [
-    { id: 'tom_1', brand: 'Local', productName: 'Roșii', size: 'per kg', price: 5.79, priceUnit: '100g', cal: 18, p: 0.9, c: 3.9, f: 0.2, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'tom_1', brand: 'Kaufland', productName: 'Roșii', size: 'per kg', price: 5.79, priceUnit: '100g', cal: 18, p: 0.9, c: 3.9, f: 0.2, stores: ['Kaufland'], inStock: true },
+  { id: 'tom_2', brand: 'Metro', productName: 'Roșii', size: 'per kg', price: 3.60, priceUnit: '100g', cal: 18, p: 0.9, c: 3.9, f: 0.2, stores: ['Metro'], inStock: true },
+],
   'cucumbers': [
-    { id: 'cuc_1', brand: 'Local', productName: 'Castraveți', size: 'per kg', price: 3.49, priceUnit: '100g', cal: 15, p: 0.7, c: 3.6, f: 0.1, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'cuc_1', brand: 'Kaufland', productName: 'Castraveți', size: 'per kg', price: 3.49, priceUnit: '100g', cal: 15, p: 0.7, c: 3.6, f: 0.1, stores: ['Kaufland'], inStock: true },
+],
   'bell peppers': [
-    { id: 'bp_1', brand: 'Local', productName: 'Ardei gras roșu', size: 'per kg', price: 6.35, priceUnit: '100g', cal: 31, p: 1, c: 6, f: 0.3, stores: ['Kaufland'], inStock: true },
-    { id: 'bp_2', brand: 'Local', productName: 'Ardei gras galben', size: 'per kg', price: 6.99, priceUnit: '100g', cal: 27, p: 1, c: 5.3, f: 0.2, stores: ['Kaufland'], inStock: true },
-    { id: 'bp_3', brand: 'Local', productName: 'Ardei gras portocaliu', size: 'per kg', price: 6.99, priceUnit: '100g', cal: 29, p: 1, c: 5.7, f: 0.2, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'bp_1', brand: 'Kaufland', productName: 'Ardei gras roșu', size: 'per kg', price: 6.35, priceUnit: '100g', cal: 31, p: 1, c: 6, f: 0.3, stores: ['Kaufland'], inStock: true },
+  { id: 'bp_2', brand: 'Kaufland', productName: 'Ardei gras galben', size: 'per kg', price: 6.99, priceUnit: '100g', cal: 27, p: 1, c: 5.3, f: 0.2, stores: ['Kaufland'], inStock: true },
+  { id: 'bp_3', brand: 'Kaufland', productName: 'Ardei gras portocaliu', size: 'per kg', price: 6.99, priceUnit: '100g', cal: 29, p: 1, c: 5.7, f: 0.2, stores: ['Kaufland'], inStock: true },
+  { id: 'bp_4', brand: 'Metro', productName: 'Ardei gras', size: 'per kg', price: 4.65, priceUnit: '100g', cal: 31, p: 1, c: 6, f: 0.3, stores: ['Metro'], inStock: true },
+],
   'onions': [
-    { id: 'on_1', brand: 'Local', productName: 'Ceapă galbenă', size: 'per kg', price: 0.79, priceUnit: '100g', cal: 40, p: 1.1, c: 9.3, f: 0.1, stores: ['Kaufland'], inStock: true },
-    { id: 'on_2', brand: 'Local', productName: 'Ceapă roșie', size: 'per kg', price: 1.85, priceUnit: '100g', cal: 40, p: 1.1, c: 9.3, f: 0.1, stores: ['Kaufland'], inStock: true },
-    { id: 'on_3', brand: 'Local', productName: 'Ceapă verde', size: 'per legătură', price: 19.90, priceUnit: 'bunch', cal: 32, p: 1.8, c: 7.3, f: 0.2, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'on_1', brand: 'Kaufland', productName: 'Ceapă galbenă', size: 'per kg', price: 0.79, priceUnit: '100g', cal: 40, p: 1.1, c: 9.3, f: 0.1, stores: ['Kaufland'], inStock: true },
+  { id: 'on_2', brand: 'Kaufland', productName: 'Ceapă roșie', size: 'per kg', price: 1.85, priceUnit: '100g', cal: 40, p: 1.1, c: 9.3, f: 0.1, stores: ['Kaufland'], inStock: true },
+  { id: 'on_3', brand: 'Kaufland', productName: 'Ceapă verde', size: 'per legătură', price: 19.90, priceUnit: 'bunch', cal: 32, p: 1.8, c: 7.3, f: 0.2, stores: ['Kaufland'], inStock: true },
+  { id: 'on_4', brand: 'Metro', productName: 'Ceapă galbenă', size: 'per kg', price: 0.85, priceUnit: '100g', cal: 40, p: 1.1, c: 9.3, f: 0.1, stores: ['Metro'], inStock: true },
+  { id: 'on_5', brand: 'Metro', productName: 'Ceapă roșie', size: 'per kg', price: 1.90, priceUnit: '100g', cal: 40, p: 1.1, c: 9.3, f: 0.1, stores: ['Metro'], inStock: true },
+],
   'garlic': [
-    { id: 'gar_1', brand: 'Local', productName: 'Usturoi', size: 'per kg', price: 4.19, priceUnit: '100g', cal: 149, p: 6.4, c: 33, f: 0.5, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'gar_1', brand: 'Kaufland', productName: 'Usturoi', size: 'per kg', price: 4.19, priceUnit: '100g', cal: 149, p: 6.4, c: 33, f: 0.5, stores: ['Kaufland'], inStock: true },
+  { id: 'gar_2', brand: 'Metro', productName: 'Usturoi', size: 'per kg', price: 4.20, priceUnit: '100g', cal: 149, p: 6.4, c: 33, f: 0.5, stores: ['Metro'], inStock: true },
+],
   'broccoli': [
-    { id: 'bro_1', brand: 'Local', productName: 'Broccoli proaspăt', size: 'per kg', price: 7.49, priceUnit: '100g', cal: 34, p: 2.8, c: 7, f: 0.4, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'bro_1', brand: 'Kaufland', productName: 'Broccoli proaspăt', size: 'per kg', price: 7.49, priceUnit: '100g', cal: 34, p: 2.8, c: 7, f: 0.4, stores: ['Kaufland'], inStock: true },
+  { id: 'bro_2', brand: 'Metro', productName: 'Broccoli proaspăt', size: 'per kg', price: 6.99, priceUnit: '100g', cal: 34, p: 2.8, c: 7, f: 0.4, stores: ['Metro'], inStock: true },
+],
   'mushrooms': [
-    { id: 'mush_1', brand: 'Local', productName: 'Ciuperci champignon', size: 'per kg', price: 5.75, priceUnit: '100g', cal: 22, p: 3.1, c: 3.3, f: 0.3, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'mush_1', brand: 'Kaufland', productName: 'Ciuperci champignon', size: 'per kg', price: 5.75, priceUnit: '100g', cal: 22, p: 3.1, c: 3.3, f: 0.3, stores: ['Kaufland'], inStock: true },
+  { id: 'mush_2', brand: 'Metro', productName: 'Ciuperci champignon', size: 'per kg', price: 5.79, priceUnit: '100g', cal: 22, p: 3.1, c: 3.3, f: 0.3, stores: ['Metro'], inStock: true },
+],
   'avocado': [
-    { id: 'av_1', brand: 'Import', productName: 'Avocado', size: 'per kg', price: 9.59, priceUnit: '100g', cal: 160, p: 2, c: 9, f: 15, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'av_1', brand: 'Kaufland', productName: 'Avocado', size: 'per kg', price: 9.59, priceUnit: '100g', cal: 160, p: 2, c: 9, f: 15, stores: ['Kaufland'], inStock: true },
+  { id: 'av_2', brand: 'Metro', productName: 'Avocado', size: 'per kg', price: 9.89, priceUnit: '100g', cal: 160, p: 2, c: 9, f: 15, stores: ['Metro'], inStock: true },
+],
   'frozen spinach': [
     { id: 'fs_1', brand: 'K-Classic', productName: 'Spanac congelat', size: '750g', price: 0.80, priceUnit: '100g', cal: 23, p: 2.2, c: 1.4, f: 0.4, stores: ['Kaufland'], inStock: true },
   ],
@@ -236,20 +250,82 @@ export const moldovanProducts = {
 
   // FRUITS
   'apples': [
-    { id: 'app_1', brand: 'Local', productName: 'Mere roșii', size: 'per kg', price: 1.89, priceUnit: '100g', cal: 52, p: 0.3, c: 14, f: 0.2, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'app_1', brand: 'Kaufland', productName: 'Mere roșii', size: 'per kg', price: 1.89, priceUnit: '100g', cal: 52, p: 0.3, c: 14, f: 0.2, stores: ['Kaufland'], inStock: true },
+  { id: 'app_2', brand: 'Metro', productName: 'Mere Red Chief', size: 'per kg', price: 1.05, priceUnit: '100g', cal: 52, p: 0.3, c: 14, f: 0.2, stores: ['Metro'], inStock: true },
+],
   'lemon': [
-  { id: 'lem_1', brand: 'Import', productName: 'Lămâie', size: 'per kg', price: 6.79, priceUnit: '100g', cal: 29, p: 1.1, c: 9, f: 0.3, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'lem_1', brand: 'Kaufland', productName: 'Lămâie', size: 'per kg', price: 4.10, priceUnit: '100g', cal: 29, p: 1.1, c: 9, f: 0.3, stores: ['Kaufland'], inStock: true },
+  { id: 'lem_2', brand: 'Metro', productName: 'Lămâie', size: 'per kg', price: 6.79, priceUnit: '100g', cal: 29, p: 1.1, c: 9, f: 0.3, stores: ['Metro'], inStock: true },
 ],
   'bananas': [
-    { id: 'ban_1', brand: 'Import', productName: 'Banane', size: 'per kg', price: 3.15, priceUnit: '100g', cal: 89, p: 1.1, c: 23, f: 0.3, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'ban_1', brand: 'Kaufland', productName: 'Banane', size: 'per kg', price: 3.15, priceUnit: '100g', cal: 89, p: 1.1, c: 23, f: 0.3, stores: ['Kaufland'], inStock: true },
+  { id: 'ban_2', brand: 'Dole', productName: 'Banane', size: 'per kg', price: 3.45, priceUnit: '100g', cal: 89, p: 1.1, c: 23, f: 0.3, stores: ['Metro'], inStock: true },
+],
   'pears': [
-    { id: 'pear_1', brand: 'Local', productName: 'Pere', size: 'per kg', price: 3.59, priceUnit: '100g', cal: 57, p: 0.4, c: 15, f: 0.1, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'pear_1', brand: 'Kaufland', productName: 'Pere', size: 'per kg', price: 3.59, priceUnit: '100g', cal: 57, p: 0.4, c: 15, f: 0.1, stores: ['Kaufland'], inStock: true },
+  { id: 'pear_2', brand: 'Metro', productName: 'Pere Conference', size: 'per kg', price: 4.20, priceUnit: '100g', cal: 57, p: 0.4, c: 15, f: 0.1, stores: ['Metro'], inStock: true },
+],
   'oranges': [
-    { id: 'or_1', brand: 'Import', productName: 'Portocale', size: 'per kg', price: 2.59, priceUnit: '100g', cal: 47, p: 0.9, c: 12, f: 0.1, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'or_1', brand: 'Kaufland', productName: 'Portocale', size: 'per kg', price: 2.59, priceUnit: '100g', cal: 47, p: 0.9, c: 12, f: 0.1, stores: ['Kaufland'], inStock: true },
+  { id: 'or_2', brand: 'Metro', productName: 'Portocale', size: 'per kg', price: 2.85, priceUnit: '100g', cal: 47, p: 0.9, c: 12, f: 0.1, stores: ['Metro'], inStock: true },
+],
+'zucchini': [
+  { id: 'zuc_1', brand: 'Metro', productName: 'Dovlecei', size: 'per kg', price: 2.45, priceUnit: '100g', cal: 17, p: 1.2, c: 3.1, f: 0.3, stores: ['Metro'], inStock: true },
+],
+'beetroot': [
+  { id: 'beet_1', brand: 'Metro', productName: 'Sfeclă roșie', size: 'per kg', price: 0.80, priceUnit: '100g', cal: 43, p: 1.6, c: 9.6, f: 0.2, stores: ['Metro'], inStock: true },
+],
+'eggplant': [
+  { id: 'egg_1', brand: 'Metro', productName: 'Vinete', size: 'per kg', price: 4.10, priceUnit: '100g', cal: 25, p: 1, c: 5.9, f: 0.2, stores: ['Metro'], inStock: true },
+],
+'kiwi': [
+  { id: 'kiwi_1', brand: 'Metro', productName: 'Kiwi', size: 'per kg', price: 7.39, priceUnit: '100g', cal: 61, p: 1.1, c: 15, f: 0.5, stores: ['Metro'], inStock: true },
+],
+'cauliflower': [
+  { id: 'cau_1', brand: 'Metro', productName: 'Conopidă', size: 'per kg', price: 4.20, priceUnit: '100g', cal: 25, p: 1.9, c: 5, f: 0.3, stores: ['Metro'], inStock: true },
+],
+'strawberries': [
+  { id: 'straw_1', brand: 'Metro', productName: 'Căpșuni', size: 'per kg', price: 8.19, priceUnit: '100g', cal: 32, p: 0.7, c: 7.7, f: 0.3, stores: ['Metro'], inStock: true },
+],
+'blueberries': [
+  { id: 'blue_1', brand: 'Metro', productName: 'Afine', size: '500g', price: 23.38, priceUnit: '100g', cal: 57, p: 0.7, c: 14.5, f: 0.3, stores: ['Metro'], inStock: true },
+],
+'ginger': [
+  { id: 'ging_1', brand: 'Metro', productName: 'Ghimbir', size: 'per kg', price: 7.19, priceUnit: '100g', cal: 80, p: 1.8, c: 18, f: 0.8, stores: ['Metro'], inStock: true },
+],
+'iceberg lettuce': [
+  { id: 'ice_1', brand: 'Metro', productName: 'Salată iceberg', size: 'per kg', price: 4.19, priceUnit: '100g', cal: 14, p: 0.9, c: 3, f: 0.1, stores: ['Metro'], inStock: true },
+],
+'rucola': [
+  { id: 'ruc_1', brand: 'METRO Chef', productName: 'Rucola', size: '200g', price: 19.50, priceUnit: '100g', cal: 25, p: 2.6, c: 3.7, f: 0.7, stores: ['Metro'], inStock: true },
+],
+'fresh spinach': [
+  { id: 'fsp_1', brand: 'METRO Chef', productName: 'Spanac baby', size: '200g', price: 20.50, priceUnit: '100g', cal: 23, p: 2.9, c: 3.6, f: 0.4, stores: ['Metro'], inStock: true },
+],
+'sauerkraut': [
+  { id: 'sauer_1', brand: 'Metro', productName: 'Varză murată', size: '800g', price: 4.75, priceUnit: '100g', cal: 19, p: 0.9, c: 4.3, f: 0.1, stores: ['Metro'], inStock: true },
+],
+'dill': [
+  { id: 'dill_1', brand: 'MolAgro', productName: 'Mărar proaspăt', size: '100g', price: 15.99, priceUnit: '100g', cal: 43, p: 3.5, c: 7, f: 0.9, stores: ['Metro'], inStock: true },
+],
+'parsley': [
+  { id: 'pars_1', brand: 'Fresh For You', productName: 'Pătrunjel proaspăt', size: '100g', price: 15.99, priceUnit: '100g', cal: 36, p: 3, c: 6.3, f: 0.8, stores: ['Metro'], inStock: true },
+],
+'cashews': [
+  { id: 'cash_1', brand: 'METRO Chef', productName: 'Nuci de caju crude', size: '200g', price: 42.95, priceUnit: '100g', cal: 574, p: 15.3, c: 32.7, f: 46.5, stores: ['Metro'], inStock: true },
+],
+'peanuts': [
+  { id: 'pean_1', brand: 'METRO Chef', productName: 'Arahide prăjite decojite', size: '1kg', price: 10.19, priceUnit: '100g', cal: 552, p: 26.3, c: 9.9, f: 45.2, stores: ['Metro'], inStock: true },
+],
+'almonds': [
+  { id: 'alm_1', brand: 'METRO Chef', productName: 'Migdale uscate', size: '200g', price: 42.95, priceUnit: '100g', cal: 575, p: 21.2, c: 21.7, f: 49.5, stores: ['Metro'], inStock: true },
+],
+'raisins': [
+  { id: 'rais_1', brand: 'METRO Chef', productName: 'Stafide brune', size: '200g', price: 13.99, priceUnit: '100g', cal: 262, p: 1.8, c: 66, f: 0.2, stores: ['Metro'], inStock: true },
+],
+'dates': [
+  { id: 'dat_1', brand: 'METRO Chef', productName: 'Curmale uscate', size: '200g', price: 14.50, priceUnit: '100g', cal: 289, p: 0.1, c: 69, f: 1.4, stores: ['Metro'], inStock: true },
+],
 
   // OILS
   'sunflower oil': [
