@@ -361,6 +361,27 @@ export const moldovanProducts = {
   'sugar': [
   { id: 'sug_1', brand: 'Domnița', productName: 'Zahăr', size: '1kg', price: 1.95, priceUnit: '100g', cal: 398, p: 0, c: 99.8, f: 0, stores: ['Kaufland'], inStock: true },
 ],
+'baking powder': [
+  { id: 'bp_1', brand: 'Dr. Oetker', productName: 'Praf de copt', size: '10g', price: 49.90, priceUnit: '100g', cal: 79, p: 0, c: 0, f: 0, stores: ['Kaufland'], inStock: true },
+],
+'vanilla sugar': [
+  { id: 'vs_1', brand: 'Dr. Oetker', productName: 'Zahăr vanilinat', size: '8g', price: 93.63, priceUnit: '100g', cal: 394, p: 0, c: 0, f: 0, stores: ['Kaufland'], inStock: true },
+],
+'vanilla extract': [
+  { id: 've_1', brand: 'Dr. Oetker', productName: 'Esență de vanilie', size: '38ml', price: 101.29, priceUnit: '100ml', cal: 228, p: 0, c: 0, f: 0, stores: ['Kaufland'], inStock: true },
+],
+'cocoa': [
+  { id: 'coc_1', brand: 'Van', productName: 'Cacao pudră', size: '150g', price: 53.27, priceUnit: '100g', cal: 317, p: 22, c: 16, f: 11, stores: ['Kaufland'], inStock: true },
+],
+'gelatin': [
+  { id: 'gel_1', brand: 'Dr. Oetker', productName: 'Gelatină', size: '10g', price: 114.90, priceUnit: '100g', cal: 61, p: 0, c: 0, f: 0, stores: ['Kaufland'], inStock: true },
+],
+'powdered sugar': [
+  { id: 'ps_1', brand: 'Domnița', productName: 'Zahăr pudră', size: '500g', price: 3.20, priceUnit: '100g', cal: 398, p: 0, c: 99.8, f: 0, stores: ['Kaufland'], inStock: true },
+],
+'jelly': [
+  { id: 'jel_1', brand: 'Dr. Oetker', productName: 'Jeleu (orice gust)', size: '90g', price: 25.54, priceUnit: '100g', cal: 71, p: 2.6, c: 14.8, f: 0, stores: ['Kaufland'], inStock: true },
+],
 'yeast': [
   { id: 'yeast_1', brand: 'Dr. Oetker', productName: 'Drojdie uscată', size: '7g', price: 142.71, priceUnit: '100g', cal: 0, p: 0, c: 0, f: 0, stores: ['Kaufland'], inStock: true },
 ],
