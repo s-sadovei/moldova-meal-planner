@@ -39,6 +39,9 @@ export const moldovanProducts = {
   { id: 'cs_1', brand: 'George Standard', productName: 'Mici de pui', size: '410g', price: 16.71, priceUnit: '100g', cal: 129, p: 18.6, c: 1.1, f: 5.8, stores: ['Kaufland'], inStock: true },
   { id: 'cs_2', brand: 'Axedum', productName: 'Mici de pui refrigerat', size: '500g', price: 12.78, priceUnit: '100g', cal: 182, p: 22, c: 0.25, f: 10.4, stores: ['Metro'], inStock: true },
 ],
+'chicken meatballs': [
+  { id: 'cm_1', brand: 'Axedum', productName: 'Perișoare de pui refrigerate', size: '500g', price: 11.58, priceUnit: '100g', cal: 205, p: 23.2, c: 0, f: 0.25, stores: ['Metro'], inStock: true },
+],
   'tuna': [
     { id: 'tuna_1', brand: 'K-Classic', productName: 'Ton în apă', size: '160g/112g', price: 34.73, priceUnit: '100g', cal: 130, p: 29, c: 0, f: 1, stores: ['Kaufland'], inStock: true },
     { id: 'tuna_2', brand: 'K-Classic', productName: 'Ton în ulei', size: '185g/135g', price: 33.26, priceUnit: '100g', cal: 130, p: 28, c: 0, f: 2, stores: ['Kaufland'], inStock: true },
@@ -172,9 +175,10 @@ export const moldovanProducts = {
   'lentils': [
   { id: 'lentils_1', brand: 'Bunetto', productName: 'Linte roșie', size: '800g', price: 3.49, priceUnit: '100g', cal: 310, p: 25, c: 46.5, f: 1.5, stores: ['Kaufland', 'Metro'], inStock: true },
 ],
-  'chickpeas': [
-    { id: 'cp_1', brand: 'Bunetto', productName: 'Năut', size: '800g', price: 3.24, priceUnit: '100g', cal: 389, p: 19, c: 58, f: 6, stores: ['Kaufland'], inStock: true },
-  ],
+ 'chickpeas': [
+  { id: 'cp_1', brand: 'Bunetto', productName: 'Năut', size: '800g', price: 3.24, priceUnit: '100g', cal: 389, p: 19, c: 58, f: 6, stores: ['Kaufland'], inStock: true },
+  { id: 'cp_2', brand: 'ARO', productName: 'Năut conservat', size: '410g', price: 5.97, priceUnit: '100g', cal: 120, p: 7, c: 17, f: 2, stores: ['Metro'], inStock: true },
+],
   'dried beans': [
     { id: 'db_1', brand: 'Bunetto', productName: 'Fasole albă', size: '900g', price: 3.42, priceUnit: '100g', cal: 320, p: 21, c: 57, f: 1.5, stores: ['Kaufland'], inStock: true },
   ],
@@ -199,14 +203,32 @@ export const moldovanProducts = {
   ],
   'canned corn': [
     { id: 'corn_1', brand: 'Vis', productName: 'Porumb dulce conservat', size: '420g', price: 5.21, priceUnit: '100g', cal: 92, p: 2.6, c: 14.9, f: 1.9, stores: ['Kaufland'], inStock: true },
+    { id: 'corn_2', brand: 'METRO Chef', productName: 'Porumb dulce', size: '400g', price: 4.23, priceUnit: '100g', cal: 92, p: 2.6, c: 14.9, f: 1.9, stores: ['Metro'], inStock: true },
   ],
-  'canned peas': [
+    'canned peas': [
     { id: 'peas_1', brand: 'Vis', productName: 'Mazăre verde conservată', size: '436g', price: 6.40, priceUnit: '100g', cal: 83, p: 6.9, c: 8, f: 2, stores: ['Kaufland'], inStock: true },
+    { id: 'peas_2', brand: 'ARO', productName: 'Mazăre verde', size: '400g', price: 3.50, priceUnit: '100g', cal: 83, p: 6.9, c: 8, f: 2, stores: ['Metro'], inStock: true },
   ],
   'pasta sauce': [
     { id: 'ps_1', brand: 'K-Classic', productName: 'Sos paste Arrabbiata', size: '420g', price: 10.69, priceUnit: '100g', cal: 43, p: 1.6, c: 7.4, f: 0.6, stores: ['Kaufland'], inStock: true },
     { id: 'ps_2', brand: 'Panzani', productName: 'Sos paste Arrabbiata', size: '400g', price: 17.48, priceUnit: '100g', cal: 52, p: 1.7, c: 6.7, f: 1.8, stores: ['Kaufland'], inStock: true },
     { id: 'ps_3', brand: 'Mutti', productName: 'Sos paste Arrabbiata', size: '400g', price: 18.73, priceUnit: '100g', cal: 52, p: 1.5, c: 4.6, f: 2.7, stores: ['Kaufland'], inStock: true },
+  ],
+  'canned tomatoes': [
+    { id: 'ct_1', brand: 'METRO Chef', productName: 'Roșii decojite', size: '400g', price: 4.75, priceUnit: '100g', cal: 29, p: 1.2, c: 5.3, f: 0.1, stores: ['Metro'], inStock: true },
+    { id: 'ct_2', brand: 'METRO Chef', productName: 'Roșii întregi decojite', size: '800g', price: 4.62, priceUnit: '100g', cal: 41, p: 1.2, c: 6.9, f: 0.6, stores: ['Metro'], inStock: true },
+  ],
+  'crushed tomatoes': [
+    { id: 'crt_1', brand: 'METRO Chef', productName: 'Roșii pasate', size: '500g', price: 4.50, priceUnit: '100g', cal: 22, p: 1.2, c: 3.0, f: 0.2, stores: ['Metro'], inStock: true },
+  ],
+  'tomato paste': [
+    { id: 'tp_1', brand: 'Vis', productName: 'Pastă de tomate 25%', size: '415g', price: 8.89, priceUnit: '100g', cal: 45, p: 0.2, c: 10.5, f: 0.2, stores: ['Metro'], inStock: true },
+  ],
+  'black beans': [
+    { id: 'bb_1', brand: 'METRO Chef', productName: 'Fasole neagră', size: '400g', price: 5.75, priceUnit: '100g', cal: 92, p: 7.1, c: 11.0, f: 0.7, stores: ['Metro'], inStock: true },
+  ],
+  'cooked lentils': [
+    { id: 'cl_1', brand: 'Bonduelle', productName: 'Linte gătită', size: '400g', price: 9.62, priceUnit: '100g', cal: 84, p: 6.0, c: 11.9, f: 0.5, stores: ['Metro'], inStock: true },
   ],
 
   // VEGETABLES
