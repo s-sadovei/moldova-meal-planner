@@ -515,6 +515,33 @@ export const recipes = [
   ],
 },
 
+{
+  id: 'lunch_11',
+  name: 'Zeamă de Pui',
+  type: 'lunch',
+  fixed: false,
+  budgetTier: 'budget',
+  baseCost: 28,
+  baseCalories: 420,
+  baseMacros: { p: 38.4, c: 28.6, f: 12.2 },
+  ingredients: [
+    { key: 'chicken breast', name: 'Piept de pui', amount: 200, unit: 'g' },
+    { key: 'potatoes', name: 'Cartofi', amount: 150, unit: 'g' },
+    { key: 'carrots', name: 'Morcovi', amount: 80, unit: 'g' },
+    { key: 'onions', name: 'Ceapă', amount: 60, unit: 'g' },
+    { key: 'bors', name: 'Borș acru', amount: 200, unit: 'ml' },
+    { key: 'leustean', name: 'Leuștean', amount: 2, unit: 'g' },
+  ],
+  steps: [
+    'Pune 200g piept de pui întreg într-o oală cu 1.5l apă rece. Adaugă 60g ceapă curățată întreagă și 80g morcovi tăiați în rondele. Fierbe la foc mediu 25-30 minute, îndepărtând spuma.',
+    'Scoate pieptul de pui, lasă-l să se răcească puțin și rupe-l în bucăți cu mâna sau taie-l în cuburi.',
+    'Adaugă 150g cartofi tăiați în cuburi în zeama rămasă și fierbe încă 15 minute până sunt moi.',
+    'Toarnă 200ml borș acru în oală și lasă să fiarbă 5 minute. Gustă și adaugă mai mult borș dacă vrei mai acru.',
+    'Adaugă bucățile de pui înapoi în oală.',
+    'Adaugă un praf de leuștean uscat (foarte puțin — e puternic!), sare și piper după gust. Servește fierbinte.',
+  ],
+},
+
   // ============ CINĂ ============
 
   {
