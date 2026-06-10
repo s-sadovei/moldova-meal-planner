@@ -121,13 +121,15 @@ export const moldovanProducts = {
     { id: 'oats_3', brand: 'K-Classic', productName: 'Fulgi de ovăz', size: '500g', price: 1.89, priceUnit: '100g', cal: 373, p: 13, c: 68, f: 6.9, stores: ['Kaufland'], inStock: true },
   ],
   'rice': [
-    { id: 'rice_1', brand: 'Bunetto', productName: 'Orez clasic', size: '900g', price: 2.05, priceUnit: '100g', cal: 333, p: 7, c: 71.8, f: 1, stores: ['Kaufland'], inStock: true },
-    { id: 'rice_2', brand: 'De la bunica', productName: 'Orez clasic', size: '900g', price: 1.88, priceUnit: '100g', cal: 346, p: 6.44, c: 79.16, f: 1, stores: ['Kaufland'], inStock: true },
-  ],
-  'buckwheat': [
-    { id: 'bw_1', brand: 'Bunetto', productName: 'Hrișcă', size: '900g', price: 1.53, priceUnit: '100g', cal: 329, p: 12.6, c: 68, f: 2.6, stores: ['Kaufland'], inStock: true },
-    { id: 'bw_2', brand: 'Delcon', productName: 'Hrișcă', size: '1kg', price: 1.66, priceUnit: '100g', cal: 329, p: 12.6, c: 68, f: 2.6, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'rice_1', brand: 'Bunetto', productName: 'Orez clasic', size: '900g', price: 2.05, priceUnit: '100g', cal: 333, p: 7, c: 71.8, f: 1, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'rice_2', brand: 'De la bunica', productName: 'Orez clasic', size: '900g', price: 1.88, priceUnit: '100g', cal: 346, p: 6.44, c: 79.16, f: 1, stores: ['Kaufland'], inStock: true },
+  { id: 'rice_3', brand: 'METRO Chef', productName: 'Orez clasic rotund', size: '900g', price: 2.22, priceUnit: '100g', cal: 350, p: 6, c: 75, f: 0.5, stores: ['Metro'], inStock: true },
+],
+ 'buckwheat': [
+  { id: 'bw_1', brand: 'Bunetto', productName: 'Hrișcă', size: '900g', price: 1.53, priceUnit: '100g', cal: 329, p: 12.6, c: 68, f: 2.6, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'bw_2', brand: 'Delcon', productName: 'Hrișcă', size: '1kg', price: 1.66, priceUnit: '100g', cal: 329, p: 12.6, c: 68, f: 2.6, stores: ['Kaufland'], inStock: true },
+  { id: 'bw_3', brand: 'METRO Chef', productName: 'Hrișcă', size: '900g', price: 1.72, priceUnit: '100g', cal: 318, p: 11, c: 66, f: 3, stores: ['Metro'], inStock: true },
+],
   'pasta': [
   { id: 'pasta_1', brand: 'Barilla', productName: 'Spaghetti nr 5', size: '500g', price: 4.16, priceUnit: '100g', cal: 359, p: 13, c: 71, f: 2, stores: ['Kaufland', 'Metro'], inStock: true },
   { id: 'pasta_2', brand: 'Antonio di Vaio', productName: 'Spaghetti', size: '500g', price: 4.70, priceUnit: '100g', cal: 353.7, p: 12.5, c: 71.6, f: 1.2, stores: ['Kaufland'], inStock: true },
@@ -136,9 +138,10 @@ export const moldovanProducts = {
   { id: 'pasta_5', brand: 'Băneasa', productName: 'Fusilli', size: '1kg', price: 3.70, priceUnit: '100g', cal: 351, p: 11, c: 72.9, f: 1.2, stores: ['Kaufland', 'Metro'], inStock: true },
   { id: 'pasta_6', brand: 'METRO Chef', productName: 'Spaghetti', size: '1kg', price: 4.05, priceUnit: '100g', cal: 350, p: 12.5, c: 70.5, f: 1.2, stores: ['Metro'], inStock: true },
 ],
-  'cornmeal': [
-    { id: 'cm_1', brand: 'Băneasa', productName: 'Mălai', size: '1kg', price: 1.75, priceUnit: '100g', cal: 348, p: 7.53, c: 77.9, f: 1.12, stores: ['Kaufland'], inStock: true },
-  ],
+ 'cornmeal': [
+  { id: 'cm_1', brand: 'Băneasa', productName: 'Mălai', size: '1kg', price: 1.75, priceUnit: '100g', cal: 348, p: 7.53, c: 77.9, f: 1.12, stores: ['Kaufland'], inStock: true },
+  { id: 'cm_2', brand: 'METRO Chef', productName: 'Crupe de porumb Mălai', size: '900g', price: 1.11, priceUnit: '100g', cal: 340, p: 7, c: 70, f: 1.5, stores: ['Metro'], inStock: true },
+],
   'bread': [
     { id: 'bread_1', brand: 'Cuptoras', productName: 'Pâine albă', size: '1 buc', price: 6.70, priceUnit: 'loaf', cal: 248, p: 7.3, c: 53, f: 0.7, stores: ['Kaufland'], inStock: true },
     { id: 'bread_2', brand: 'Molina Familia', productName: 'Pâine albă', size: '550g', price: 8.65, priceUnit: 'loaf', cal: 253, p: 7.9, c: 53.7, f: 0.7, stores: ['Kaufland'], inStock: true },
@@ -147,17 +150,18 @@ export const moldovanProducts = {
     { id: 'bc_1', brand: 'Franzeluța', productName: 'Pesmeți măcinați', size: '400g', price: 4.10, priceUnit: '100g', cal: 414.3, p: 11.8, c: 76, f: 1.5, stores: ['Kaufland'], inStock: true },
   ],
   'lentils': [
-    { id: 'lentils_1', brand: 'Bunetto', productName: 'Linte roșie', size: '800g', price: 3.49, priceUnit: '100g', cal: 310, p: 25, c: 46.5, f: 1.5, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'lentils_1', brand: 'Bunetto', productName: 'Linte roșie', size: '800g', price: 3.49, priceUnit: '100g', cal: 310, p: 25, c: 46.5, f: 1.5, stores: ['Kaufland', 'Metro'], inStock: true },
+],
   'chickpeas': [
     { id: 'cp_1', brand: 'Bunetto', productName: 'Năut', size: '800g', price: 3.24, priceUnit: '100g', cal: 389, p: 19, c: 58, f: 6, stores: ['Kaufland'], inStock: true },
   ],
   'dried beans': [
     { id: 'db_1', brand: 'Bunetto', productName: 'Fasole albă', size: '900g', price: 3.42, priceUnit: '100g', cal: 320, p: 21, c: 57, f: 1.5, stores: ['Kaufland'], inStock: true },
   ],
-  'couscous': [
-    { id: 'cs_1', brand: 'Bunetto', productName: 'Couscous', size: '800g', price: 3.74, priceUnit: '100g', cal: 376, p: 13, c: 72, f: 2.3, stores: ['Kaufland'], inStock: true },
-  ],
+ 'couscous': [
+  { id: 'cs_1', brand: 'Bunetto', productName: 'Couscous', size: '800g', price: 3.74, priceUnit: '100g', cal: 376, p: 13, c: 72, f: 2.3, stores: ['Kaufland'], inStock: true },
+  { id: 'cs_2', brand: 'METRO Chef', productName: 'Couscous', size: '800g', price: 4.50, priceUnit: '100g', cal: 370, p: 12, c: 75, f: 1.5, stores: ['Metro'], inStock: true },
+],
   'flour': [
   { id: 'flour_1', brand: 'Bunetto', productName: 'Făină de grâu', size: '1kg', price: 1.14, priceUnit: '100g', cal: 340, p: 10, c: 70, f: 1, stores: ['Kaufland'], inStock: true },
   { id: 'flour_2', brand: 'Băneasa', productName: 'Făină de grâu', size: '2kg', price: 1.80, priceUnit: '100g', cal: 346, p: 10.7, c: 73.1, f: 0.9, stores: ['Kaufland', 'Metro'], inStock: true },
