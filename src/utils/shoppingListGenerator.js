@@ -83,6 +83,9 @@ const ingredientNamesRo = {
   'dill': 'Mărar',
   'parsley': 'Pătrunjel',
   'cashews': 'Nuci de caju',
+  'vinegar': 'Oțet de masă',
+  'balsamic vinegar': 'Oțet balsamic',
+  'sesame oil': 'Ulei de susan',
   'peanuts': 'Arahide',
   'almonds': 'Migdale',
   'raisins': 'Stafide',
@@ -91,6 +94,9 @@ const ingredientNamesRo = {
 
 const ingredientCategories = {
   'chicken breast': 'Meat and fish',
+  'vinegar': 'Other',
+  'balsamic vinegar': 'Other',
+  'sesame oil': 'Other',
   'chicken thighs': 'Meat and fish',
   'mozzarella': 'Dairy and eggs',
   'cream cheese': 'Dairy and eggs',

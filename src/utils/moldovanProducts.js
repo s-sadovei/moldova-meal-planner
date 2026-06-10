@@ -331,15 +331,26 @@ export const moldovanProducts = {
 
   // OILS
   'sunflower oil': [
-    { id: 'so_1', brand: 'Vitae d\'oro', productName: 'Ulei de floarea soarelui', size: '1L', price: 3.09, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
-    { id: 'so_2', brand: 'Bunetto', productName: 'Ulei de floarea soarelui', size: '950ml', price: 3.59, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
-    { id: 'so_3', brand: 'Floris', productName: 'Ulei de floarea soarelui', size: '955ml', price: 3.97, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'so_1', brand: 'Vitae d\'oro', productName: 'Ulei de floarea soarelui', size: '1L', price: 3.09, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
+  { id: 'so_2', brand: 'Bunetto', productName: 'Ulei de floarea soarelui', size: '950ml', price: 3.59, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'so_3', brand: 'Floris', productName: 'Ulei de floarea soarelui', size: '955ml', price: 3.97, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
+],
   'olive oil': [
-    { id: 'oo_1', brand: 'K-Classic', productName: 'Ulei de măsline', size: '750ml', price: 19.47, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
-    { id: 'oo_2', brand: 'La Espanola', productName: 'Ulei de măsline', size: '500ml', price: 26.39, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
-    { id: 'oo_3', brand: 'Casă D\'Oro', productName: 'Ulei de măsline', size: '1L', price: 24.80, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'oo_1', brand: 'K-Classic', productName: 'Ulei de măsline', size: '750ml', price: 19.47, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
+  { id: 'oo_2', brand: 'La Espanola', productName: 'Ulei de măsline', size: '500ml', price: 26.39, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
+  { id: 'oo_3', brand: 'Casă D\'Oro', productName: 'Ulei de măsline', size: '1L', price: 24.80, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Kaufland'], inStock: true },
+  { id: 'oo_4', brand: 'ARO', productName: 'Ulei de măsline Pomace', size: '1L', price: 12.39, priceUnit: '100ml', cal: 824, p: 0, c: 0, f: 91, stores: ['Metro'], inStock: true },
+],
+
+'vinegar': [
+  { id: 'vin_1', brand: 'Bunetto', productName: 'Oțet de masă 9%', size: '1L', price: 1.10, priceUnit: '100ml', cal: 16, p: 0, c: 0.6, f: 0, stores: ['Metro'], inStock: true },
+],
+'balsamic vinegar': [
+  { id: 'balv_1', brand: 'D&R Foods', productName: 'Oțet balsamic', size: '250ml', price: 10.99, priceUnit: '100ml', cal: 88, p: 0.5, c: 17.6, f: 0, stores: ['Metro'], inStock: true },
+],
+'sesame oil': [
+  { id: 'seso_1', brand: 'Kikosan', productName: 'Ulei de susan', size: '1L', price: 34.19, priceUnit: '100ml', cal: 884, p: 0, c: 0, f: 100, stores: ['Metro'], inStock: true },
+],
   'sugar': [
   { id: 'sug_1', brand: 'Domnița', productName: 'Zahăr', size: '1kg', price: 1.95, priceUnit: '100g', cal: 398, p: 0, c: 99.8, f: 0, stores: ['Kaufland'], inStock: true },
 ],
