@@ -102,6 +102,10 @@ const ingredientNamesRo = {
   'powdered sugar': 'Zahăr pudră',
   'jelly': 'Jeleu (orice gust)',
   'potato starch': 'Amidon de cartofi',
+  'chicken wings': 'Aripi de pui',
+  'minced beef': 'Carne tocată de vită',
+  'turkey breast': 'Piept de curcan',
+  'marinated chicken': 'Gambe de pui marinate',
 }
 
 const ingredientCategories = {
@@ -113,6 +117,10 @@ const ingredientCategories = {
   'vanilla extract': 'Other',
   'cocoa': 'Other',
   'gelatin': 'Other',
+  'chicken wings': 'Meat and fish',
+  'minced beef': 'Meat and fish',
+  'turkey breast': 'Meat and fish',
+  'marinated chicken': 'Meat and fish',
   'powdered sugar': 'Other',
   'jelly': 'Other',
   'sesame oil': 'Other',

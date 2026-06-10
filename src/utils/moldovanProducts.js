@@ -2,17 +2,36 @@ export const moldovanProducts = {
 
   // MEAT & FISH
   'chicken breast': [
-    { id: 'cb_1', brand: 'Avicola', productName: 'Piept de pui', size: '900g', price: 9.41, priceUnit: '100g', cal: 165, p: 31, c: 0, f: 3.6, stores: ['Kaufland'], inStock: true },
-    { id: 'cb_2', brand: 'Axedum', productName: 'Piept de pui', size: '500g', price: 10.80, priceUnit: '100g', cal: 165, p: 31, c: 0, f: 3.6, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'cb_1', brand: 'Avicola', productName: 'Piept de pui', size: '900g', price: 9.41, priceUnit: '100g', cal: 165, p: 31, c: 0, f: 3.6, stores: ['Kaufland'], inStock: true },
+  { id: 'cb_2', brand: 'Axedum', productName: 'Piept de pui', size: '500g', price: 10.80, priceUnit: '100g', cal: 165, p: 31, c: 0, f: 3.6, stores: ['Kaufland', 'Metro'], inStock: true },
+  { id: 'cb_3', brand: 'Qualiko', productName: 'Piept de pui', size: '900g', price: 10.54, priceUnit: '100g', cal: 165, p: 31, c: 0, f: 3.6, stores: ['Metro'], inStock: true },
+  { id: 'cb_4', brand: 'Floreni', productName: 'Piept de pui', size: '900g', price: 11.10, priceUnit: '100g', cal: 165, p: 31, c: 0, f: 3.6, stores: ['Metro'], inStock: true },
+],
   'chicken thighs': [
-    { id: 'ct_1', brand: 'Avicola', productName: 'Sold de pui dezosat (skin on)', size: '900g', price: 10.53, priceUnit: '100g', cal: 210, p: 26, c: 0, f: 12, stores: ['Kaufland'], inStock: true },
-    { id: 'ct_2', brand: 'Axedum', productName: 'Gambe de pui (skin on)', size: '900g', price: 8.58, priceUnit: '100g', cal: 215, p: 25, c: 0, f: 13, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'ct_1', brand: 'Avicola', productName: 'Sold de pui dezosat (skin on)', size: '900g', price: 10.53, priceUnit: '100g', cal: 210, p: 26, c: 0, f: 12, stores: ['Kaufland'], inStock: true },
+  { id: 'ct_2', brand: 'Axedum', productName: 'Gambe de pui (skin on)', size: '900g', price: 8.58, priceUnit: '100g', cal: 215, p: 25, c: 0, f: 13, stores: ['Kaufland'], inStock: true },
+  { id: 'ct_3', brand: 'Qualiko', productName: 'Sold de pui broiler fără piele dezosat', size: '900g', price: 9.32, priceUnit: '100g', cal: 135, p: 22.3, c: 0, f: 5.1, stores: ['Metro'], inStock: true },
+  { id: 'ct_4', brand: 'Qualiko', productName: 'Sold de pui (bone in skin on)', size: '900g', price: 7.01, priceUnit: '100g', cal: 215, p: 18, c: 0, f: 15, stores: ['Metro'], inStock: true },
+  { id: 'ct_5', brand: 'Qualiko', productName: 'Gambe de pui refrigerate', size: '900g', price: 7.17, priceUnit: '100g', cal: 138, p: 12, c: 0, f: 10, stores: ['Metro'], inStock: true },
+  { id: 'ct_6', brand: 'Floreni', productName: 'Gambe de pui refrigerate', size: '900g', price: 8.21, priceUnit: '100g', cal: 212, p: 18.8, c: 0, f: 15.2, stores: ['Metro'], inStock: true },
+],
+'chicken wings': [
+  { id: 'cw_1', brand: 'Axedum', productName: 'Aripi de pui refrigerate', size: '900g', price: 8.43, priceUnit: '100g', cal: 189, p: 18, c: 0, f: 15, stores: ['Metro'], inStock: true },
+  { id: 'cw_2', brand: 'Qualiko', productName: 'Aripi de pui refrigerate', size: '900g', price: 6.21, priceUnit: '100g', cal: 238, p: 20, c: 0, f: 17, stores: ['Metro'], inStock: true },
+],
   'minced meat': [
-    { id: 'mm_1', brand: 'Rogob', productName: 'Carne tocată de porc', size: '1kg', price: 11.99, priceUnit: '100g', cal: 104, p: 19, c: 0, f: 3.2, stores: ['Kaufland'], inStock: true },
-    { id: 'mm_2', brand: 'Local', productName: 'Carne tocată mix porc/vită', size: '500g', price: 13.98, priceUnit: '100g', cal: 103, p: 21, c: 0, f: 2.2, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'mm_1', brand: 'Rogob', productName: 'Carne tocată de porc', size: '1kg', price: 11.99, priceUnit: '100g', cal: 104, p: 19, c: 0, f: 3.2, stores: ['Kaufland'], inStock: true },
+  { id: 'mm_2', brand: 'Local', productName: 'Carne tocată mix porc/vită', size: '500g', price: 9.89, priceUnit: '100g', cal: 103, p: 21, c: 0, f: 2.2, stores: ['Kaufland', 'Metro'], inStock: true },
+],
+'minced beef': [
+  { id: 'mb_1', brand: 'Metro', productName: 'Carne de vită tocată', size: '~1kg', price: 12.39, priceUnit: '100g', cal: 106.4, p: 19.4, c: 0, f: 3.2, stores: ['Metro'], inStock: true },
+],
+'turkey breast': [
+  { id: 'tb_1', brand: 'Peneș', productName: 'Piept de curcan dezosat fără piele', size: '~1kg', price: 28.59, priceUnit: '100g', cal: 124, p: 23.2, c: 1.8, f: 2.7, stores: ['Metro'], inStock: true },
+],
+'marinated chicken': [
+  { id: 'mc_1', brand: 'Rogob', productName: 'Gambe de pui în sos', size: '~2kg', price: 10.69, priceUnit: '100g', cal: 160, p: 15, c: 3, f: 10, stores: ['Metro'], inStock: true },
+],
   'ham': [
     { id: 'ham_1', brand: 'Rogob', productName: 'Pastramă de porc', size: '1kg', price: 21.90, priceUnit: '100g', cal: 230, p: 15.6, c: 2.4, f: 17.1, stores: ['Kaufland'], inStock: true },
   ],
