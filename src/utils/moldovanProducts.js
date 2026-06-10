@@ -186,9 +186,10 @@ export const moldovanProducts = {
   { id: 'cm_2', brand: 'METRO Chef', productName: 'Crupe de porumb Mălai', size: '900g', price: 1.11, priceUnit: '100g', cal: 340, p: 7, c: 70, f: 1.5, stores: ['Metro'], inStock: true },
 ],
   'bread': [
-    { id: 'bread_1', brand: 'Cuptoras', productName: 'Pâine albă', size: '1 buc', price: 6.70, priceUnit: 'loaf', cal: 248, p: 7.3, c: 53, f: 0.7, stores: ['Kaufland'], inStock: true },
-    { id: 'bread_2', brand: 'Molina Familia', productName: 'Pâine albă', size: '550g', price: 8.65, priceUnit: 'loaf', cal: 253, p: 7.9, c: 53.7, f: 0.7, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'bread_2', brand: 'Molina Familia', productName: 'Pâine albă', size: '550g', price: 8.65, priceUnit: 'loaf', cal: 253, p: 7.9, c: 53.7, f: 0.7, stores: ['Kaufland'], inStock: true },
+  { id: 'bread_3', brand: 'Brodetchi', productName: 'Pâine integrală', size: '500g', price: 2.70, priceUnit: '100g', cal: 220, p: 12.5, c: 39, f: 1.7, stores: ['Kaufland'], inStock: true },
+  { id: 'bread_4', brand: 'Milina Pravia', productName: 'Pâine secară cu germeni', size: '300g', price: 4.16, priceUnit: '100g', cal: 229, p: 7.4, c: 47.9, f: 0.9, stores: ['Kaufland'], inStock: true },
+],
   'breadcrumbs': [
     { id: 'bc_1', brand: 'Franzeluța', productName: 'Pesmeți măcinați', size: '400g', price: 4.10, priceUnit: '100g', cal: 414.3, p: 11.8, c: 76, f: 1.5, stores: ['Kaufland'], inStock: true },
   ],
