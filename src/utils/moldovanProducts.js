@@ -414,6 +414,9 @@ export const moldovanProducts = {
   'sugar': [
   { id: 'sug_1', brand: 'Domnița', productName: 'Zahăr', size: '1kg', price: 1.95, priceUnit: '100g', cal: 398, p: 0, c: 99.8, f: 0, stores: ['Kaufland'], inStock: true },
 ],
+'honey': [
+  { id: 'hon_1', brand: 'Honey House', productName: 'Miere de salcâm', size: '250g', price: 27.16, priceUnit: '100g', cal: 325, p: 0.4, c: 80, f: 0, stores: ['Kaufland'], inStock: true },
+],
 'baking powder': [
   { id: 'bp_1', brand: 'Dr. Oetker', productName: 'Praf de copt', size: '10g', price: 49.90, priceUnit: '100g', cal: 79, p: 0, c: 0, f: 0, stores: ['Kaufland'], inStock: true },
 ],
