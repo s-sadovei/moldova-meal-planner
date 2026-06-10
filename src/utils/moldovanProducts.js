@@ -159,8 +159,10 @@ export const moldovanProducts = {
     { id: 'cs_1', brand: 'Bunetto', productName: 'Couscous', size: '800g', price: 3.74, priceUnit: '100g', cal: 376, p: 13, c: 72, f: 2.3, stores: ['Kaufland'], inStock: true },
   ],
   'flour': [
-    { id: 'flour_1', brand: 'Bunetto', productName: 'Făină de grâu', size: '1kg', price: 1.14, priceUnit: '100g', cal: 340, p: 10, c: 70, f: 1, stores: ['Kaufland'], inStock: true },
-  ],
+  { id: 'flour_1', brand: 'Bunetto', productName: 'Făină de grâu', size: '1kg', price: 1.14, priceUnit: '100g', cal: 340, p: 10, c: 70, f: 1, stores: ['Kaufland'], inStock: true },
+  { id: 'flour_2', brand: 'Băneasa', productName: 'Făină de grâu', size: '2kg', price: 1.80, priceUnit: '100g', cal: 346, p: 10.7, c: 73.1, f: 0.9, stores: ['Kaufland', 'Metro'], inStock: true },
+],
+  
 
   // CANNED & PRESERVED
   'canned beans': [
