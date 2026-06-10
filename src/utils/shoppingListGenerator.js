@@ -124,6 +124,7 @@ const ingredientNamesRo = {
   'chicken wings': 'Aripi de pui',
   'minced beef': 'Carne tocată de vită',
   'turkey breast': 'Piept de curcan',
+  'filo pastry': 'Foi de plăcinte',
   'marinated chicken': 'Gambe de pui marinate',
 }
 
@@ -133,6 +134,7 @@ const ingredientCategories = {
   'canned tomatoes': 'Canned foods',
   'tomato paste': 'Canned foods',
   'lavash': 'Grains and bread',
+  'filo pastry': 'Grains and bread',
   'pesto': 'Other',
   'mustard': 'Other',
   'salmon': 'Meat and fish',
