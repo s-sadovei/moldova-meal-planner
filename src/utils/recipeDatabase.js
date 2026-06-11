@@ -268,6 +268,84 @@ export const recipes = [
   ],
 },
 
+{
+  id: 'breakfast_12',
+  name: 'Toast cu Avocado și Ouă Poșate',
+  type: 'breakfast',
+  fixed: false,
+  budgetTier: 'medium',
+  baseCost: 38,
+  baseCalories: 520,
+  baseMacros: { p: 24.6, c: 34.2, f: 28.4 },
+  ingredients: [
+    { key: 'bread', name: 'Pâine', amount: 100, unit: 'g' },
+    { key: 'avocado', name: 'Avocado', amount: 120, unit: 'g' },
+    { key: 'eggs', name: 'Ouă', amount: 2, unit: 'pcs' },
+    { key: 'lemon', name: 'Lămâie', amount: 20, unit: 'g' },
+    { key: 'tomatoes', name: 'Roșii', amount: 80, unit: 'g' },
+  ],
+  steps: [
+    'Umple o oală adâncă cu apă și adaugă un strop de oțet. Aduce la fierbere ușoară.',
+    'Sparge fiecare ou într-o cană mică. Amestecă apa în formă circulară și alunecă oul în centru. Fierbe 3 minute pentru gălbenuș moale.',
+    'Zdrobește 120g avocado cu o furculiță, adaugă zeamă de lămâie, sare și piper după gust.',
+    'Prăjește 100g pâine în toaster sau tigaie uscată până devine crocantă.',
+    'Întinde avocado pe pâine, adaugă felii de roșii și ouăle poșate deasupra.',
+    'Condimentează cu sare, piper și fulgi de ardei iute opțional. Servește imediat.',
+  ],
+},
+
+{
+  id: 'breakfast_13',
+  name: 'Budincă de Ovăz cu Proteină și Afine',
+  type: 'breakfast',
+  fixed: false,
+  budgetTier: 'medium',
+  baseCost: 42,
+  baseCalories: 490,
+  baseMacros: { p: 38.2, c: 58.4, f: 8.6 },
+  ingredients: [
+    { key: 'oats', name: 'Fulgi de ovăz', amount: 80, unit: 'g' },
+    { key: 'protein powder', name: 'Proteină din zer', amount: 1, unit: 'scoops' },
+    { key: 'milk', name: 'Lapte', amount: 200, unit: 'ml' },
+    { key: 'blueberries', name: 'Afine', amount: 80, unit: 'g' },
+    { key: 'honey', name: 'Miere', amount: 15, unit: 'g' },
+  ],
+  steps: [
+    'Pune 80g fulgi de ovăz într-un borcan sau bol cu capac.',
+    'Amestecă 1 scoop de proteină cu 200ml lapte rece până se dizolvă complet.',
+    'Toarnă laptele cu proteină peste fulgi și amestecă bine.',
+    'Adaugă 15g miere și amestecă din nou.',
+    'Acoperă și pune la frigider minim 4 ore sau peste noapte.',
+    'Dimineața adaugă 80g afine proaspete deasupra și servește rece.',
+  ],
+},
+
+{
+  id: 'breakfast_14',
+  name: 'Omletă cu Somon și Cremă de Brânză',
+  type: 'breakfast',
+  fixed: false,
+  budgetTier: 'medium',
+  baseCost: 65,
+  baseCalories: 480,
+  baseMacros: { p: 38.6, c: 3.2, f: 34.8 },
+  ingredients: [
+    { key: 'eggs', name: 'Ouă', amount: 3, unit: 'pcs' },
+    { key: 'smoked salmon', name: 'Somon felii sărat', amount: 80, unit: 'g' },
+    { key: 'cream cheese', name: 'Cremă de brânză', amount: 40, unit: 'g' },
+    { key: 'dill', name: 'Mărar', amount: 10, unit: 'g' },
+    { key: 'butter', name: 'Unt', amount: 10, unit: 'g' },
+  ],
+  steps: [
+    'Sparge 3 ouă într-un bol, adaugă sare și piper și bate cu o furculiță.',
+    'Toacă mărunt 10g mărar proaspăt.',
+    'Topește 10g unt într-o tigaie la foc mediu.',
+    'Toarnă ouăle și lasă să se coaguleze ușor pe margini, aproximativ 2 minute.',
+    'Adaugă 40g cremă de brânză în puncte pe jumătate din omletă, apoi 80g somon tăiat în bucăți mici și mărarul tocat.',
+    'Pliază omleta în jumătate și mai lasă 1 minut pe foc. Servește imediat.',
+  ],
+},
+
   // ============ PRÂNZ ============
 
   {

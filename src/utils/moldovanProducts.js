@@ -68,6 +68,9 @@ export const moldovanProducts = {
   { id: 'sal_1', brand: 'Metro', productName: 'Rondele somon proaspăt', size: '~1kg', price: 33.90, priceUnit: '100g', cal: 216, p: 20, c: 0, f: 16, stores: ['Metro'], inStock: true },
   { id: 'sal_2', brand: 'METRO Chef', productName: 'File somon posterior', size: '~1kg', price: 31.90, priceUnit: '100g', cal: 178, p: 19.9, c: 0.4, f: 10.9, stores: ['Metro'], inStock: true },
 ],
+'smoked salmon': [
+  { id: 'ssal_1', brand: 'METRO Chef', productName: 'Somon slab sărat felii', size: '300g', price: 69.63, priceUnit: '100g', cal: 349, p: 21, c: 0, f: 20.5, stores: ['Metro'], inStock: true },
+],
 'shrimp': [
   { id: 'shr_1', brand: 'METRO Chef', productName: 'Creveți White Tiger fierți curățați', size: '900g', price: 38.43, priceUnit: '100g', cal: 73, p: 17.3, c: 0.3, f: 0.3, stores: ['Metro'], inStock: true },
 ],
