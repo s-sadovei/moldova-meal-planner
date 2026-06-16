@@ -12,15 +12,17 @@ export default function Dashboard() {
   if (!mealPlan) return null
 
   const today = mealPlan.weekPlan[todayDayIndex] || mealPlan.weekPlan[0]
+  const fatTarget = Math.round((mealPlan.calorieTarget * 0.25) / 9)
+const carbTarget = Math.round((mealPlan.calorieTarget - (mealPlan.proteinTarget * 4) - (fatTarget * 9)) / 4)
   const dailyProteinTarget = mealPlan.proteinTarget
 const dailyFatTarget = Math.round((mealPlan.calorieTarget * 0.25) / 9)
 const dailyCarbTarget = Math.round((mealPlan.calorieTarget - (dailyProteinTarget * 4) - (dailyFatTarget * 9)) / 4)
   const progressPct = Math.min(100, (todayEatenCalories / mealPlan.calorieTarget) * 100)
   const todayDate = new Date().toISOString().split('T')[0]
   const todayEaten = eatenMeals.filter(e => e.eaten_date === todayDate)
-  const todayEatenProtein = todayEaten.reduce((sum, e) => sum + (Number(e.protein) || 0), 0)
-  const todayEatenCarbs = todayEaten.reduce((sum, e) => sum + (Number(e.carbs) || 0), 0)
-  const todayEatenFat = todayEaten.reduce((sum, e) => sum + (Number(e.fat) || 0), 0)
+  const todayEatenProtein = Math.round(todayEaten.reduce((sum, e) => sum + (Number(e.protein) || 0), 0) * 10) / 10
+const todayEatenCarbs = Math.round(todayEaten.reduce((sum, e) => sum + (Number(e.carbs) || 0), 0) * 10) / 10
+const todayEatenFat = Math.round(todayEaten.reduce((sum, e) => sum + (Number(e.fat) || 0), 0) * 10) / 10
 
   return (
     <div className="min-h-screen bg-[#F7F5F0] flex flex-col">
@@ -250,6 +252,35 @@ const totalCost = shoppingList
             )
           })()}
         </div>
+
+          {/* Weekly macro averages */}
+<p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Medii săptămânale planificate</p>
+<div className="bg-white rounded-[20px] border border-[#E8E6E0] p-4 -mt-2">
+  {(() => {
+    const days = mealPlan.weekPlan
+    const avgCal = Math.round(days.reduce((s, d) => s + d.cal, 0) / days.length)
+    const avgP = Math.round(days.reduce((s, d) => s + d.p, 0) / days.length * 10) / 10
+    const avgC = Math.round(days.reduce((s, d) => s + d.c, 0) / days.length * 10) / 10
+    const avgF = Math.round(days.reduce((s, d) => s + d.f, 0) / days.length * 10) / 10
+    return (
+      <div className="grid grid-cols-2 gap-3">
+        {[
+          { icon: '🔥', label: 'Calorii/zi', val: `${avgCal} kcal`, target: `${mealPlan.calorieTarget} kcal` },
+          { icon: '💪', label: 'Proteină/zi', val: `${avgP}g`, target: `${mealPlan.proteinTarget}g` },
+          { icon: '🌾', label: 'Carbohidrați/zi', val: `${avgC}g`, target: `${carbTarget}g` },
+          { icon: '🥑', label: 'Grăsimi/zi', val: `${avgF}g`, target: `${fatTarget}g` },
+        ].map(({ icon, label, val, target }) => (
+          <div key={label} className="bg-[#F7F5F0] rounded-[14px] p-3 flex flex-col gap-1">
+            <span className="text-[16px]">{icon}</span>
+            <span className="text-[15px] font-bold text-[#2C2C2A]">{val}</span>
+            <span className="text-[11px] text-[#888780]">{label}</span>
+            <span className="text-[10px] text-[#B4B2A9]">țintă: {target}</span>
+          </div>
+        ))}
+      </div>
+    )
+  })()}
+</div>
 
         {/* Quick actions */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Acțiuni rapide</p>

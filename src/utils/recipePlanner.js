@@ -160,56 +160,17 @@ favoriteRecipeIds.forEach(id => { favoriteUsageCount[id] = 0 })
 const pickRecipe = (type, targetCals, budgetLimit, macroState = {}) => {
   let pool = filterRecipes(getRecipesByType(type), profile)
 
-  const {
-    proteinSoFar = 0,
-    fatSoFar = 0,
-    carbSoFar = 0,
-    costSoFar = 0,
-    proteinTarget: dayProteinTarget = proteinTarget,
-    fatTarget: dayFatTarget = fatTarget,
-    carbTarget: dayCarbTarget = carbTarget,
-    mealsLeft = 1,
-  } = macroState
+  const { costSoFar = 0, mealsLeft = 1 } = macroState
 
-  // Remaining macro needs for today
-  const proteinRemaining = Math.max(0, dayProteinTarget - proteinSoFar)
-  const fatRemaining = Math.max(0, dayFatTarget - fatSoFar)
-  const carbRemaining = Math.max(0, dayCarbTarget - carbSoFar)
-
-  // Score each recipe by how well it fills macro gaps
-  const scoreRecipe = (recipe) => {
+const scoreRecipe = (recipe) => {
   const scaleFactor = targetCals / recipe.baseCalories
-  const scaledP = recipe.baseMacros.p * scaleFactor
-  const scaledF = recipe.baseMacros.f * scaleFactor
-  const scaledC = recipe.baseMacros.c * scaleFactor
   const scaledCost = recipe.baseCost * scaleFactor
-  const scaledCal = recipe.baseCalories * scaleFactor
-
-  // Calculate what % of calories come from each macro in this recipe
-  const recipePctFromProtein = (scaledP * 4) / scaledCal
-  const recipePctFromFat = (scaledF * 9) / scaledCal
-  const recipePctFromCarb = (scaledC * 4) / scaledCal
-
-  // Target macro ratios
-  const targetPctFromProtein = (proteinTarget * 4) / calorieTarget
-  const targetPctFromFat = (fatTarget * 9) / calorieTarget
-  const targetPctFromCarb = (carbTarget * 4) / calorieTarget
-
-  // Penalty for deviation from target ratio (lower deviation = higher score)
-  const proteinDev = Math.abs(recipePctFromProtein - targetPctFromProtein)
-  const fatDev = Math.abs(recipePctFromFat - targetPctFromFat)
-  const carbDev = Math.abs(recipePctFromCarb - targetPctFromCarb)
-
-  const macroScore = 1 - ((proteinDev * 0.4) + (fatDev * 0.4) + (carbDev * 0.2))
-
-  // Budget score
   const effectiveBudget = profile.budget === 9999 ? 99999 : profile.budget
   const budgetLeft = effectiveBudget - costSoFar
   const budgetScore = budgetLeft > 0
     ? Math.max(0, 1 - (scaledCost / (budgetLeft / mealsLeft)))
     : 0
-
-  return (macroScore * 0.9) + (budgetScore * 0.1)
+  return budgetScore
 }
 
   // No budget filter here — budget correction happens after full plan is generated
@@ -259,20 +220,11 @@ if (favoriteRecipeIds.includes(picked.id)) {
 
   const weekPlan = DAYS.map((day, dayIndex) => {
   usedRecipeIdsToday.length = 0
-  let dayProteinSoFar = 0
-  let dayFatSoFar = 0
-  let dayCarbSoFar = 0
   let dayCostSoFar = 0
   const meals = mealTypes.map((type, mealIndex) => {
       const targetCals = getCaloriesForType(type, calorieTarget, mealsPerDay)
       const recipe = pickRecipe(type, targetCals, budgetPerMeal, {
-  proteinSoFar: dayProteinSoFar,
-  fatSoFar: dayFatSoFar,
-  carbSoFar: dayCarbSoFar,
   costSoFar: dayCostSoFar,
-  proteinTarget,
-  fatTarget,
-  carbTarget,
   mealsLeft: mealTypes.length - mealIndex,
 })
 
@@ -288,11 +240,7 @@ if (favoriteRecipeIds.includes(picked.id)) {
   cost: recipe.baseCost,
 } : scaleRecipe(recipe, targetCals, profile.goal)
 
-      // Update day macro tracking
-dayProteinSoFar += scaled.p
-dayFatSoFar += scaled.f
-dayCarbSoFar += scaled.c
-dayCostSoFar += scaled.cost
+      dayCostSoFar += scaled.cost
 
       return {
   id: `${day}_${mealIndex}`,
