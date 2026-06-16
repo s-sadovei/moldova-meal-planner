@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
+import { getAveragePriceForIngredient } from '../utils/moldovanProducts'
 
 const mealEmojis = { breakfast: '🌅', lunch: '🍗', dinner: '🐟', snack: '🥛' }
 const mealTypeRo = { breakfast: 'Mic dejun', lunch: 'Prânz', dinner: 'Cină', snack: 'Gustare' }
@@ -164,13 +165,15 @@ export default function Dashboard() {
             const weeklyBudget = profile?.budget || 0
             const shoppingList = mealPlan?.shoppingList || []
             const getEffectivePrice = (item) => {
-  const pref = getBrandPreference(item.ingredientKey || item.name)
+  const key = item.ingredientKey || item.name.toLowerCase()
+  const pref = getBrandPreference(key)
   const amount = item.amount || 100
   if (pref) {
-    const isEgg = item.ingredientKey === 'eggs' || item.unit === 'pcs'
-    const isScoop = item.unit === 'scoops'
-    const ratio = isEgg || isScoop ? amount : amount / 100
-    return Math.round(pref.price * ratio * 10) / 10
+    return Math.round(pref.price * amount / 100 * 10) / 10
+  }
+  const avgPrice = getAveragePriceForIngredient(key)
+  if (avgPrice) {
+    return Math.round(avgPrice * amount / 100 * 10) / 10
   }
   return item.estimatedPrice || 0
 }
