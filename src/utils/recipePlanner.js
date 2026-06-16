@@ -275,14 +275,14 @@ if (favoriteRecipeIds.includes(picked.id)) {
       if (!recipe) return null
 
       const scaled = recipe.fixed ? {
-        ...recipe,
-        ingredients: swapIngredientsByGoal(recipe.ingredients, profile.goal),
-        cal: recipe.baseCalories,
-        p: recipe.baseMacros.p,
-        c: recipe.baseMacros.c,
-        f: recipe.baseMacros.f,
-        cost: recipe.baseCost,
-      } : scaleRecipe(recipe, targetCals, profile.goal)
+  ...recipe,
+  ingredients: swapIngredientsByGoal(recipe.ingredients, profile.goal),
+  cal: recipe.baseCalories,
+  p: recipe.baseMacros.p,
+  c: recipe.baseMacros.c,
+  f: recipe.baseMacros.f,
+  cost: recipe.baseCost,
+} : scaleRecipe(recipe, targetCals * 1.15, profile.goal)
 
       // Update day macro tracking
 dayProteinSoFar += scaled.p
