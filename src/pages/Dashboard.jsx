@@ -12,6 +12,9 @@ export default function Dashboard() {
   if (!mealPlan) return null
 
   const today = mealPlan.weekPlan[todayDayIndex] || mealPlan.weekPlan[0]
+  const dailyProteinTarget = mealPlan.proteinTarget
+const dailyFatTarget = Math.round((mealPlan.calorieTarget * 0.25) / 9)
+const dailyCarbTarget = Math.round((mealPlan.calorieTarget - (dailyProteinTarget * 4) - (dailyFatTarget * 9)) / 4)
   const progressPct = Math.min(100, (todayEatenCalories / mealPlan.calorieTarget) * 100)
   const todayDate = new Date().toISOString().split('T')[0]
   const todayEaten = eatenMeals.filter(e => e.eaten_date === todayDate)
@@ -114,9 +117,9 @@ export default function Dashboard() {
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Macronutrienți azi</p>
         <div className="flex flex-col gap-3 -mt-2">
           {[
-            { icon: '💪', label: 'Proteină', eaten: todayEatenProtein, target: today.p, color: '#639922' },
-            { icon: '🌾', label: 'Carbohidrați', eaten: todayEatenCarbs, target: today.c, color: '#639922' },
-            { icon: '🥑', label: 'Grăsimi', eaten: todayEatenFat, target: today.f, color: '#639922' },
+           { icon: '💪', label: 'Proteină', eaten: todayEatenProtein, target: dailyProteinTarget, color: '#639922' },
+{ icon: '🌾', label: 'Carbohidrați', eaten: todayEatenCarbs, target: dailyCarbTarget, color: '#639922' },
+{ icon: '🥑', label: 'Grăsimi', eaten: todayEatenFat, target: dailyFatTarget, color: '#639922' },
           ].map(({ icon, label, eaten, target, color }) => {
             const pct = Math.round((eaten / target) * 100)
             const isOver = eaten > target

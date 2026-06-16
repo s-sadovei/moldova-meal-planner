@@ -1,5 +1,5 @@
 import { recipes, getRecipesByType } from './recipeDatabase'
-import { getMaxMacrosForIngredient, getAveragePriceForIngredient } from './moldovanProducts'
+import { getMaxMacrosForIngredient, getAverageMacrosForIngredient, getAveragePriceForIngredient } from './moldovanProducts'
 
 const calculateCalorieTarget = (profile) => {
   const { gender, age, weight, height, activityLevel, goal } = profile
@@ -68,7 +68,7 @@ const scaleRecipe = (recipe, targetCalories, goal) => {
   let cal = 0, p = 0, c = 0, f = 0, cost = 0
 
   adjustedIngredients.forEach(ing => {
-    const macros = getMaxMacrosForIngredient(ing.key)
+    const macros = getAverageMacrosForIngredient(ing.key)
     const price = getAveragePriceForIngredient(ing.key)
 
     if (macros) {
