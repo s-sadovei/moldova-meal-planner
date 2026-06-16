@@ -167,7 +167,10 @@ export default function Dashboard() {
   const pref = getBrandPreference(item.ingredientKey || item.name)
   const amount = item.amount || 100
   if (pref) {
-    return Math.round(pref.price * amount / 100 * 10) / 10
+    const isEgg = item.ingredientKey === 'eggs' || item.unit === 'pcs'
+    const isScoop = item.unit === 'scoops'
+    const ratio = isEgg || isScoop ? amount : amount / 100
+    return Math.round(pref.price * ratio * 10) / 10
   }
   return item.estimatedPrice || 0
 }
