@@ -157,8 +157,21 @@ const pickRecipe = (type, targetCals, budgetLimit) => {
   pool = pool.filter(r => {
     const scaleFactor = targetCals / r.baseCalories
     const estimatedCost = r.baseCost * scaleFactor
-    return estimatedCost <= budgetLimit * 1.5
+    return estimatedCost <= budgetLimit
   })
+
+  // Fallback: if no recipes fit strict budget, loosen to 1.2x
+  if (pool.length === 0) {
+    pool = filterRecipes(getRecipesByType(type), profile).filter(r => {
+      const scaleFactor = targetCals / r.baseCalories
+      return (r.baseCost * scaleFactor) <= budgetLimit * 1.2
+    })
+  }
+
+  // Final fallback: use all recipes of that type
+  if (pool.length === 0) {
+    pool = filterRecipes(getRecipesByType(type), profile)
+  }
 
 const isSnack = type === 'snack'
 const unusedWeekly = pool.filter(r => !usedRecipeIds[type].includes(r.id))
@@ -239,59 +252,6 @@ if (favoriteRecipeIds.includes(picked.id)) {
   })
 
   const weekCost = Math.round(weekPlan.reduce((s, d) => s + d.cost, 0) * 100) / 100
-
-  // If over budget, try to bring costs down
-const budgetPerDay = (profile.budget || 700) / 7
-if (weekCost > profile.budget) {
-  weekPlan.forEach(day => {
-    const dayCost = day.meals.reduce((s, m) => s + m.cost, 0)
-    if (dayCost > budgetPerDay * 1.1) {
-      day.meals.sort((a, b) => b.cost - a.cost)
-      const expensiveMeal = day.meals[0]
-      const type = expensiveMeal.type
-      const targetCals = getCaloriesForType(type, calorieTarget, mealsPerDay)
-      const cheaperPool = filterRecipes(getRecipesByType(type), profile)
-        .filter(r => {
-          const scaleFactor = targetCals / r.baseCalories
-          return (r.baseCost * scaleFactor) < expensiveMeal.cost * 0.8
-        })
-      if (cheaperPool.length > 0) {
-        const cheaper = cheaperPool[Math.floor(Math.random() * cheaperPool.length)]
-        const scaled = cheaper.fixed ? {
-          ...cheaper,
-          ingredients: swapIngredientsByGoal(cheaper.ingredients, profile.goal),
-          cal: cheaper.baseCalories,
-          p: cheaper.baseMacros.p,
-          c: cheaper.baseMacros.c,
-          f: cheaper.baseMacros.f,
-          cost: cheaper.baseCost,
-        } : scaleRecipe(cheaper, targetCals, profile.goal)
-        const mealIndex = day.meals.indexOf(expensiveMeal)
-        day.meals[mealIndex] = {
-          id: expensiveMeal.id,
-          recipeId: cheaper.id,
-          name: scaled.name,
-          type,
-          cal: scaled.cal,
-          p: scaled.p,
-          c: scaled.c,
-          f: scaled.f,
-          cost: scaled.cost,
-          ingredients: scaled.ingredients.map(ing => ({
-            food: ing.key,
-            amount: ing.amount,
-            unit: ing.unit,
-            key: ing.key,
-            displayName: ing.name,
-          })),
-          steps: scaled.steps,
-        }
-        day.cal = day.meals.reduce((s, m) => s + m.cal, 0)
-        day.cost = Math.round(day.meals.reduce((s, m) => s + m.cost, 0) * 100) / 100
-      }
-    }
-  })
-}
 
 const effectiveBudget = profile.budget === 9999 ? 99999 : profile.budget
 let finalWeekCost = Math.round(weekPlan.reduce((s, d) => s + d.cost, 0) * 100) / 100
