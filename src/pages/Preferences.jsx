@@ -140,10 +140,16 @@ export default function Preferences() {
           </SettingRow>
           <div className="h-px bg-[#F0EEE8]" />
           <SettingRow icon="🍽️" label="Mese pe zi" value={`${form.mealsPerDay} mese`} editKey="meals" editing={editing} setEditing={setEditing}>
-            <ToggleGroup
-              options={[['2', '2'], ['3', '3'], ['4', '4'], ['5', '5']]}
-              value={String(form.mealsPerDay)} onChange={v => set('mealsPerDay', Number(v))} />
-          </SettingRow>
+  <ToggleGroup
+    options={[
+      ['2', '2'],
+      ['3', '3'],
+      ['4', '4'],
+      ...(form.budget >= 700 ? [['5', '5']] : []),
+    ]}
+    value={String(form.mealsPerDay)}
+    onChange={v => set('mealsPerDay', Number(v))} />
+</SettingRow>
         </div>
 
         {/* Body */}
@@ -163,12 +169,31 @@ export default function Preferences() {
             </div>
           </SettingRow>
           <div className="h-px bg-[#F0EEE8]" />
-          <SettingRow icon="💰" label="Buget săptămânal" value={`${form.budget} MDL`} editKey="budget" editing={editing} setEditing={setEditing}>
-            <div>
-              <label className={labelClass}>Buget (MDL)</label>
-              <input className={inputClass} type="number" value={form.budget} onChange={e => set('budget', e.target.value)} />
-            </div>
-          </SettingRow>
+          <SettingRow icon="💰" label="Buget săptămânal" value={form.budget === 9999 ? '1200+ MDL' : `${form.budget - 100} – ${form.budget} MDL`} editKey="budget" editing={editing} setEditing={setEditing}>
+  <div className="flex flex-col gap-2">
+    {[
+      { label: '600 – 700 MDL', value: 700 },
+      { label: '700 – 800 MDL', value: 800 },
+      { label: '800 – 900 MDL', value: 900 },
+      { label: '900 – 1000 MDL', value: 1000 },
+      { label: '1000 – 1100 MDL', value: 1100 },
+      { label: '1100 – 1200 MDL', value: 1200 },
+      { label: '1200+ MDL', value: 9999 },
+    ].map(({ label, value }) => (
+      <button key={value} onClick={() => {
+        set('budget', value)
+        if (value < 700 && form.mealsPerDay === 5) set('mealsPerDay', 4)
+      }}
+        className={`w-full flex justify-between items-center px-4 py-3 rounded-[12px] border-[1.5px] transition ${form.budget === value ? 'bg-[#EAF3DE] border-[#C0DD97]' : 'bg-white border-[#E8E6E0]'}`}>
+        <span className={`text-[13px] font-semibold ${form.budget === value ? 'text-[#2D5A27]' : 'text-[#5F5E5A]'}`}>{label}</span>
+        {form.budget === value && <span className="text-[#2D5A27]">✓</span>}
+      </button>
+    ))}
+    {form.budget < 700 && (
+      <p className="text-[11px] text-[#888780] mt-1">5 mese pe zi necesită un buget de minim 700 MDL.</p>
+    )}
+  </div>
+</SettingRow>
         </div>
 
         {/* Food preferences */}

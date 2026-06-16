@@ -44,6 +44,28 @@ export default function Dashboard() {
         </div>
       )}
 
+      {/* Budget warning */}
+      {mealPlan?.budgetWarning && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-6">
+          <div className="bg-white rounded-[24px] p-6 flex flex-col gap-4 w-full max-w-sm">
+            <div className="text-center">
+              <p className="text-[32px]">⚠️</p>
+              <p style={{ fontFamily: "'Playfair Display', serif" }}
+                className="text-[#2D5A27] text-[22px] font-extrabold mt-2">Buget insuficient</p>
+              <p className="text-[#888780] text-[14px] mt-1">Nu am putut genera un plan complet în bugetul selectat. Încearcă un buget mai mare sau reduce numărul de mese pe zi.</p>
+            </div>
+            <button onClick={() => navigate('/preferences')}
+              className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
+              Modifică bugetul
+            </button>
+            <button onClick={() => regeneratePlan()}
+              className="w-full bg-[#F7F5F0] text-[#5F5E5A] font-semibold text-[15px] py-4 rounded-2xl">
+              Încearcă din nou
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-[#2D5A27] px-6 pt-12 pb-6 flex flex-col gap-4">
         <div className="flex justify-between items-start">
@@ -201,8 +223,10 @@ const totalCost = shoppingList
                     <p className="text-[#888780] text-[12px]">cheltuit până acum</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[#5F5E5A] text-[13px] font-semibold">{weeklyBudget} MDL</p>
-                    <p className="text-[#B4B2A9] text-[11px]">buget săptămânal</p>
+                    <p className="text-[#5F5E5A] text-[13px] font-semibold">
+  {weeklyBudget === 9999 ? '1200+ MDL' : `${weeklyBudget - 100}–${weeklyBudget} MDL`}
+</p>
+<p className="text-[#B4B2A9] text-[11px]">buget săptămânal</p>
                   </div>
                 </div>
                 <div className="w-full h-[6px] bg-[#F0EEE8] rounded-full overflow-hidden relative mb-1">

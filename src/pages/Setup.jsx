@@ -185,21 +185,49 @@ export default function Setup() {
       <Header />
       <div className="flex-1 px-6 py-5 flex flex-col gap-5 overflow-y-auto">
 
-        <div className="flex flex-col gap-2">
-          <label className={labelClass}>Buget săptămânal (MDL)</label>
-          <input className={inputClass} type="number" placeholder="600"
-            value={form.budget} onChange={e => set('budget', e.target.value)} />
+        <div className="flex flex-col gap-3">
+          <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Buget săptămânal</p>
+          <div className="flex flex-col gap-2">
+            {[
+              { label: '600 – 700 MDL', value: 700 },
+              { label: '700 – 800 MDL', value: 800 },
+              { label: '800 – 900 MDL', value: 900 },
+              { label: '900 – 1000 MDL', value: 1000 },
+              { label: '1000 – 1100 MDL', value: 1100 },
+              { label: '1100 – 1200 MDL', value: 1200 },
+              { label: '1200+ MDL', value: 9999 },
+            ].map(({ label, value }) => (
+              <button key={value} onClick={() => {
+                set('budget', value)
+                if (value < 700 && form.mealsPerDay === 5) set('mealsPerDay', 4)
+              }}
+                className={`w-full flex justify-between items-center px-4 py-3 rounded-[14px] border-[1.5px] transition ${form.budget === value ? 'bg-[#EAF3DE] border-[#C0DD97]' : 'bg-white border-[#E8E6E0]'}`}>
+                <span className={`text-[14px] font-semibold ${form.budget === value ? 'text-[#2D5A27]' : 'text-[#5F5E5A]'}`}>{label}</span>
+                {form.budget === value && <span className="text-[#2D5A27] text-[16px]">✓</span>}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-col gap-3">
           <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Mese pe zi</p>
           <ToggleGroup
-            options={[['2', '2'], ['3', '3'], ['4', '4'], ['5', '5']]}
-            value={String(form.mealsPerDay)} onChange={v => set('mealsPerDay', Number(v))} />
+            options={[
+              ['2', '2'],
+              ['3', '3'],
+              ['4', '4'],
+              ...(form.budget >= 700 ? [['5', '5']] : []),
+            ]}
+            value={String(form.mealsPerDay)}
+            onChange={v => set('mealsPerDay', Number(v))} />
+          {form.budget < 700 && form.budget !== '' && (
+            <p className="text-[11px] text-[#888780]">5 mese pe zi necesită un buget de minim 700 MDL.</p>
+          )}
         </div>
 
         <button onClick={handleFinish}
-          className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
+          disabled={!form.budget}
+          className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl disabled:opacity-50">
           Generează planul meu 🎉
         </button>
         <p className="text-[12px] text-[#B4B2A9] text-center">Pasul 3 din 3</p>

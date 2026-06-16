@@ -112,7 +112,8 @@ const filterRecipes = (recipeList, profile) => {
 
 const getBudgetPerMeal = (profile) => {
   const { budget, mealsPerDay } = profile
-  return budget / 7 / mealsPerDay
+  const effectiveBudget = budget === 9999 ? 99999 : budget
+  return effectiveBudget / 7 / mealsPerDay
 }
 
 const DAYS = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă', 'Duminică']
@@ -292,7 +293,73 @@ if (weekCost > profile.budget) {
   })
 }
 
-const finalWeekCost = Math.round(weekPlan.reduce((s, d) => s + d.cost, 0) * 100) / 100
+const effectiveBudget = profile.budget === 9999 ? 99999 : profile.budget
+let finalWeekCost = Math.round(weekPlan.reduce((s, d) => s + d.cost, 0) * 100) / 100
+
+// Try to bring plan within budget up to 5 times
+let attempts = 0
+while (finalWeekCost > effectiveBudget && attempts < 5) {
+  attempts++
+  const budgetPerDay = effectiveBudget / 7
+
+  weekPlan.forEach(day => {
+    if (day.cost <= budgetPerDay * 1.05) return
+    const sortedMeals = [...day.meals].sort((a, b) => b.cost - a.cost)
+    const expensiveMeal = sortedMeals[0]
+    const type = expensiveMeal.type
+    const targetCals = getCaloriesForType(type, calorieTarget, mealsPerDay)
+    const budgetLimit = budgetPerDay / mealTypes.filter(t => t === type).length
+
+    const cheaperPool = filterRecipes(getRecipesByType(type), profile)
+      .filter(r => {
+        const scaleFactor = targetCals / r.baseCalories
+        return (r.baseCost * scaleFactor) < expensiveMeal.cost * 0.85
+      })
+
+    if (cheaperPool.length === 0) return
+
+    const cheaper = cheaperPool[Math.floor(Math.random() * cheaperPool.length)]
+    const scaled = cheaper.fixed ? {
+      ...cheaper,
+      ingredients: swapIngredientsByGoal(cheaper.ingredients, profile.goal),
+      cal: cheaper.baseCalories,
+      p: cheaper.baseMacros.p,
+      c: cheaper.baseMacros.c,
+      f: cheaper.baseMacros.f,
+      cost: cheaper.baseCost,
+    } : scaleRecipe(cheaper, targetCals, profile.goal)
+
+    const mealIndex = day.meals.findIndex(m => m.id === expensiveMeal.id)
+    if (mealIndex === -1) return
+
+    day.meals[mealIndex] = {
+      id: expensiveMeal.id,
+      recipeId: cheaper.id,
+      name: scaled.name,
+      type,
+      cal: scaled.cal,
+      p: scaled.p,
+      c: scaled.c,
+      f: scaled.f,
+      cost: scaled.cost,
+      ingredients: scaled.ingredients.map(ing => ({
+        food: ing.key,
+        amount: ing.amount,
+        unit: ing.unit,
+        key: ing.key,
+        displayName: ing.name,
+      })),
+      steps: scaled.steps,
+    }
+
+    day.cal = day.meals.reduce((s, m) => s + m.cal, 0)
+    day.cost = Math.round(day.meals.reduce((s, m) => s + m.cost, 0) * 100) / 100
+  })
+
+  finalWeekCost = Math.round(weekPlan.reduce((s, d) => s + d.cost, 0) * 100) / 100
+}
+
+const budgetWarning = finalWeekCost > effectiveBudget
 
 return {
   calorieTarget,
@@ -300,5 +367,6 @@ return {
   weekCost: finalWeekCost,
   goal: profile.goal,
   weekPlan,
+  budgetWarning,
 }
 }
