@@ -174,34 +174,39 @@ const pickRecipe = (type, targetCals, budgetLimit, macroState = {}) => {
 
   // Score each recipe by how well it fills macro gaps
   const scoreRecipe = (recipe) => {
-    const scaleFactor = targetCals / recipe.baseCalories
-    const scaledP = recipe.baseMacros.p * scaleFactor
-    const scaledF = recipe.baseMacros.f * scaleFactor
-    const scaledC = recipe.baseMacros.c * scaleFactor
-    const scaledCost = recipe.baseCost * scaleFactor
+  const scaleFactor = targetCals / recipe.baseCalories
+  const scaledP = recipe.baseMacros.p * scaleFactor
+  const scaledF = recipe.baseMacros.f * scaleFactor
+  const scaledC = recipe.baseMacros.c * scaleFactor
+  const scaledCost = recipe.baseCost * scaleFactor
+  const scaledCal = recipe.baseCalories * scaleFactor
 
-    // How much of remaining need does this recipe fill (0-1, penalize going over)
-    const proteinFill = proteinRemaining > 0
-      ? Math.min(1, scaledP / (proteinRemaining / mealsLeft)) - Math.max(0, (scaledP - proteinRemaining) / proteinRemaining) * 0.5
-      : Math.max(0, 1 - scaledP / dayProteinTarget)
+  // Calculate what % of calories come from each macro in this recipe
+  const recipePctFromProtein = (scaledP * 4) / scaledCal
+  const recipePctFromFat = (scaledF * 9) / scaledCal
+  const recipePctFromCarb = (scaledC * 4) / scaledCal
 
-    const fatFill = fatRemaining > 0
-      ? Math.min(1, scaledF / (fatRemaining / mealsLeft)) - Math.max(0, (scaledF - fatRemaining) / fatRemaining) * 0.5
-      : Math.max(0, 1 - scaledF / dayFatTarget)
+  // Target macro ratios
+  const targetPctFromProtein = (proteinTarget * 4) / calorieTarget
+  const targetPctFromFat = (fatTarget * 9) / calorieTarget
+  const targetPctFromCarb = (carbTarget * 4) / calorieTarget
 
-    const carbFill = carbRemaining > 0
-      ? Math.min(1, scaledC / (carbRemaining / mealsLeft)) - Math.max(0, (scaledC - carbRemaining) / carbRemaining) * 0.5
-      : Math.max(0, 1 - scaledC / dayCarbTarget)
+  // Penalty for deviation from target ratio (lower deviation = higher score)
+  const proteinDev = Math.abs(recipePctFromProtein - targetPctFromProtein)
+  const fatDev = Math.abs(recipePctFromFat - targetPctFromFat)
+  const carbDev = Math.abs(recipePctFromCarb - targetPctFromCarb)
 
-    // Budget score — prefer cheaper recipes when close to budget
-    const effectiveBudget = profile.budget === 9999 ? 99999 : profile.budget
-    const budgetLeft = effectiveBudget - costSoFar
-    const budgetScore = budgetLeft > 0
-      ? Math.max(0, 1 - (scaledCost / (budgetLeft / mealsLeft)))
-      : 0
+  const macroScore = 1 - ((proteinDev * 0.4) + (fatDev * 0.4) + (carbDev * 0.2))
 
-    return (proteinFill * 0.4) + (carbFill * 0.3) + (fatFill * 0.2) + (budgetScore * 0.1)
-  }
+  // Budget score
+  const effectiveBudget = profile.budget === 9999 ? 99999 : profile.budget
+  const budgetLeft = effectiveBudget - costSoFar
+  const budgetScore = budgetLeft > 0
+    ? Math.max(0, 1 - (scaledCost / (budgetLeft / mealsLeft)))
+    : 0
+
+  return (macroScore * 0.9) + (budgetScore * 0.1)
+}
 
   // No budget filter here — budget correction happens after full plan is generated
 
