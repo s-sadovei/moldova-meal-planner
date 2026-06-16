@@ -6,7 +6,7 @@ const mealTypeRo = { breakfast: 'Mic dejun', lunch: 'Prânz', dinner: 'Cină', s
 
 export default function Dashboard() {
   const navigate = useNavigate()
-  const { profile, mealPlan, regeneratePlan, todayEatenCalories, todayDayIndex, isMealEaten, eatenMeals, showNewWeekPrompt, setShowNewWeekPrompt, resetShoppingList } = useApp()
+  const { profile, mealPlan, regeneratePlan, todayEatenCalories, todayDayIndex, isMealEaten, eatenMeals, showNewWeekPrompt, setShowNewWeekPrompt, resetShoppingList, getBrandPreference } = useApp()
 
   if (!mealPlan) return null
 
@@ -163,12 +163,21 @@ export default function Dashboard() {
           {(() => {
             const weeklyBudget = profile?.budget || 0
             const shoppingList = mealPlan?.shoppingList || []
-            const spentSoFar = shoppingList
-              .filter(i => i.bought)
-              .reduce((sum, i) => sum + (i.estimatedPrice || 0), 0)
-            const totalCost = shoppingList
-              .filter(i => !i.atHome)
-              .reduce((sum, i) => sum + (i.estimatedPrice || 0), 0)
+            const getEffectivePrice = (item) => {
+  const pref = getBrandPreference(item.ingredientKey || item.name)
+  const amount = item.amount || 100
+  if (pref) {
+    return Math.round(pref.price * amount / 100 * 10) / 10
+  }
+  return item.estimatedPrice || 0
+}
+
+const spentSoFar = shoppingList
+  .filter(i => i.bought)
+  .reduce((sum, i) => sum + getEffectivePrice(i), 0)
+const totalCost = shoppingList
+  .filter(i => !i.atHome)
+  .reduce((sum, i) => sum + getEffectivePrice(i), 0)
             const budgetSpentPct = weeklyBudget ? Math.min(100, (spentSoFar / weeklyBudget) * 100) : 0
             const budgetEstimatePct = weeklyBudget ? Math.min(100, (totalCost / weeklyBudget) * 100) : 0
             const isOverBudget = spentSoFar > weeklyBudget
