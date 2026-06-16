@@ -320,9 +320,7 @@ dayCostSoFar += scaled.cost
     return { day, cal: dayCal, p: dayP, c: dayC, f: dayF, cost: dayCost, meals }
   })
 
-  const weekCost = Math.round(weekPlan.reduce((s, d) => s + d.cost, 0) * 100) / 100
-
-const effectiveBudget = profile.budget === 9999 ? 99999 : profile.budget
+  const effectiveBudget = profile.budget === 9999 ? 99999 : profile.budget
 let finalWeekCost = Math.round(weekPlan.reduce((s, d) => s + d.cost, 0) * 100) / 100
 
 // Try to bring plan within budget up to 5 times
@@ -341,7 +339,7 @@ allTypes.forEach(type => {
         p: r.baseMacros.p,
         c: r.baseMacros.c,
         f: r.baseMacros.f,
-      } : scaleRecipe(r, targetCals, profile.goal)
+      } : scaleRecipe(r, targetCals * 1.15, profile.goal)
       return { recipe: r, scaled, realCost: scaled.cost }
     })
     .sort((a, b) => a.realCost - b.realCost)
