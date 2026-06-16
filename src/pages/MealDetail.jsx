@@ -69,11 +69,12 @@ if (!meal) { navigate(-1); return null }
 
   meal.ingredients
     .filter(({ food }) => food?.toLowerCase() !== 'water')
-    .forEach(({ food, amount }) => {
+    .forEach(({ food, amount, unit }) => {
       const pref = getBrandPreference(food)
       if (pref) {
         const isEgg = food === 'eggs'
-        const ratio = isEgg ? amount : amount / 100
+const isScoop = unit === 'scoops'
+const ratio = isEgg || isScoop ? amount : amount / 100
         cal += (pref.cal || 0) * ratio
         p += (pref.p || 0) * ratio
         c += (pref.c || 0) * ratio
@@ -242,12 +243,12 @@ const kcal = pref
       onClick={() => {
         if (eaten) {
           markMealEaten({
-            ...meal,
-            cal: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal,
-            p: realMacros?.allBrandsSelected ? realMacros.p : meal.p,
-            c: realMacros?.allBrandsSelected ? realMacros.c : meal.c,
-            f: realMacros?.allBrandsSelected ? realMacros.f : meal.f,
-          })
+  ...meal,
+  cal: meal.cal,
+  p: meal.p,
+  c: meal.c,
+  f: meal.f,
+})
           return
         }
 
@@ -269,12 +270,12 @@ const kcal = pref
 
         if (unaccounted.length === 0) {
           markMealEaten({
-            ...meal,
-            cal: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal,
-            p: realMacros?.allBrandsSelected ? realMacros.p : meal.p,
-            c: realMacros?.allBrandsSelected ? realMacros.c : meal.c,
-            f: realMacros?.allBrandsSelected ? realMacros.f : meal.f,
-          })
+  ...meal,
+  cal: meal.cal,
+  p: meal.p,
+  c: meal.c,
+  f: meal.f,
+})
         } else {
           setIngredientCheckQueue(unaccounted)
           setCurrentIngredientCheck(unaccounted[0])
@@ -491,12 +492,12 @@ disabled={!eaten && fromDay !== undefined && fromDay !== todayDayIndex}>
             setCurrentIngredientCheck(null)
             setIngredientCheckQueue([])
             markMealEaten({
-              ...meal,
-              cal: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal,
-              p: realMacros?.allBrandsSelected ? realMacros.p : meal.p,
-              c: realMacros?.allBrandsSelected ? realMacros.c : meal.c,
-              f: realMacros?.allBrandsSelected ? realMacros.f : meal.f,
-            })
+  ...meal,
+  cal: meal.cal,
+  p: meal.p,
+  c: meal.c,
+  f: meal.f,
+})
           }
         }}
         className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
@@ -551,12 +552,12 @@ disabled={!eaten && fromDay !== undefined && fromDay !== todayDayIndex}>
                 setCurrentIngredientCheck(null)
                 setIngredientCheckQueue([])
                 markMealEaten({
-                  ...meal,
-                  cal: realMacros?.allBrandsSelected ? realMacros.cal : meal.cal,
-                  p: realMacros?.allBrandsSelected ? realMacros.p : meal.p,
-                  c: realMacros?.allBrandsSelected ? realMacros.c : meal.c,
-                  f: realMacros?.allBrandsSelected ? realMacros.f : meal.f,
-                })
+  ...meal,
+  cal: meal.cal,
+  p: meal.p,
+  c: meal.c,
+  f: meal.f,
+})
               }
             }}
             className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
