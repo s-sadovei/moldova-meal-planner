@@ -85,14 +85,18 @@ const scaleRecipe = (recipe, targetCalories, goal) => {
   }
   })
 
-  return {
+  // Normalize macros to match target calories exactly
+const actualCal = Math.round(cal)
+const normFactor = actualCal > 0 ? targetCalories / actualCal : 1
+
+return {
     ...recipe,
     ingredients: adjustedIngredients,
     steps: scaleSteps(recipe.steps, scaleFactor),
-    cal: Math.round(cal),
-    p: Math.round(p * 10) / 10,
-    c: Math.round(c * 10) / 10,
-    f: Math.round(f * 10) / 10,
+    cal: Math.round(targetCalories),
+    p: Math.round(p * normFactor * 10) / 10,
+    c: Math.round(c * normFactor * 10) / 10,
+    f: Math.round(f * normFactor * 10) / 10,
     cost: Math.round(cost * 100) / 100,
   }
 }
@@ -282,7 +286,7 @@ if (favoriteRecipeIds.includes(picked.id)) {
   c: recipe.baseMacros.c,
   f: recipe.baseMacros.f,
   cost: recipe.baseCost,
-} : scaleRecipe(recipe, targetCals * 1.15, profile.goal)
+} : scaleRecipe(recipe, targetCals, profile.goal)
 
       // Update day macro tracking
 dayProteinSoFar += scaled.p
@@ -339,7 +343,7 @@ allTypes.forEach(type => {
         p: r.baseMacros.p,
         c: r.baseMacros.c,
         f: r.baseMacros.f,
-      } : scaleRecipe(r, targetCals * 1.15, profile.goal)
+      } : scaleRecipe(r, targetCals, profile.goal)
       return { recipe: r, scaled, realCost: scaled.cost }
     })
     .sort((a, b) => a.realCost - b.realCost)
