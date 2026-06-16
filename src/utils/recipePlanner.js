@@ -121,6 +121,8 @@ const DAYS = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă', 'Dumi
 export const generatePlanFromRecipes = (profile, favoriteRecipeIds = []) => {
   const calorieTarget = calculateCalorieTarget(profile)
   const proteinTarget = Math.round(profile.weight * 1.8)
+const fatTarget = Math.round((calorieTarget * 0.25) / 9)
+const carbTarget = Math.round((calorieTarget - (proteinTarget * 4) - (fatTarget * 9)) / 4)
   const budgetPerMeal = getBudgetPerMeal(profile)
   const mealsPerDay = profile.mealsPerDay || 3
 
@@ -151,8 +153,55 @@ const usedRecipeIdsToday = []
   const favoriteUsageCount = {}
 favoriteRecipeIds.forEach(id => { favoriteUsageCount[id] = 0 })
 
-const pickRecipe = (type, targetCals, budgetLimit) => {
+const pickRecipe = (type, targetCals, budgetLimit, macroState = {}) => {
   let pool = filterRecipes(getRecipesByType(type), profile)
+
+  const {
+    proteinSoFar = 0,
+    fatSoFar = 0,
+    carbSoFar = 0,
+    costSoFar = 0,
+    proteinTarget: dayProteinTarget = proteinTarget,
+    fatTarget: dayFatTarget = fatTarget,
+    carbTarget: dayCarbTarget = carbTarget,
+    mealsLeft = 1,
+  } = macroState
+
+  // Remaining macro needs for today
+  const proteinRemaining = Math.max(0, dayProteinTarget - proteinSoFar)
+  const fatRemaining = Math.max(0, dayFatTarget - fatSoFar)
+  const carbRemaining = Math.max(0, dayCarbTarget - carbSoFar)
+
+  // Score each recipe by how well it fills macro gaps
+  const scoreRecipe = (recipe) => {
+    const scaleFactor = targetCals / recipe.baseCalories
+    const scaledP = recipe.baseMacros.p * scaleFactor
+    const scaledF = recipe.baseMacros.f * scaleFactor
+    const scaledC = recipe.baseMacros.c * scaleFactor
+    const scaledCost = recipe.baseCost * scaleFactor
+
+    // How much of remaining need does this recipe fill (0-1, penalize going over)
+    const proteinFill = proteinRemaining > 0
+      ? Math.min(1, scaledP / (proteinRemaining / mealsLeft)) - Math.max(0, (scaledP - proteinRemaining) / proteinRemaining) * 0.5
+      : Math.max(0, 1 - scaledP / dayProteinTarget)
+
+    const fatFill = fatRemaining > 0
+      ? Math.min(1, scaledF / (fatRemaining / mealsLeft)) - Math.max(0, (scaledF - fatRemaining) / fatRemaining) * 0.5
+      : Math.max(0, 1 - scaledF / dayFatTarget)
+
+    const carbFill = carbRemaining > 0
+      ? Math.min(1, scaledC / (carbRemaining / mealsLeft)) - Math.max(0, (scaledC - carbRemaining) / carbRemaining) * 0.5
+      : Math.max(0, 1 - scaledC / dayCarbTarget)
+
+    // Budget score — prefer cheaper recipes when close to budget
+    const effectiveBudget = profile.budget === 9999 ? 99999 : profile.budget
+    const budgetLeft = effectiveBudget - costSoFar
+    const budgetScore = budgetLeft > 0
+      ? Math.max(0, 1 - (scaledCost / (budgetLeft / mealsLeft)))
+      : 0
+
+    return (proteinFill * 0.4) + (carbFill * 0.3) + (fatFill * 0.2) + (budgetScore * 0.1)
+  }
 
   // No budget filter here — budget correction happens after full plan is generated
 
@@ -167,15 +216,28 @@ const candidates = isSnack
 
 if (candidates.length === 0) return null
 
-  // Try to pick a favorite first if under 3x usage
-  const availableFavorites = candidates.filter(r =>
-    favoriteRecipeIds.includes(r.id) &&
-    (favoriteUsageCount[r.id] || 0) < 3
-  )
+// Try to pick a favorite first if under 3x usage
+const availableFavorites = candidates.filter(r =>
+  favoriteRecipeIds.includes(r.id) &&
+  (favoriteUsageCount[r.id] || 0) < 3
+)
 
-  const picked = availableFavorites.length > 0
-    ? availableFavorites[Math.floor(Math.random() * availableFavorites.length)]
-    : candidates[Math.floor(Math.random() * candidates.length)]
+// Score all candidates
+const scored = candidates
+  .map(r => ({ recipe: r, score: scoreRecipe(r) }))
+  .sort((a, b) => b.score - a.score)
+
+// Pick from top third for variety, but bias toward favorites
+const topThird = scored.slice(0, Math.max(1, Math.floor(scored.length / 3)))
+const topThirdRecipes = topThird.map(s => s.recipe)
+
+const favoritesInTop = topThirdRecipes.filter(r =>
+  favoriteRecipeIds.includes(r.id) &&
+  (favoriteUsageCount[r.id] || 0) < 3
+)
+
+const pickPool = favoritesInTop.length > 0 ? favoritesInTop : topThirdRecipes
+const picked = pickPool[Math.floor(Math.random() * pickPool.length)]
 
   usedRecipeIds[type].push(picked.id)
 usedRecipeIdsToday.push(picked.id)
@@ -188,9 +250,22 @@ if (favoriteRecipeIds.includes(picked.id)) {
 
   const weekPlan = DAYS.map((day, dayIndex) => {
   usedRecipeIdsToday.length = 0
+  let dayProteinSoFar = 0
+  let dayFatSoFar = 0
+  let dayCarbSoFar = 0
+  let dayCostSoFar = 0
   const meals = mealTypes.map((type, mealIndex) => {
       const targetCals = getCaloriesForType(type, calorieTarget, mealsPerDay)
-      const recipe = pickRecipe(type, targetCals, budgetPerMeal)
+      const recipe = pickRecipe(type, targetCals, budgetPerMeal, {
+  proteinSoFar: dayProteinSoFar,
+  fatSoFar: dayFatSoFar,
+  carbSoFar: dayCarbSoFar,
+  costSoFar: dayCostSoFar,
+  proteinTarget,
+  fatTarget,
+  carbTarget,
+  mealsLeft: mealTypes.length - mealIndex,
+})
 
       if (!recipe) return null
 
@@ -203,6 +278,12 @@ if (favoriteRecipeIds.includes(picked.id)) {
         f: recipe.baseMacros.f,
         cost: recipe.baseCost,
       } : scaleRecipe(recipe, targetCals, profile.goal)
+
+      // Update day macro tracking
+dayProteinSoFar += scaled.p
+dayFatSoFar += scaled.f
+dayCarbSoFar += scaled.c
+dayCostSoFar += scaled.cost
 
       return {
   id: `${day}_${mealIndex}`,
