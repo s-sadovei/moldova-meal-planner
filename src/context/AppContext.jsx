@@ -27,17 +27,18 @@ export function AppProvider({ children }) {
   // Reload eaten meals when window gets focus
 useEffect(() => {
   const handleFocus = async () => {
-    if (!user) return
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session?.user) return
     const { data: eatenData } = await supabase
       .from('eaten_meals')
       .select('*')
-      .eq('user_id', user.id)
+      .eq('user_id', session.user.id)
       .eq('eaten_date', getTodayDate())
     if (eatenData) setEatenMeals(eatenData)
   }
   window.addEventListener('focus', handleFocus)
   return () => window.removeEventListener('focus', handleFocus)
-}, [user])
+}, [])
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
