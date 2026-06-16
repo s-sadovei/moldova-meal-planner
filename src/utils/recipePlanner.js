@@ -154,24 +154,7 @@ favoriteRecipeIds.forEach(id => { favoriteUsageCount[id] = 0 })
 const pickRecipe = (type, targetCals, budgetLimit) => {
   let pool = filterRecipes(getRecipesByType(type), profile)
 
-  pool = pool.filter(r => {
-    const scaleFactor = targetCals / r.baseCalories
-    const estimatedCost = r.baseCost * scaleFactor
-    return estimatedCost <= budgetLimit
-  })
-
-  // Fallback: if no recipes fit strict budget, loosen to 1.2x
-  if (pool.length === 0) {
-    pool = filterRecipes(getRecipesByType(type), profile).filter(r => {
-      const scaleFactor = targetCals / r.baseCalories
-      return (r.baseCost * scaleFactor) <= budgetLimit * 1.2
-    })
-  }
-
-  // Final fallback: use all recipes of that type
-  if (pool.length === 0) {
-    pool = filterRecipes(getRecipesByType(type), profile)
-  }
+  // No budget filter here — budget correction happens after full plan is generated
 
 const isSnack = type === 'snack'
 const unusedWeekly = pool.filter(r => !usedRecipeIds[type].includes(r.id))
@@ -257,21 +240,26 @@ const effectiveBudget = profile.budget === 9999 ? 99999 : profile.budget
 let finalWeekCost = Math.round(weekPlan.reduce((s, d) => s + d.cost, 0) * 100) / 100
 
 // Try to bring plan within budget up to 5 times
-// Aggressively swap ALL meals that are over per-meal budget
-const budgetPerMealStrict = effectiveBudget / 7 / mealsPerDay
-
-const scaleMeal = (recipe, type) => {
+// Pre-calculate real costs for all recipes by type
+const realCostCache = {}
+const allTypes = ['breakfast', 'lunch', 'dinner', 'snack']
+allTypes.forEach(type => {
   const targetCals = getCaloriesForType(type, calorieTarget, mealsPerDay)
-  return recipe.fixed ? {
-    ...recipe,
-    ingredients: swapIngredientsByGoal(recipe.ingredients, profile.goal),
-    cal: recipe.baseCalories,
-    p: recipe.baseMacros.p,
-    c: recipe.baseMacros.c,
-    f: recipe.baseMacros.f,
-    cost: recipe.baseCost,
-  } : scaleRecipe(recipe, targetCals, profile.goal)
-}
+  realCostCache[type] = filterRecipes(getRecipesByType(type), profile)
+    .map(r => {
+      const scaled = r.fixed ? {
+        ...r,
+        ingredients: swapIngredientsByGoal(r.ingredients, profile.goal),
+        cost: r.baseCost,
+        cal: r.baseCalories,
+        p: r.baseMacros.p,
+        c: r.baseMacros.c,
+        f: r.baseMacros.f,
+      } : scaleRecipe(r, targetCals, profile.goal)
+      return { recipe: r, scaled, realCost: scaled.cost }
+    })
+    .sort((a, b) => a.realCost - b.realCost)
+})
 
 const buildMealEntry = (existing, recipe, scaled) => ({
   id: existing.id,
@@ -294,43 +282,44 @@ const buildMealEntry = (existing, recipe, scaled) => ({
 })
 
 let attempts = 0
-while (finalWeekCost > effectiveBudget && attempts < 10) {
+while (finalWeekCost > effectiveBudget && attempts < 20) {
   attempts++
+
+  // Find the single most expensive meal in the entire week
+  let mostExpensiveMeal = null
+  let mostExpensiveDay = null
+  let mostExpensiveMealIndex = -1
 
   weekPlan.forEach(day => {
     day.meals.forEach((meal, mealIndex) => {
-      if (meal.cost <= budgetPerMealStrict) return
-
-      const type = meal.type
-      const targetCals = getCaloriesForType(type, calorieTarget, mealsPerDay)
-
-      // Find ALL recipes that fit within per-meal budget when scaled
-      const cheaperPool = filterRecipes(getRecipesByType(type), profile)
-        .filter(r => {
-          const scaleFactor = targetCals / r.baseCalories
-          return (r.baseCost * scaleFactor) <= budgetPerMealStrict
-        })
-
-      if (cheaperPool.length === 0) return
-
-      // Pick the one with lowest estimated scaled cost
-      cheaperPool.sort((a, b) => {
-        const aFactor = targetCals / a.baseCalories
-        const bFactor = targetCals / b.baseCalories
-        return (a.baseCost * aFactor) - (b.baseCost * bFactor)
-      })
-
-      // Pick randomly from cheapest third to keep variety
-      const topThird = cheaperPool.slice(0, Math.max(1, Math.floor(cheaperPool.length / 3)))
-      const cheaper = topThird[Math.floor(Math.random() * topThird.length)]
-      const scaled = scaleMeal(cheaper, type)
-
-      day.meals[mealIndex] = buildMealEntry(meal, cheaper, scaled)
+      if (!mostExpensiveMeal || meal.cost > mostExpensiveMeal.cost) {
+        mostExpensiveMeal = meal
+        mostExpensiveDay = day
+        mostExpensiveMealIndex = mealIndex
+      }
     })
-
-    day.cal = day.meals.reduce((s, m) => s + m.cal, 0)
-    day.cost = Math.round(day.meals.reduce((s, m) => s + m.cost, 0) * 100) / 100
   })
+
+  if (!mostExpensiveMeal) break
+
+  const type = mostExpensiveMeal.type
+  const sortedByRealCost = realCostCache[type]
+
+  // Filter to only recipes cheaper than current meal
+  const cheaperOptions = sortedByRealCost.filter(
+    entry => entry.realCost < mostExpensiveMeal.cost * 0.95 &&
+    entry.recipe.id !== mostExpensiveMeal.recipeId
+  )
+
+  if (cheaperOptions.length === 0) break
+
+  // Pick randomly from cheapest third for variety
+  const cheapestThird = cheaperOptions.slice(0, Math.max(1, Math.floor(cheaperOptions.length / 3)))
+  const picked = cheapestThird[Math.floor(Math.random() * cheapestThird.length)]
+
+  mostExpensiveDay.meals[mostExpensiveMealIndex] = buildMealEntry(mostExpensiveMeal, picked.recipe, picked.scaled)
+  mostExpensiveDay.cal = mostExpensiveDay.meals.reduce((s, m) => s + m.cal, 0)
+  mostExpensiveDay.cost = Math.round(mostExpensiveDay.meals.reduce((s, m) => s + m.cost, 0) * 100) / 100
 
   finalWeekCost = Math.round(weekPlan.reduce((s, d) => s + d.cost, 0) * 100) / 100
 }
