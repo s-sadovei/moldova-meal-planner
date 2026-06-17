@@ -207,6 +207,12 @@ export default function Preferences() {
         {/* Allergies */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Alergii / intoleranțe</p>
         <div className="flex flex-wrap gap-2 -mt-2">
+          <button
+            onClick={() => set('selectedAllergies', [])}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-full border-[1.5px] text-[13px] font-semibold transition ${(form.selectedAllergies || []).length === 0 ? 'bg-[#C0DD97] text-[#2D5A27] border-[#C0DD97]' : 'bg-white text-[#5F5E5A] border-[#E8E6E0]'}`}>
+            <span>✅</span>
+            <span>Fără alergii</span>
+          </button>
           {allergyGroups.map(group => {
             const active = (form.selectedAllergies || []).includes(group.id)
             return (

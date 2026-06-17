@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { useApp } from '../context/AppContext'
+import { formatAmount } from '../utils/displayUnits'
 
 const mealEmojis = { breakfast: '🌅', lunch: '🍗', dinner: '🐟', snack: '🥛' }
 const days = ['Lun', 'Mar', 'Mie', 'Joi', 'Vin', 'Sâm', 'Dum']
@@ -118,7 +119,7 @@ export default function WeeklyPlan() {
                   {meal.ingredients.map(({ food, amount, displayName }, j) => (
                     <div key={j} className="flex justify-between items-center">
                       <span className="text-[13px] font-medium text-[#2C2C2A] capitalize">{displayName || food}</span>
-                      <span className="text-[12px] text-[#B4B2A9]">{food === 'eggs' ? `${amount} buc` : `${amount}g`}</span>
+                      <span className="text-[12px] text-[#B4B2A9]">{formatAmount(food, amount)}</span>
                     </div>
                   ))}
                 </div>

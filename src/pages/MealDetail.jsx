@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { getProductsForIngredient } from '../utils/moldovanProducts'
 import { ingredientNamesRo } from '../utils/shoppingListGenerator'
+import { formatAmount, formatStep } from '../utils/displayUnits'
 
 const mealEmojis = { breakfast: '🌅', lunch: '🍗', dinner: '🐟', snack: '🥛' }
 
@@ -203,7 +204,7 @@ const kcal = pref
                     <p className="text-[11px] text-[#2D5A27] font-semibold">{pref.brand} · {pref.size}</p>
                   ) : (
                     <p className="text-[12px] text-[#B4B2A9] font-medium">
-                      {food === 'eggs' ? `${amount} buc` : unit === 'scoops' ? `${amount} scoops` : `${amount}g`}
+                      {formatAmount(food, amount, unit)}
                       {products.length > 0 && <span className="text-[#639922]"> · {isProduce(food) ? 'apasă pentru a vedea magazinul' : 'apasă pentru a alege brandul'}</span>}
                     </p>
                   )}
@@ -218,7 +219,7 @@ const kcal = pref
                     </>
                   ) : (
                     <p className="text-[12px] text-[#B4B2A9]">
-                      {food === 'eggs' ? `${amount} buc` : unit === 'scoops' ? `${amount} scoops` : `${amount}g`}
+                      {formatAmount(food, amount, unit)}
                     </p>
                   )}
                 </div>
@@ -236,7 +237,7 @@ const kcal = pref
               <div className="w-7 h-7 rounded-full bg-[#2D5A27] text-white text-[13px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
                 {i + 1}
               </div>
-              <p className="text-[14px] text-[#2C2C2A] leading-relaxed font-medium flex-1">{step}</p>
+              <p className="text-[14px] text-[#2C2C2A] leading-relaxed font-medium flex-1">{formatStep(step, meal.ingredients)}</p>
             </div>
           ))}
         </div>
@@ -398,11 +399,7 @@ disabled={!eaten && fromDay !== undefined && fromDay !== todayDayIndex}>
     : (pref.price * selectedIngredient.amount / 100).toFixed(2)} MDL
 </p>
 <p className="text-[#888780] text-[11px]">
-  {selectedIngredient.food === 'eggs'
-    ? `pentru ${selectedIngredient.amount} ouă folosite`
-    : selectedIngredient.unit === 'scoops'
-    ? `pentru ${selectedIngredient.amount} scoops folosite`
-    : `pentru ${selectedIngredient.amount}g folosite`}
+  {`pentru ${formatAmount(selectedIngredient.food, selectedIngredient.amount, selectedIngredient.unit)} folosite`}
 </p>
                       </div>
                       <button
@@ -445,11 +442,7 @@ disabled={!eaten && fromDay !== undefined && fromDay !== todayDayIndex}>
     : (product.price * selectedIngredient.amount / 100).toFixed(2)} MDL
 </p>
 <p className="text-[#B4B2A9] text-[11px]">
-  {selectedIngredient.food === 'eggs'
-    ? `pentru ${selectedIngredient.amount} ouă`
-    : selectedIngredient.unit === 'scoops'
-    ? `pentru ${selectedIngredient.amount} scoops`
-    : `pentru ${selectedIngredient.amount}g`}
+  {`pentru ${formatAmount(selectedIngredient.food, selectedIngredient.amount, selectedIngredient.unit)}`}
 </p>
                               </div>
                             </div>
@@ -507,7 +500,7 @@ disabled={!eaten && fromDay !== undefined && fromDay !== todayDayIndex}>
           {currentIngredientCheck.displayName || currentIngredientCheck.food}
         </p>
         <p className="text-[#888780] text-[13px] mt-1">
-          Ai nevoie de <span className="font-bold text-[#2C2C2A]">{currentIngredientCheck.amount}{currentIngredientCheck.unit === 'buc' ? ' bucăți' : 'g'}</span> pentru această masă
+          Ai nevoie de <span className="font-bold text-[#2C2C2A]">{formatAmount(currentIngredientCheck.food, currentIngredientCheck.amount, currentIngredientCheck.unit)}</span> pentru această masă
         </p>
         <p className="text-[#888780] text-[12px] mt-1">
           {ingredientCheckQueue.indexOf(currentIngredientCheck) + 1} din {ingredientCheckQueue.length} ingrediente neconfirmate

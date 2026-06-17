@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useApp } from '../context/AppContext'
 import { getProductsForIngredient, getAveragePriceForIngredient } from '../utils/moldovanProducts'
+import { formatAmount } from '../utils/displayUnits'
 
 const categoryEmojis = {
   'Meat and fish': '🥩',
@@ -83,7 +84,7 @@ const pref = getBrandPreference(item.ingredientKey || item.name)
           {!item.atHome && pref ? (
             <p className="text-[11px] text-[#2D5A27] font-semibold mt-0.5">{pref.brand} · {pref.productName}</p>
           ) : !item.atHome && (
-            <p className="text-[#B4B2A9] text-[12px] font-medium mt-0.5">{item.amount} {item.unit}</p>
+            <p className="text-[#B4B2A9] text-[12px] font-medium mt-0.5">{formatAmount(item.ingredientKey, item.amount, item.unit)}</p>
           )}
           {hasProducts && !pref && !item.atHome && (
             <p className="text-[11px] text-[#639922] font-semibold mt-0.5">Apasă pentru a alege brandul →</p>
@@ -284,7 +285,7 @@ const pref = getBrandPreference(item.ingredientKey || item.name)
                         className="text-[#2D5A27] text-[20px] font-extrabold">
                         {Math.round(product.price * (selectedItem?.amount || 100) / 100 * 10) / 10} MDL
                       </p>
-                      <p className="text-[#B4B2A9] text-[11px]">pentru {selectedItem?.amount}{selectedItem?.unit} · {product.price} MDL/100g</p>
+                      <p className="text-[#B4B2A9] text-[11px]">pentru {formatAmount(selectedItem?.ingredientKey, selectedItem?.amount, selectedItem?.unit)} · {product.price} MDL/100g</p>
                     </div>
                   </div>
                   {getBrandPreference(selectedItem.ingredientKey || selectedItem.name)?.id === product.id && (
