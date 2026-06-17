@@ -1,7 +1,9 @@
 import { generateShoppingList } from '../utils/shoppingListGenerator'
 import { createContext, useContext, useState, useEffect } from 'react'
 import { supabase } from '../supabase'
-import { generatePlanFromRecipes } from '../utils/recipePlanner'
+import { generatePlanFromRecipes, scaleRecipe, filterRecipes } from '../utils/recipePlanner'
+import { getRecipesByType } from '../utils/recipeDatabase'
+import { getBlockedKeys } from '../utils/foodExclusions'
 
 const AppContext = createContext()
 
@@ -89,6 +91,9 @@ useEffect(() => {
           likedFoods: profileData.liked_foods,
           dislikedFoods: profileData.disliked_foods,
           allergies: profileData.allergies,
+          selectedAllergies: profileData.selected_allergies || [],
+          customExclusions: profileData.custom_exclusions || [],
+          blockedKeys: getBlockedKeys(profileData.selected_allergies || [], profileData.custom_exclusions || []),
         })
 
         const { data: planData } = await supabase
@@ -163,10 +168,14 @@ if (favoritesData) setFavoriteRecipes(favoritesData.map(f => f.recipe_id))
   }
 
   const saveProfile = async (profileData) => {
-    setProfile(profileData)
+    const enriched = {
+      ...profileData,
+      blockedKeys: getBlockedKeys(profileData.selectedAllergies || [], profileData.customExclusions || []),
+    }
+    setProfile(enriched)
     setGenerating(true)
 
-    const plan = generatePlanFromRecipes(profileData, favoriteRecipes)
+    const plan = generatePlanFromRecipes(enriched, favoriteRecipes)
 setGenerating(false)
 
     const recalculatedShoppingList = generateShoppingList(plan.weekPlan)
@@ -189,6 +198,8 @@ setMealPlan(updatedPlan)
           liked_foods: profileData.likedFoods,
           disliked_foods: profileData.dislikedFoods,
           allergies: profileData.allergies,
+          selected_allergies: profileData.selectedAllergies || [],
+          custom_exclusions: profileData.customExclusions || [],
         })
 
         await supabase.from('meal_plans').upsert({
@@ -420,6 +431,92 @@ const splitShoppingItem = async (itemId, atHomeAmount) => {
 
 const isFavoriteRecipe = (recipeId) => favoriteRecipes.includes(recipeId)
 
+const replaceMeal = async (dayIndex, mealIndex) => {
+  if (!mealPlan || !profile) return { success: false }
+  const day = mealPlan.weekPlan[dayIndex]
+  if (!day) return { success: false }
+  const oldMeal = day.meals[mealIndex]
+  if (!oldMeal) return { success: false }
+
+  const pool = filterRecipes(getRecipesByType(oldMeal.type), profile)
+    .filter(r => r.id !== oldMeal.recipeId)
+
+  const tolerance = 0.15
+  const candidates = pool.map(r => {
+    const scaled = scaleRecipe(r, oldMeal.cal, profile.goal)
+    const pDev = oldMeal.p > 0 ? Math.abs(scaled.p - oldMeal.p) / oldMeal.p : 0
+    const fDev = oldMeal.f > 0 ? Math.abs(scaled.f - oldMeal.f) / oldMeal.f : 0
+    return { recipe: r, scaled, pDev, fDev }
+  }).filter(c => c.pDev <= tolerance && c.fDev <= tolerance)
+
+  if (candidates.length === 0) return { success: false }
+
+  const picked = candidates[Math.floor(Math.random() * candidates.length)]
+  const newMeal = {
+    id: oldMeal.id,
+    recipeId: picked.recipe.id,
+    name: picked.scaled.name,
+    type: oldMeal.type,
+    cal: picked.scaled.cal,
+    p: picked.scaled.p,
+    c: picked.scaled.c,
+    f: picked.scaled.f,
+    cost: picked.scaled.cost,
+    ingredients: picked.scaled.ingredients.map(ing => ({
+      food: ing.key, amount: ing.amount, unit: ing.unit, key: ing.key, displayName: ing.name,
+    })),
+    steps: picked.scaled.steps,
+  }
+
+  const updatedWeekPlan = mealPlan.weekPlan.map((d, di) => {
+    if (di !== dayIndex) return d
+    const updatedMeals = d.meals.map((m, mi) => mi === mealIndex ? newMeal : m)
+    return {
+      ...d,
+      meals: updatedMeals,
+      cal: updatedMeals.reduce((s, m) => s + m.cal, 0),
+      p: Math.round(updatedMeals.reduce((s, m) => s + m.p, 0) * 10) / 10,
+      c: Math.round(updatedMeals.reduce((s, m) => s + m.c, 0) * 10) / 10,
+      f: Math.round(updatedMeals.reduce((s, m) => s + m.f, 0) * 10) / 10,
+      cost: Math.round(updatedMeals.reduce((s, m) => s + m.cost, 0) * 100) / 100,
+    }
+  })
+
+  const oldShoppingList = mealPlan.shoppingList || []
+  const oldStateByKey = {}
+  oldShoppingList.forEach(item => {
+    oldStateByKey[item.ingredientKey] = {
+      bought: item.bought,
+      atHome: item.atHome,
+      atHomeAmount: item.atHomeAmount,
+    }
+  })
+
+  const freshShoppingList = generateShoppingList(updatedWeekPlan)
+  const newIngredients = []
+  const newShoppingList = freshShoppingList.map(item => {
+    const oldState = oldStateByKey[item.ingredientKey]
+    if (oldState) {
+      return { ...item, bought: oldState.bought || false, atHome: oldState.atHome || false, atHomeAmount: oldState.atHomeAmount }
+    }
+    newIngredients.push(item.name)
+    return item
+  })
+
+  const updatedPlan = { ...mealPlan, weekPlan: updatedWeekPlan, shoppingList: newShoppingList }
+  setMealPlan(updatedPlan)
+
+  if (user) {
+    try {
+      await supabase.from('meal_plans').upsert({ user_id: user.id, plan_data: updatedPlan })
+    } catch (error) {
+      console.error('Error saving replaced meal:', error)
+    }
+  }
+
+  return { success: true, meal: newMeal, newIngredients }
+}
+
   const isMealEaten = (mealName) => {
     return eatenMeals.some(e => e.meal_name === mealName && e.eaten_date === getTodayDate())
   }
@@ -439,7 +536,7 @@ const isFavoriteRecipe = (recipeId) => favoriteRecipes.includes(recipeId)
       saveProfile, regeneratePlan,
       toggleShoppingItem, resetShoppingList, markAtHome, splitShoppingItem,
       saveBrandPreference, getBrandPreference,
-      markMealEaten, isMealEaten, 
+      markMealEaten, isMealEaten, replaceMeal,
       favoriteRecipes, toggleFavoriteRecipe, isFavoriteRecipe,
     }}>
       {children}

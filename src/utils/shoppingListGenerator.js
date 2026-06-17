@@ -1,6 +1,6 @@
 import { moldovanProducts, getAveragePriceForIngredient } from './moldovanProducts'
 
-const ingredientNamesRo = {
+export const ingredientNamesRo = {
   'chicken breast': 'Piept de pui', 
   'mozzarella': 'Mozzarella',
 'cream cheese': 'Cremă de brânză',
@@ -44,6 +44,7 @@ const ingredientNamesRo = {
   'cabbage': 'Varză',
   'carrots': 'Morcovi',
   'tomatoes': 'Roșii',
+  'cherry tomatoes': 'Roșii cherry',
   'cucumbers': 'Castraveți',
   'bell peppers': 'Ardei gras',
   'onions': 'Ceapă',
@@ -244,6 +245,7 @@ const ingredientCategories = {
   'carrots': 'Vegetables',
   'tomatoes': 'Vegetables',
   'tomato': 'Vegetables',
+  'cherry tomatoes': 'Vegetables',
   'cucumbers': 'Vegetables',
   'cucumber': 'Vegetables',
   'bell peppers': 'Vegetables',

@@ -2,13 +2,14 @@ import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { getProductsForIngredient } from '../utils/moldovanProducts'
+import { ingredientNamesRo } from '../utils/shoppingListGenerator'
 
 const mealEmojis = { breakfast: '🌅', lunch: '🍗', dinner: '🐟', snack: '🥛' }
 
 const foodEmojis = {
   chicken: '🍗', eggs: '🥚', cottage: '🧀', tuna: '🐟',
   rice: '🍚', buckwheat: '🌾', oats: '🥣', potato: '🥔',
-  cabbage: '🥬', carrots: '🥕', tomatoes: '🍅', banana: '🍌',
+  cabbage: '🥬', carrots: '🥕', tomatoes: '🍅', 'cherry tomatoes': '🍅', banana: '🍌',
   beans: '🫘', bread: '🍞', milk: '🥛', kefir: '🥛',
   'chicken breast': '🍗', 'chicken thighs': '🍗', 'minced meat': '🥩',
   'pasta': '🍝', 'pasta sauce': '🍅', 'breadcrumbs': '🍞',
@@ -39,13 +40,15 @@ const isProduce = (food) => produceItems.includes(food?.toLowerCase())
 export default function MealDetail() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { mealPlan, getBrandPreference, saveBrandPreference, markMealEaten, isMealEaten, toggleShoppingItem, splitShoppingItem, todayDayIndex, toggleFavoriteRecipe, isFavoriteRecipe } = useApp()
+  const { mealPlan, getBrandPreference, saveBrandPreference, markMealEaten, isMealEaten, replaceMeal, toggleShoppingItem, splitShoppingItem, todayDayIndex, toggleFavoriteRecipe, isFavoriteRecipe } = useApp()
   const [selectedIngredient, setSelectedIngredient] = useState(null)
   const [changingBrand, setChangingBrand] = useState(false)
   const [ingredientCheckQueue, setIngredientCheckQueue] = useState([])
   const [currentIngredientCheck, setCurrentIngredientCheck] = useState(null)
   const [atHomeAmount, setAtHomeAmount] = useState('')
   const [showAtHomeInput, setShowAtHomeInput] = useState(false)
+  const [replacing, setReplacing] = useState(false)
+  const [showNoReplacementPopup, setShowNoReplacementPopup] = useState(false)
 
   const meal = location.state?.meal
 const fromDay = location.state?.fromDay
@@ -74,7 +77,7 @@ if (!meal) { navigate(-1); return null }
       if (pref) {
         const isEgg = food === 'eggs'
 const isScoop = unit === 'scoops'
-const ratio = isEgg || isScoop ? amount : amount / 100
+const ratio = isEgg ? amount * 0.6 : isScoop ? amount : amount / 100
         cal += (pref.cal || 0) * ratio
         p += (pref.p || 0) * ratio
         c += (pref.c || 0) * ratio
@@ -88,7 +91,12 @@ const ratio = isEgg || isScoop ? amount : amount / 100
 }
 
 const realMacros = calculateRealMacros()
-const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / meal.cal) * 100) : 0  
+const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / meal.cal) * 100) : 0
+
+const eatMeal = () => {
+  const m = realMacros?.allBrandsSelected ? realMacros : { cal: meal.cal, p: meal.p, c: meal.c, f: meal.f }
+  markMealEaten({ ...meal, cal: m.cal, p: m.p, c: m.c, f: m.f })
+}
 
   const getEmoji = (food) => {
     return foodEmojis[food] || foodEmojis[food?.toLowerCase()] || '🥗'
@@ -158,6 +166,16 @@ const calorieDeviation = realMacros ? Math.round(((realMacros.cal - meal.cal) / 
       {/* Body */}
       <div className="flex-1 px-5 pb-10 flex flex-col gap-5 overflow-y-auto">
 
+        {/* New ingredients warning */}
+        {location.state?.newIngredients?.length > 0 && (
+          <div className="bg-[#FFF8E1] border border-[#FFE082] rounded-[16px] px-4 py-3 flex flex-col gap-1">
+            <p className="text-[13px] font-semibold text-[#F57F17]">🛒 Ingrediente noi necesare</p>
+            <p className="text-[12px] text-[#888780]">
+              {location.state.newIngredients.join(', ')} — verifică lista de cumpărături.
+            </p>
+          </div>
+        )}
+
         {/* Ingredients */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Ingrediente</p>
         <div className="flex flex-col gap-2 -mt-2">
@@ -176,11 +194,11 @@ const kcal = pref
 
             return (
               <div key={i}
-                onClick={() => { setSelectedIngredient({ food, amount, unit }); setChangingBrand(false) }}
+                onClick={() => { setSelectedIngredient({ food, amount, unit, displayName }); setChangingBrand(false) }}
                 className="flex items-center gap-3 bg-white rounded-[14px] border border-[#E8E6E0] px-4 py-3 cursor-pointer">
                 <span className="text-[22px] w-8 text-center">{getEmoji(food)}</span>
                 <div className="flex-1">
-                  <p className="text-[14px] font-semibold text-[#2C2C2A] capitalize">{displayName || food}</p>
+                  <p className="text-[14px] font-semibold text-[#2C2C2A] capitalize">{ingredientNamesRo[food] || displayName || food}</p>
                   {pref ? (
                     <p className="text-[11px] text-[#2D5A27] font-semibold">{pref.brand} · {pref.size}</p>
                   ) : (
@@ -230,8 +248,25 @@ const kcal = pref
       className="text-[#2D5A27] text-[22px] font-extrabold">{meal.cost} MDL</p>
     <p className="text-[#888780] text-[12px]">cost estimat</p>
   </div>
-  <button className="bg-[#F7F5F0] border-[1.5px] border-[#E8E6E0] text-[#5F5E5A] text-[13px] font-semibold px-4 py-2.5 rounded-[12px]">
-    🔄 Înlocuiește masa
+  <button
+    disabled={replacing || location.state?.fromFavorites || fromDay === undefined}
+    onClick={async () => {
+      const dayIndex = fromDay
+      const day = mealPlan?.weekPlan[dayIndex]
+      if (!day) return
+      const mealIdx = day.meals.findIndex(m => m.id === meal.id)
+      if (mealIdx === -1) return
+      setReplacing(true)
+      const result = await replaceMeal(dayIndex, mealIdx)
+      setReplacing(false)
+      if (result.success) {
+        navigate('/meal', { state: { meal: result.meal, fromDay: dayIndex, newIngredients: result.newIngredients }, replace: true })
+      } else {
+        setShowNoReplacementPopup(true)
+      }
+    }}
+    className="bg-[#F7F5F0] border-[1.5px] border-[#E8E6E0] text-[#5F5E5A] text-[13px] font-semibold px-4 py-2.5 rounded-[12px] disabled:opacity-50">
+    {replacing ? '⏳ Se caută...' : '🔄 Înlocuiește masa'}
   </button>
 </div>
 
@@ -242,13 +277,7 @@ const kcal = pref
     <button
       onClick={() => {
         if (eaten) {
-          markMealEaten({
-  ...meal,
-  cal: meal.cal,
-  p: meal.p,
-  c: meal.c,
-  f: meal.f,
-})
+          eatMeal()
           return
         }
 
@@ -269,13 +298,7 @@ const kcal = pref
   }) || []
 
         if (unaccounted.length === 0) {
-          markMealEaten({
-  ...meal,
-  cal: meal.cal,
-  p: meal.p,
-  c: meal.c,
-  f: meal.f,
-})
+          eatMeal()
         } else {
           setIngredientCheckQueue(unaccounted)
           setCurrentIngredientCheck(unaccounted[0])
@@ -289,6 +312,30 @@ disabled={!eaten && fromDay !== undefined && fromDay !== todayDayIndex}>
 })()}
 
       </div>
+
+      {/* No replacement popup */}
+      {showNoReplacementPopup && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-6">
+          <div className="bg-white rounded-[24px] p-6 flex flex-col gap-4 w-full max-w-sm">
+            <div className="text-center">
+              <p className="text-[32px]">😕</p>
+              <p style={{ fontFamily: "'Playfair Display', serif" }}
+                className="text-[#2C2C2A] text-[20px] font-extrabold mt-2">Nu am găsit o înlocuire</p>
+              <p className="text-[#888780] text-[13px] mt-1 leading-relaxed">
+                Nu există o altă rețetă cu macronutrienți similari (±15% proteină și grăsimi). Poți regenera planul complet din pagina principală.
+              </p>
+            </div>
+            <button onClick={() => { setShowNoReplacementPopup(false); navigate('/dashboard') }}
+              className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
+              Mergi la pagina principală
+            </button>
+            <button onClick={() => setShowNoReplacementPopup(false)}
+              className="w-full bg-[#F7F5F0] text-[#5F5E5A] font-semibold text-[15px] py-4 rounded-2xl">
+              Rămâi aici
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Ingredient Modal */}
       {selectedIngredient && (
@@ -314,7 +361,7 @@ disabled={!eaten && fromDay !== undefined && fromDay !== todayDayIndex}>
                     <div>
                       <p style={{ fontFamily: "'Playfair Display', serif" }}
                         className="text-[#2C2C2A] text-[22px] font-extrabold capitalize">
-                        {pref && !changingBrand ? pref.productName : selectedIngredient.food}
+                        {pref && !changingBrand ? pref.productName : (ingredientNamesRo[selectedIngredient.food] || selectedIngredient.displayName || selectedIngredient.food)}
                       </p>
                       <p className="text-[#888780] text-[12px]">
                        {pref && !changingBrand ? `${pref.brand} · Kaufland` : isProduce(selectedIngredient.food) ? 'Unde cumperi' : 'Alege brandul tău'}
@@ -491,13 +538,7 @@ disabled={!eaten && fromDay !== undefined && fromDay !== todayDayIndex}>
           } else {
             setCurrentIngredientCheck(null)
             setIngredientCheckQueue([])
-            markMealEaten({
-  ...meal,
-  cal: meal.cal,
-  p: meal.p,
-  c: meal.c,
-  f: meal.f,
-})
+            eatMeal()
           }
         }}
         className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
@@ -551,13 +592,7 @@ disabled={!eaten && fromDay !== undefined && fromDay !== todayDayIndex}>
               } else {
                 setCurrentIngredientCheck(null)
                 setIngredientCheckQueue([])
-                markMealEaten({
-  ...meal,
-  cal: meal.cal,
-  p: meal.p,
-  c: meal.c,
-  f: meal.f,
-})
+                eatMeal()
               }
             }}
             className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">

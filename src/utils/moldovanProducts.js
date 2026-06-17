@@ -312,6 +312,10 @@ export const moldovanProducts = {
   { id: 'tom_1', brand: 'Kaufland', productName: 'Roșii', size: 'per kg', price: 5.79, priceUnit: '100g', cal: 18, p: 0.9, c: 3.9, f: 0.2, stores: ['Kaufland'], inStock: true },
   { id: 'tom_2', brand: 'Metro', productName: 'Roșii', size: 'per kg', price: 3.60, priceUnit: '100g', cal: 18, p: 0.9, c: 3.9, f: 0.2, stores: ['Metro'], inStock: true },
 ],
+  'cherry tomatoes': [
+  { id: 'ctom_1', brand: 'Kaufland', productName: 'Roșii cherry', size: 'per kg', price: 6.80, priceUnit: '100g', cal: 18, p: 0.9, c: 3.9, f: 0.2, stores: ['Kaufland'], inStock: true },
+  { id: 'ctom_2', brand: 'Metro', productName: 'Roșii cherry', size: 'per kg', price: 6.99, priceUnit: '100g', cal: 18, p: 0.9, c: 3.9, f: 0.2, stores: ['Metro'], inStock: true },
+],
   'cucumbers': [
   { id: 'cuc_1', brand: 'Kaufland', productName: 'Castraveți', size: 'per kg', price: 3.49, priceUnit: '100g', cal: 15, p: 0.7, c: 3.6, f: 0.1, stores: ['Kaufland'], inStock: true },
 ],

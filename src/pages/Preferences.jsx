@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useApp } from '../context/AppContext'
 import { useNavigate } from 'react-router-dom'
 import { getRecipeById } from '../utils/recipeDatabase'
+import { allergyGroups, fuzzyMatchProduct } from '../utils/foodExclusions'
+import { ingredientNamesRo } from '../utils/shoppingListGenerator'
 
 const SettingRow = ({ icon, label, value, editKey, editing, setEditing, children }) => (
   <div>
@@ -39,9 +41,15 @@ export default function Preferences() {
   const navigate = useNavigate()
   const { user, profile, mealPlan, saveProfile, logout, favoriteRecipes, toggleFavoriteRecipe } = useApp()
 
-  const [form, setForm] = useState({ ...profile })
+  const [form, setForm] = useState({
+    ...profile,
+    selectedAllergies: profile?.selectedAllergies || [],
+    customExclusions: profile?.customExclusions || [],
+  })
   const [saved, setSaved] = useState(false)
   const [editing, setEditing] = useState(null)
+  const [customInput, setCustomInput] = useState('')
+  const [suggestions, setSuggestions] = useState([])
 
   const set = (key, val) => setForm(prev => ({ ...prev, [key]: val }))
 
@@ -196,29 +204,65 @@ export default function Preferences() {
 </SettingRow>
         </div>
 
-        {/* Food preferences */}
-        <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Preferințe alimentare</p>
-        <div className="bg-white rounded-[20px] border border-[#E8E6E0] overflow-hidden -mt-2">
-          <SettingRow icon="👍" label="Alimente preferate" value={form.likedFoods || 'Neselectat'} editKey="likes" editing={editing} setEditing={setEditing}>
-            <div>
-              <label className={labelClass}>Alimente pe care le preferi</label>
-              <input className={inputClass} placeholder="ex: orez, pui, ouă" value={form.likedFoods || ''} onChange={e => set('likedFoods', e.target.value)} />
+        {/* Allergies */}
+        <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Alergii / intoleranțe</p>
+        <div className="flex flex-wrap gap-2 -mt-2">
+          {allergyGroups.map(group => {
+            const active = (form.selectedAllergies || []).includes(group.id)
+            return (
+              <button key={group.id}
+                onClick={() => set('selectedAllergies', active
+                  ? form.selectedAllergies.filter(id => id !== group.id)
+                  : [...(form.selectedAllergies || []), group.id]
+                )}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-full border-[1.5px] text-[13px] font-semibold transition ${active ? 'bg-[#2D5A27] text-white border-[#2D5A27]' : 'bg-white text-[#5F5E5A] border-[#E8E6E0]'}`}>
+                <span>{group.icon}</span>
+                <span>{group.label}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Excluded foods */}
+        <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Alimente evitate</p>
+        <div className="flex flex-col gap-3 -mt-2">
+          <div className="relative">
+            <input className={inputClass}
+              placeholder="ex: roșii, ciuperci, avocado..."
+              value={customInput}
+              onChange={e => {
+                setCustomInput(e.target.value)
+                setSuggestions(fuzzyMatchProduct(e.target.value))
+              }} />
+            {suggestions.length > 0 && customInput.length >= 2 && (
+              <div className="absolute top-full left-0 right-0 bg-white border border-[#E8E6E0] rounded-[14px] mt-1 z-10 overflow-hidden shadow-lg">
+                {suggestions.map(s => (
+                  <button key={s.key}
+                    onClick={() => {
+                      if (!(form.customExclusions || []).includes(s.key)) {
+                        set('customExclusions', [...(form.customExclusions || []), s.key])
+                      }
+                      setCustomInput('')
+                      setSuggestions([])
+                    }}
+                    className="w-full text-left px-4 py-3 text-[14px] font-medium text-[#2C2C2A] hover:bg-[#F7F5F0] border-b border-[#F0EEE8] last:border-0">
+                    {s.name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+          {(form.customExclusions || []).length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {form.customExclusions.map(key => (
+                <div key={key} className="flex items-center gap-1.5 bg-[#FEE2E2] text-[#991B1B] text-[12px] font-semibold px-3 py-1.5 rounded-full">
+                  <span>🚫 {ingredientNamesRo[key] || key}</span>
+                  <button onClick={() => set('customExclusions', form.customExclusions.filter(k => k !== key))}
+                    className="text-[#991B1B] text-[14px] font-bold ml-0.5">×</button>
+                </div>
+              ))}
             </div>
-          </SettingRow>
-          <div className="h-px bg-[#F0EEE8]" />
-          <SettingRow icon="🚫" label="Alimente evitate" value={form.dislikedFoods || 'Neselectat'} editKey="dislikes" editing={editing} setEditing={setEditing}>
-            <div>
-              <label className={labelClass}>Alimente pe care nu le consumi</label>
-              <input className={inputClass} placeholder="ex: varză, pește" value={form.dislikedFoods || ''} onChange={e => set('dislikedFoods', e.target.value)} />
-            </div>
-          </SettingRow>
-          <div className="h-px bg-[#F0EEE8]" />
-          <SettingRow icon="⚠️" label="Alergii" value={form.allergies || 'Neselectat'} editKey="allergies" editing={editing} setEditing={setEditing}>
-            <div>
-              <label className={labelClass}>Alergii sau restricții</label>
-              <input className={inputClass} placeholder="ex: intolerant la lactoză" value={form.allergies || ''} onChange={e => set('allergies', e.target.value)} />
-            </div>
-          </SettingRow>
+          )}
         </div>
 
         <button onClick={handleSave}

@@ -6,11 +6,14 @@ const mealEmojis = { breakfast: '🌅', lunch: '🍗', dinner: '🐟', snack: '�
 const days = ['Lun', 'Mar', 'Mie', 'Joi', 'Vin', 'Sâm', 'Dum']
 
 export default function WeeklyPlan() {
-  const { mealPlan } = useApp()
+  const { mealPlan, replaceMeal } = useApp()
   const navigate = useNavigate()
   const location = useLocation()
   const [selectedDay, setSelectedDay] = useState(() => location.state?.restoreDay ?? 0)
   const [expandedMeal, setExpandedMeal] = useState(null)
+  const [replacingMeal, setReplacingMeal] = useState(null)
+  const [showNoReplacement, setShowNoReplacement] = useState(false)
+  const [newIngredientsMsg, setNewIngredientsMsg] = useState(null)
 
   if (!mealPlan) return null
 
@@ -50,6 +53,13 @@ export default function WeeklyPlan() {
 
       {/* Body */}
       <div className="flex-1 px-5 pb-28 flex flex-col gap-3 overflow-y-auto">
+
+        {newIngredientsMsg && (
+          <div className="bg-[#FFF8E1] border border-[#FFE082] rounded-[16px] px-4 py-3 flex flex-col gap-1">
+            <p className="text-[13px] font-semibold text-[#F57F17]">🛒 Ingrediente noi necesare</p>
+            <p className="text-[12px] text-[#888780]">{newIngredientsMsg} — verifică lista de cumpărături.</p>
+          </div>
+        )}
 
         {/* Day macros */}
         <div className="grid grid-cols-4 gap-2">
@@ -124,8 +134,22 @@ export default function WeeklyPlan() {
                 {/* Footer */}
                 <div className="flex justify-between items-center">
                   <span className="text-[#639922] text-[13px] font-semibold">~{meal.cost} MDL</span>
-                  <button className="bg-[#F7F5F0] border-[1.5px] border-[#E8E6E0] text-[#5F5E5A] text-[12px] font-semibold px-4 py-2 rounded-[10px]">
-                    Înlocuiește masa
+                  <button
+                    disabled={replacingMeal === i}
+                    onClick={async (e) => {
+                      e.stopPropagation()
+                      setReplacingMeal(i)
+                      const result = await replaceMeal(selectedDay, i)
+                      setReplacingMeal(null)
+                      if (!result.success) {
+                        setShowNoReplacement(true)
+                      } else if (result.newIngredients?.length > 0) {
+                        setNewIngredientsMsg(result.newIngredients.join(', '))
+                        setTimeout(() => setNewIngredientsMsg(null), 5000)
+                      }
+                    }}
+                    className="bg-[#F7F5F0] border-[1.5px] border-[#E8E6E0] text-[#5F5E5A] text-[12px] font-semibold px-4 py-2 rounded-[10px] disabled:opacity-50">
+                    {replacingMeal === i ? '⏳ Se caută...' : '🔄 Înlocuiește'}
                   </button>
                 </div>
 
@@ -135,6 +159,29 @@ export default function WeeklyPlan() {
         ))}
 
       </div>
+
+      {showNoReplacement && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-6">
+          <div className="bg-white rounded-[24px] p-6 flex flex-col gap-4 w-full max-w-sm">
+            <div className="text-center">
+              <p className="text-[32px]">😕</p>
+              <p style={{ fontFamily: "'Playfair Display', serif" }}
+                className="text-[#2C2C2A] text-[20px] font-extrabold mt-2">Nu am găsit o înlocuire</p>
+              <p className="text-[#888780] text-[13px] mt-1 leading-relaxed">
+                Nu există o altă rețetă cu macronutrienți similari (±15% proteină și grăsimi). Poți regenera planul complet din pagina principală.
+              </p>
+            </div>
+            <button onClick={() => { setShowNoReplacement(false); navigate('/dashboard') }}
+              className="w-full bg-[#2D5A27] text-white font-semibold text-[15px] py-4 rounded-2xl">
+              Mergi la pagina principală
+            </button>
+            <button onClick={() => setShowNoReplacement(false)}
+              className="w-full bg-[#F7F5F0] text-[#5F5E5A] font-semibold text-[15px] py-4 rounded-2xl">
+              Închide
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
