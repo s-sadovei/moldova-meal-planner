@@ -4,6 +4,10 @@ import { useApp } from '../context/AppContext'
 import { getProductsForIngredient } from '../utils/moldovanProducts'
 import { ingredientNamesRo } from '../utils/shoppingListGenerator'
 import { formatAmount, formatStep } from '../utils/displayUnits'
+import { extractTimers } from '../utils/timeParser'
+import { getPrepTips } from '../utils/prepTips'
+import CookingTimer from '../components/CookingTimer'
+import PrepTip from '../components/PrepTip'
 
 const mealEmojis = { breakfast: '🌅', lunch: '🍗', dinner: '🐟', snack: '🥛' }
 
@@ -179,67 +183,108 @@ const eatMeal = () => {
 
         {/* Ingredients */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Ingrediente</p>
-        <div className="flex flex-col gap-2 -mt-2">
-          {meal.ingredients?.filter(({ food }) => food?.toLowerCase() !== 'water').map(({ food, amount, displayName, unit }, i) => {
-            const pref = getBrandPreference(food)
-            const products = getProductsForIngredient(food)
-            const isEgg = food === 'eggs'
-const isScoop = unit === 'scoops'
-const kcal = pref
-  ? isEgg
-    ? Math.round(pref.cal * amount * 0.6)
-    : isScoop
-    ? Math.round(pref.cal * amount)
-    : Math.round((pref.cal * amount) / 100)
-  : 0
+        {(() => {
+          const tips = fromDay !== undefined && mealPlan
+            ? getPrepTips(mealPlan.weekPlan, fromDay, meal, mealPlan.batchCooked || {})
+            : []
+          const tipsByKey = {}
+          tips.forEach(t => { tipsByKey[t.ingredientKey] = t })
 
-            return (
-              <div key={i}
-                onClick={() => { setSelectedIngredient({ food, amount, unit, displayName }); setChangingBrand(false) }}
-                className="flex items-center gap-3 bg-white rounded-[14px] border border-[#E8E6E0] px-4 py-3 cursor-pointer">
-                <span className="text-[22px] w-8 text-center">{getEmoji(food)}</span>
-                <div className="flex-1">
-                  <p className="text-[14px] font-semibold text-[#2C2C2A] capitalize">{ingredientNamesRo[food] || displayName || food}</p>
-                  {pref ? (
-                    <p className="text-[11px] text-[#2D5A27] font-semibold">{pref.brand} · {pref.size}</p>
-                  ) : (
-                    <p className="text-[12px] text-[#B4B2A9] font-medium">
-                      {formatAmount(food, amount, unit)}
-                      {products.length > 0 && <span className="text-[#639922]"> · {isProduce(food) ? 'apasă pentru a vedea magazinul' : 'apasă pentru a alege brandul'}</span>}
-                    </p>
-                  )}
-                </div>
-                <div className="text-right">
-                  {pref ? (
-                    <>
-                      <p className="text-[12px] font-semibold text-[#639922]">{kcal} kcal</p>
-                      <p className="text-[11px] text-[#2D5A27] font-semibold">
-  {isEgg || isScoop ? (pref.price * amount).toFixed(2) : (pref.price * amount / 100).toFixed(2)} MDL
-</p>
-                    </>
-                  ) : (
-                    <p className="text-[12px] text-[#B4B2A9]">
-                      {formatAmount(food, amount, unit)}
-                    </p>
-                  )}
-                </div>
-                <span className="text-[#D3D1C7] text-[16px]">›</span>
-              </div>
-            )
-          })}
-        </div>
+          return (
+            <div className="flex flex-col gap-2 -mt-2">
+              {meal.ingredients?.filter(({ food }) => food?.toLowerCase() !== 'water').map(({ food, amount, displayName, unit }, i) => {
+                const pref = getBrandPreference(food)
+                const products = getProductsForIngredient(food)
+                const isEgg = food === 'eggs'
+                const isScoop = unit === 'scoops'
+                const kcal = pref
+                  ? isEgg
+                    ? Math.round(pref.cal * amount * 0.6)
+                    : isScoop
+                    ? Math.round(pref.cal * amount)
+                    : Math.round((pref.cal * amount) / 100)
+                  : 0
+                const tip = tipsByKey[food?.toLowerCase() || food]
+
+                return (
+                  <div key={i} className="flex flex-col gap-0">
+                    <div
+                      onClick={() => { setSelectedIngredient({ food, amount, unit, displayName }); setChangingBrand(false) }}
+                      className="flex items-center gap-3 bg-white rounded-[14px] border border-[#E8E6E0] px-4 py-3 cursor-pointer">
+                      <span className="text-[22px] w-8 text-center">{getEmoji(food)}</span>
+                      <div className="flex-1">
+                        <p className="text-[14px] font-semibold text-[#2C2C2A] capitalize">{ingredientNamesRo[food] || displayName || food}</p>
+                        {pref ? (
+                          <p className="text-[11px] text-[#2D5A27] font-semibold">{pref.brand} · {pref.size}</p>
+                        ) : (
+                          <p className="text-[12px] text-[#B4B2A9] font-medium">
+                            {formatAmount(food, amount, unit)}
+                            {products.length > 0 && <span className="text-[#639922]"> · {isProduce(food) ? 'apasă pentru a vedea magazinul' : 'apasă pentru a alege brandul'}</span>}
+                          </p>
+                        )}
+                      </div>
+                      <div className="text-right">
+                        {pref ? (
+                          <>
+                            <p className="text-[12px] font-semibold text-[#639922]">{kcal} kcal</p>
+                            <p className="text-[11px] text-[#2D5A27] font-semibold">
+                              {isEgg || isScoop ? (pref.price * amount).toFixed(2) : (pref.price * amount / 100).toFixed(2)} MDL
+                            </p>
+                          </>
+                        ) : (
+                          <p className="text-[12px] text-[#B4B2A9]">
+                            {formatAmount(food, amount, unit)}
+                          </p>
+                        )}
+                      </div>
+                      {tip && <span className="text-[14px] flex-shrink-0">📝</span>}
+                      <span className="text-[#D3D1C7] text-[16px]">›</span>
+                    </div>
+                    {tip && <PrepTip tip={tip} dayIndex={fromDay} />}
+                  </div>
+                )
+              })}
+            </div>
+          )
+        })()}
 
         {/* Steps */}
         <p className="text-[11px] font-semibold text-[#888780] uppercase tracking-widest">Cum se pregătește</p>
         <div className="flex flex-col gap-3 -mt-2">
-          {steps.map((step, i) => (
-            <div key={i} className="flex gap-3 items-start">
-              <div className="w-7 h-7 rounded-full bg-[#2D5A27] text-white text-[13px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
-                {i + 1}
+          {steps.map((step, i) => {
+            const formatted = formatStep(step, meal.ingredients)
+            const timers = extractTimers(formatted)
+
+            let stepContent
+            if (timers.length === 0) {
+              stepContent = formatted
+            } else {
+              const parts = []
+              let lastEnd = 0
+              timers.forEach((t, ti) => {
+                if (t.index > lastEnd) {
+                  parts.push(<span key={`t${ti}`}>{formatted.slice(lastEnd, t.index)}</span>)
+                }
+                parts.push(
+                  <CookingTimer key={`timer${ti}`} seconds={t.seconds} label={t.label} timerId={`${i}-${ti}`} />
+                )
+                lastEnd = t.index + t.length
+              })
+              if (lastEnd < formatted.length) {
+                parts.push(<span key="end">{formatted.slice(lastEnd)}</span>)
+              }
+              stepContent = parts
+            }
+
+            return (
+              <div key={i} className="flex gap-3 items-start">
+                <div className="w-7 h-7 rounded-full bg-[#2D5A27] text-white text-[13px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                  {i + 1}
+                </div>
+                <p className="text-[14px] text-[#2C2C2A] leading-relaxed font-medium flex-1">{stepContent}</p>
               </div>
-              <p className="text-[14px] text-[#2C2C2A] leading-relaxed font-medium flex-1">{formatStep(step, meal.ingredients)}</p>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Cost + Replace */}

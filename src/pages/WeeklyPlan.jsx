@@ -1,16 +1,29 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useApp } from '../context/AppContext'
 import { formatAmount } from '../utils/displayUnits'
 
 const mealEmojis = { breakfast: '🌅', lunch: '🍗', dinner: '🐟', snack: '🥛' }
-const days = ['Lun', 'Mar', 'Mie', 'Joi', 'Vin', 'Sâm', 'Dum']
+const dayLabels = ['Lun', 'Mar', 'Mie', 'Joi', 'Vin', 'Sâm', 'Dum']
 
 export default function WeeklyPlan() {
-  const { mealPlan, replaceMeal } = useApp()
+  const { mealPlan, replaceMeal, todayDayIndex } = useApp()
+
+  const weekDates = useMemo(() => {
+    const now = new Date()
+    const dow = now.getDay()
+    const mondayOffset = dow === 0 ? -6 : 1 - dow
+    const monday = new Date(now)
+    monday.setDate(now.getDate() + mondayOffset)
+    return Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(monday)
+      d.setDate(monday.getDate() + i)
+      return d.getDate()
+    })
+  }, [])
   const navigate = useNavigate()
   const location = useLocation()
-  const [selectedDay, setSelectedDay] = useState(() => location.state?.restoreDay ?? 0)
+  const [selectedDay, setSelectedDay] = useState(() => location.state?.restoreDay ?? todayDayIndex)
   const [expandedMeal, setExpandedMeal] = useState(null)
   const [replacingMeal, setReplacingMeal] = useState(null)
   const [showNoReplacement, setShowNoReplacement] = useState(false)
@@ -38,11 +51,11 @@ export default function WeeklyPlan() {
               style={{ background: selectedDay === i ? '#C0DD97' : 'rgba(255,255,255,0.1)' }}>
               <span className="text-[11px] font-semibold"
                 style={{ color: selectedDay === i ? '#2D5A27' : 'rgba(255,255,255,0.7)' }}>
-                {days[i]}
+                {dayLabels[i]}
               </span>
               <span className="text-[15px] font-bold"
                 style={{ color: selectedDay === i ? '#2D5A27' : '#ffffff' }}>
-                {i + 1}
+                {weekDates[i]}
               </span>
             </button>
           ))}

@@ -517,6 +517,44 @@ const replaceMeal = async (dayIndex, mealIndex) => {
   return { success: true, meal: newMeal, newIngredients }
 }
 
+  const markBatchCooked = async (ingredientKey, dayIndex, totalAmount) => {
+    const updated = {
+      ...mealPlan,
+      batchCooked: {
+        ...(mealPlan.batchCooked || {}),
+        [ingredientKey]: { dayIndex, totalAmount },
+      },
+    }
+    setMealPlan(updated)
+    if (user) {
+      try {
+        await supabase.from('meal_plans').upsert({ user_id: user.id, plan_data: updated })
+      } catch (error) {
+        console.error('Error saving batch cooked:', error)
+      }
+    }
+  }
+
+  const unmarkBatchCooked = async (ingredientKey) => {
+    const prev = { ...(mealPlan.batchCooked || {}) }
+    delete prev[ingredientKey]
+    const updated = { ...mealPlan, batchCooked: prev }
+    setMealPlan(updated)
+    if (user) {
+      try {
+        await supabase.from('meal_plans').upsert({ user_id: user.id, plan_data: updated })
+      } catch (error) {
+        console.error('Error removing batch cooked:', error)
+      }
+    }
+  }
+
+  const isBatchCooked = (ingredientKey, dayIndex) => {
+    const entry = mealPlan?.batchCooked?.[ingredientKey]
+    if (!entry) return false
+    return entry.dayIndex === dayIndex
+  }
+
   const isMealEaten = (mealName) => {
     return eatenMeals.some(e => e.meal_name === mealName && e.eaten_date === getTodayDate())
   }
@@ -538,6 +576,7 @@ const replaceMeal = async (dayIndex, mealIndex) => {
       saveBrandPreference, getBrandPreference,
       markMealEaten, isMealEaten, replaceMeal,
       favoriteRecipes, toggleFavoriteRecipe, isFavoriteRecipe,
+      markBatchCooked, unmarkBatchCooked, isBatchCooked,
     }}>
       {children}
     </AppContext.Provider>

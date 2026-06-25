@@ -7,8 +7,11 @@ import WeeklyPlan from './pages/WeeklyPlan'
 import ShoppingList from './pages/ShoppingList'
 import Preferences from './pages/Preferences'
 import MealDetail from './pages/MealDetail'
+import Calendar from './pages/Calendar'
 import BottomNav from './components/BottomNav'
+import { FloatingTimerBar } from './components/CookingTimer'
 import { AppProvider, useApp } from './context/AppContext'
+import { TimerProvider } from './context/TimerContext'
 
 function AppRoutes() {
   const { user, mealPlan, loading, generating } = useApp()
@@ -67,9 +70,11 @@ if (generating) return (
         <Route path="/plan" element={<WeeklyPlan />} />
         <Route path="/shopping" element={<ShoppingList />} />
         <Route path="/preferences" element={<Preferences />} />
+        <Route path="/calendar" element={<Calendar />} />
         <Route path="/meal" element={<MealDetail />} />
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
+      <FloatingTimerBar />
       <BottomNav />
     </div>
   )
@@ -78,11 +83,13 @@ if (generating) return (
 export default function App() {
   return (
     <BrowserRouter>
-      <AppProvider>
-        <div className="min-h-screen bg-gray-950 text-white">
-          <AppRoutes />
-        </div>
-      </AppProvider>
+      <TimerProvider>
+        <AppProvider>
+          <div className="min-h-screen bg-gray-950 text-white">
+            <AppRoutes />
+          </div>
+        </AppProvider>
+      </TimerProvider>
     </BrowserRouter>
   )
 }
